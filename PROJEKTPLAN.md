@@ -1,9 +1,9 @@
-# <p align = "center"> PAX Sensor 
+# <p align = "center"> PAX 
 <p align = "center"> Automatiskt bokningssystem för företagslokaler - Chas Challenge 2025  </p> 
       
 ## **Introduktion och bakgrund**  
 ### Projektets syfte och mål:
-Vi tar fram en sensor samt app-tjänst som känner av rummets aktivitet och därmed har möjlighet att boka mötesrummen mer direkt på en gång, för de företag och platser där dessa problem är aktuella.  
+Syftet med PAX är att effektivisera användningen av mötesrum genom ett automatiserat bokningssystem. Sensorer som känner av aktivitet installeras i rummen och kopplas till en app-tjänst. När du är i rummet bokas det automatiskt. Genom appen får användarna en bra överblick över tillgängliga rum. Målet är smidig bokning för användarna, optimering av beläggningen samt möjlighet för datainsamling för statistik och vidare analys. 
 
 ### Problemet som lösningen ska addressera:
   Uppbokade mötesrum på större företag och företagshotell, som står tomma.
