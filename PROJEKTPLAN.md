@@ -114,8 +114,10 @@ ____
     - Databas för lagring och analys
     - Autentisering och rollhantering
       
-  - Backend
-    -
+  - Frontend:
+    - Ta emot API från backend
+    - WCAG Layout
+    - Funktionella komponenter som pratar med backend och sensorerna
 
   - IoT:
     - 
