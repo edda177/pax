@@ -79,14 +79,14 @@ ___
 - V. 12: skapande av projektplan.Fredag 21/3: 15.00 Projektplanen skickas in för godkännande.
 - V. 13: Paus!
 - V. 14: Arbetsmöte Kursen startar “på riktigt” - vi börjar arbeta i
-- V. 15:
-- V. 16: Implementering av kärnfunktioner.
+- V. 15: Fullstack: Få upp endpoints till ett API med mockad data.
+- V. 16: Implementering av kärnfunktioner. 
 - V. 17: MVP.
-- V. 18:
+- V. 18: Fullstack: Integrerad databas och ersatt mockad data.
 - V. 19:
 - V. 20:
 - V. 21:
-- V. 22: Testning, förbättring och optimering.
+- V. 22: Testning, förbättring och optimering. Fullstack: Implementerat säkerhet med JWT.
 - V. 23: Projektavslut (demo, uppvisning, retro).
 Hur hanterar temaet förändringar i tidsplanen om någor tar längre tid än förväntat?
 Kommunikation och agilt arbete. Vi testar allting löpande
@@ -105,12 +105,10 @@ ______
 ____
 
 ## Leveranser och dokumenation:  
-- Slutproduktens minimikrav (vad MÅSTE vara klart vid projektavslut?).
-- Vad varje team (frontend, backend, IoT) måste leverera.
+Vad varje team (frontend, backend, IoT) måste leverera vid projektavslut
   - Fullstack:
     - API för datainsamling och hantering av händelser
-    - HAntera sensordata och ....
-    - Generera notifieringar baserade på sensordata
+    - Generera notifieringar till appen baserade på sensordata
     - Databas för lagring och analys
     - Autentisering och rollhantering
       
