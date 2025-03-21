@@ -31,7 +31,7 @@ Påbörjar layout, form, färg redan innan - fria händer för Frontend i färge
 Ta reda på användarbehovet, hur kommer man vilja använda appen - gemensamma beslut samt avcheckning med de andra grupperna inom detta.
 Ipad-layout för bokningsskärm utanför konferansrummet.
 #### **Teamsamarbete och kunskapsöverföring:**  
-Ta del av den data som kommer behövas i form av API:er från backend. Lämna rapport efter boiler room vad vi gjort och vilka utmaningar vi mött. Stand up-möte på Tisdagar där minst en Frontend:are representerar. Skapa en read.me fil för dokumentation. 
+Ta del av den data som kommer behövas i form av API:er från backend. Lämna rapport efter boiler room vad vi gjort och vilka utmaningar vi mött. Stand up-möte på Tisdagar där minst en Frontend:are representerar. Skapa en README.md fil för dokumentation. 
 ___
 ### SUVX24:      
 **Medlemmar:** [Jennifer](https://github.com/simbachu), [Erik](https://github.com/erikdsp), [Oscar](https://github.com/NewNamesAreHard), [Sabina](https://github.com/binasime), [Johan](https://github.com/bubba-94)            
