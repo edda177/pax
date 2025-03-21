@@ -21,7 +21,7 @@ ___
 
 ## Teamstruktur och ansvarsområden  
 ### FMWX24:      
-**Medlemmar:** [Tova](https://github.com/tovaalicia), [Hanna](https://github.com/HannaKindholm), [Hannah](https://github.com/HannahVrou)            
+**Medlemmar:** [Tova](https://github.com/tovaalicia), [Hanna K](https://github.com/HannaKindholm), [Hannah B](https://github.com/HannahVrou)            
 #### Huvudansvar och arbetsuppgifter:  
 Med React Native och Tailwind ta fram en intuitiv och lättanvänd plattform för admin, implementera datavisualisering, bygga upp en mobil applikation för användare.   
 Påbörjar layout, form, färg redan innan - fria händer för Frontend i färgen och formen.   
