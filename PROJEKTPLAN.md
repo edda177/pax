@@ -27,6 +27,7 @@ Med React Native och Tailwind ta fram en intuitiv och lättanvänd plattform fö
 Påbörjar layout, form, färg redan innan - fria händer för Frontend i färgen och formen.   
 Ta reda på användarbehovet, hur kommer man vilja använda appen - gemensamma beslut samt avcheckning med de andra grupperna inom detta.
 Ipad-layout för bokningsskärm utanför konferansrummet.
+
 #### Teamsamarbete och kunskapsöverföring:  
 Ta del av den data som kommer behövas i form av API:er från backend. Lämna rapport efter boiler room vad vi gjort och vilka utmaningar vi mött. Stand up-möte på Tisdagar där minst en Frontend:are representerar. Skapa en read.me fil för dokumentation. 
 ___
@@ -48,9 +49,10 @@ ___
 **Medlemmar:** [Dennis](https://github.com/TheUnseenBug), [Alice](https://github.com/alicegmn), [Rhiannon](https://github.com/Rhibro), [Phithai]()       
 #### Huvudansvar och arbetsuppgifter:   
 Bygga databas och API för att hantera data från sensorer och skicka vidare den i en användbar form till frontend.  
-Databas för att spara vilka konferensrum som är bokade. API-dokumentation.
+Databas för att spara vilka konferensrum som är bokade.
 
-#### **Teamsamarbete och kunskapöverföring:**  
+#### **Teamsamarbete och kunskapöverföring:**
+API-dokumentation. Gemensam planering och arbete under både projektdagar och BR.  
 
 ___
 
@@ -78,14 +80,14 @@ ___
 - V. 12: Skapande av projektplan.Fredag 21/3: 15.00 Projektplanen skickas in för godkännande.
 - V. 13: Paus!
 - V. 14: Arbetsmöte. Arbetet i Boiler Room-grupperna börjar
-- V. 15:
+- V. 15: Fullstack: Få upp endpoints till ett API med mockad data.
 - V. 16: Implementering av kärnfunktioner.
 - V. 17: MVP.
-- V. 18:
+- V. 18: Fullstack: Integrerad databas och ersatt mockad data.
 - V. 19:
 - V. 20:
 - V. 21:
-- V. 22: Testning, förbättring och optimering.
+- V. 22: Testning, förbättring och optimering. Fullstack: Implementerat säkerhet med JWT.
 - V. 23: Projektavslut (demo, uppvisning, retro).
 
 #### Hur hanterar teamet förändringar i tidsplanen om någor tar längre tid än förväntat?
@@ -104,21 +106,17 @@ ______
   I första hand prata med den berörda, finns det någon bakomliggande anledning? Går det att lösa? 
 ____
 
-## Leveranser och dokumentation:  
-- Slutproduktens minimikrav (vad MÅSTE vara klart vid projektavslut?).
-- Vad varje team (frontend, backend, IoT) måste leverera.
+## Leveranser och dokumenation:  
+Slutproduktens minimikrav: Vad varje team (frontend, backend, IoT) måste leverera vid projektavslut
   - Fullstack:
     - API för datainsamling och hantering av händelser
-    - HAntera sensordata och ....
-    - Generera notifieringar baserade på sensordata
+    - Generera notifieringar till appen baserade på sensordata
     - Databas för lagring och analys
-    - Autentisering och rollhantering
-      
+    - Autentisering och rollhantering 
   - Frontend:
     - Ta emot API från backend
     - WCAG Layout
     - Funktionella komponenter som pratar med backend och sensorerna
-
   - IoT:
     - Fungerande prototyp med mikrokontroller och sensorer som genererar och hanterar data
     - Program för mikrokontrollern som är skalbart och kan konvertera och hantera data som skickas till och från backend API
