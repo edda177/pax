@@ -1,0 +1,25 @@
+{
+  "name": "pax",
+  "version": "1.0.0",
+  "description": "### Gruppmedlemmar:  **SUVX24:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin   **FMWX24:** Hannah Bärlin, Hanna Kindholm, Tova Hansen   **FJSX24:** Alice Eriksson, Phithai Lai, Dennis Granheimer, Rhiannon Brönnimann",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/issues"
+  },
+  "homepage": "https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.9"
+  }
+}
