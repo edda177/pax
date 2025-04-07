@@ -1,0 +1,14 @@
+# Ignore files without extension
+*
+!/**/
+!*.*
+
+# Ignore VS Code config folder
+.vscode/
+
+# Ignore .exe
+*.exe
+
+# Ignore pio files
+.pio
+
