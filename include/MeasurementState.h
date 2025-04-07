@@ -11,7 +11,7 @@ private:
     unsigned long m_lastActivationTime;
     unsigned long getCurrentTime();
 public:
-    MeasurementState(uint8_t pirPin, unsigned long holdDuration);
+    MeasurementState(uint8_t pirPin, unsigned long holdDuration = 5 * 1 * 1000);
     void init();
     void update();
     bool roomHasActivity();
