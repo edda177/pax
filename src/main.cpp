@@ -1,26 +1,20 @@
+#include "MeasurementState.h"
 #include <Arduino.h>
 
-int pirPin = 2;
 int ledPin = 3;
-int currentPinReading {0};
-long unsigned int roomActivateTime;
-long unsigned int duration = 5 * 1 * 1000;
+MeasurementState roomState(2, 5000);
 
 void setup() {
-  pinMode(pirPin, INPUT);
+  roomState.init();
+
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop() {
-  currentPinReading = digitalRead(pirPin);
-  if (currentPinReading) {
-    roomActivateTime = millis();
-    Serial.print(" Reset: ");
-    Serial.println(roomActivateTime);
-  }
+  roomState.update();
 
-  if (millis() - roomActivateTime <= duration) {
+  if (roomState.roomHasActivity()) {
     digitalWrite(ledPin, HIGH);
   } else {
     digitalWrite(ledPin, LOW);
