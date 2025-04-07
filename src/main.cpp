@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 int pirPin = 2;
 int ledPin = 3;
 int currentPinReading {0};
@@ -23,6 +25,5 @@ void loop() {
   } else {
     digitalWrite(ledPin, LOW);
   }
-
 
 }
