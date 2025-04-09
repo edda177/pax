@@ -1,8 +1,14 @@
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { ScrollView } from "react-native";
 
 const HomeScreen = () => {
-  return <ScrollView></ScrollView>;
+  return (
+    <View>
+      <Text>Homescreen</Text>
+    </View>
+  );
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({});

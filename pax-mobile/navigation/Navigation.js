@@ -14,6 +14,11 @@ const Navigation = () => {
                     name="Home"
                     component={HomeScreen}
                 />
+                <Tab.Screen
+                    name="Booking"
+                    component={Booking}
+                />
+
 
             </Tab.Navigator>
         </NavigationContainer>
