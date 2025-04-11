@@ -8,7 +8,22 @@ services:
       POSTGRES_DB: db123
     ports:
       - "5432:5432"
+    networks:
+      - mynetwork
   app:
-    image: my-node-app
+    build:
+      context: .
     ports:
       - "13000:13000"
+    networks:
+      - mynetwork
+    environment:
+      DB_USER: Test
+      DB_HOST: db
+      DB_NAME: db123
+      DB_PASSWORD: password123
+      DB_PORT: 5432
+      PORT: 13000
+networks:
+  mynetwork:
+    driver: bridge
