@@ -58,7 +58,6 @@ app.post("/rooms", async (req, res) => {
         air_quality,
         screen,
         floor,
-
         chairs,
         whiteboard,
         projector,

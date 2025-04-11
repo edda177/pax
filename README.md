@@ -10,7 +10,7 @@
 
 [Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)
 
-##How to start server
+## How to start server
 
 1. Download and install docker desktop
 2. In folder pax run command docker build -t my-node-app .
