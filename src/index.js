@@ -10,7 +10,7 @@ app.get("/setup", async (req, res) => {
   console.log("setup starting");
   try {
     // Vänta 5 sekunder för att säkerställa att DB är redo
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     // SQL-query för att skapa tabellen
     await pool.query(`
       CREATE TABLE IF NOT EXISTS rooms (
@@ -34,7 +34,7 @@ app.get("/setup", async (req, res) => {
   }
 });
 app.post("/rooms", async (req, res) => {
-  console.log("request", req.body);
+  console.log("request", req.params);
   const {
     name,
     description,
@@ -67,6 +67,17 @@ app.post("/rooms", async (req, res) => {
     res.status(500).send("Error creating room");
   }
 });
+
+app.get("/rooms", async (req, res) => {
+  try {
+    const data = await pool.query("SELECT * FROM rooms");
+    res.status(200).json(data.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
