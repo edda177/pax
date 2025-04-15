@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import pool from "../db.js";
+
 const router = express.Router();
-const pool = require("../src/db.js"); // justera sökvägen vid behov
 
 // Create a new user
 router.post("/", async (req, res) => {
@@ -96,7 +97,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
 
 // To do
 // Inloggning (POST /login) med bcrypt och jsonwebtoken
