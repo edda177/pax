@@ -128,7 +128,7 @@ router.put("/:id", async (req, res) => {
 
 // DELETE /rooms/:id – delete a room
 router.delete("/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
 
   try {
     const result = await pool.query(
