@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 // GET all users
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT id, name, email, role FROM users");
+    const result = await pool.query("SELECT * FROM users");
     res.json(result.rows);
   } catch (err) {
     console.error("Error fetching users:", err);
