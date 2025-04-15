@@ -1,17 +1,26 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const pool = require("./db");
+const userRoutes = require("../routes/users.js");
+
 console.log("index.js is running");
+
 dotenv.config();
+
 const app = express();
+
 const port = process.env.PORT || 13000;
+
 app.use(express.json()); // for parsing application/json
+
+app.use("/users", userRoutes);
+
 app.get("/setup", async (req, res) => {
   console.log("setup starting");
   try {
     // Vänta 5 sekunder för att säkerställa att DB är redo
     await new Promise((resolve) => setTimeout(resolve, 5000));
-    // SQL-query för att skapa tabellen
+    // SQL-query för att skapa tabellen för rooms
     await pool.query(`
       CREATE TABLE IF NOT EXISTS rooms (
         id SERIAL PRIMARY KEY,
@@ -26,13 +35,27 @@ app.get("/setup", async (req, res) => {
         projector BOOLEAN DEFAULT FALSE
       )
     `);
+
+    // SQL-query för att skapa tabellen för users
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(150) UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        role VARCHAR(50) DEFAULT 'user'
+      )
+    `);
+
     console.log("Table setup completed.");
     res.status(200).send("Setup completed");
   } catch (err) {
     console.error("Error during setup:", err);
+    console.error("Full error:", err);
     res.status(500).send("Error setting up database");
   }
 });
+
 app.post("/rooms", async (req, res) => {
   console.log("request", req.body);
   const {
