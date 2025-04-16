@@ -1,11 +1,16 @@
 #ifndef NETWORKING_BASE_H
 #define NETWORKING_BASE_H
 
+#include <arduino.h>
+
 class NetworkingBase {
+private:
+    Stream * wifi_ptr;
+    Stream * ethernet_ptr;
 public:
-    virtual void connect() = 0;
-    virtual void poll() = 0;
-    virtual ~NetworkingBase() = default;
+    NetworkingBase(  );
+    const Stream * network() const; // does this mean wifi and ether need to be public?
+    ~NetworkingBase();
 };
 
 #endif

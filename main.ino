@@ -1,11 +1,11 @@
-#include "wifi.h"
+#include "networking_base.h"
 
-Wifi net;
+WifiClient wifi;
+EthernetClient ether;
+NetworkingBase network (&wifi, &ether) ;
 
 void setup() {
-    net.connect();
 }
 
 void loop() {
-    net.poll();
 }
