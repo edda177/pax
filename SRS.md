@@ -52,9 +52,9 @@ PAX är en fristående lösning som ska integreras i större företags- och för
 
 ## 2.2 Produktfunktioner
 
-**Automatisk bokning**: Närvaro i rummet registreras via installerade sensorer, vilket resulterar i en omedelbar bokning genom systemet.
+**Automatisk bokning**: Närvaro i rummet registreras via installerade sensorer, vilket exempelvis kan resulterar i en omedelbar (av)bokning genom systemet.
 
-**Användarvänlig app**: Användargränssnittet ger en realtidsöversikt över mötesrum, bokningsstatus och historik.
+**Användarvänlig app**: Användargränssnittet ger en översikt över mötesrum, bokningsstatus och historik.
 
 **Notifieringssystem**: Systemet genererar notifieringar baserat på sensordata (t.ex. om ett rum plötsligt blir tillgängligt).
 
@@ -80,7 +80,7 @@ PAX är en fristående lösning som ska integreras i större företags- och för
 
 **Tekniska antaganden**:
 
-Systemet kommer att anslutas via trådbundna och trådlösa nätverk (USB/WiFi) mellan IoT-enheterna och backend.
+Systemet kommer att kunna anslutas via trådbundna och trådlösa nätverk (Ethernet/WiFi) mellan IoT-enheterna och backend.
 
 Användare har tillgång till en mobil enhet med appen installerad.
 
@@ -96,7 +96,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 ### 3.1.1 Bokningslogik och Automatisering
 
-- FK1: Systemet ska automatiskt boka ett mötesrum när närvarosensorer registrerar aktivitet.
+- FK1: Systemet ska kunna automatiskt (av)boka ett mötesrum när närvarosensorer registrerar aktivitet.
 
 - FK2: Appen ska realtidsvis visa en översikt över vilka rum som är bokade samt vilka som är lediga.
 
@@ -108,7 +108,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - FK5: Mobilapplikationen ska tillhandahålla ett intuitivt och tillgängligt gränssnitt enligt WCAG-standarder.
 
-- FK6: En separat layout (t.ex. iPad-layout) ska finnas för bokningsskärmar utanför konferensrummen.
+- ~~FK6: En separat layout (t.ex. iPad-layout) ska finnas för bokningsskärmar utanför konferensrummen.~~
 
 - FK7: Appen ska kunna kommunicera med backend-API:et för att hämta aktuell data och skicka bokningsinformation.
 
@@ -146,7 +146,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - IFK3: Systemet ska implementera säker autentisering med JWT.
 
-- IFK4: Dataöverföring ska ske över säkra kommunikationskanaler (t.ex. HTTPS) för att förhindra obehörig åtkomst.
+- ~~IFK4: Dataöverföring ska ske över säkra kommunikationskanaler (t.ex. HTTPS) för att förhindra obehörig åtkomst.~~
 
 - IFK5: Roller och behörigheter ska definieras noggrant för att säkerställa att endast behöriga användare får tillgång till kritiska funktioner.
 
@@ -262,7 +262,7 @@ Varje team ansvarar för sin respektive dokumentation och rapporterar regelbunde
 
 ## 7.2 Hanteringsplaner
 
-**Regelbundna möten**: Dagliga standups och veckovisa avstämningar där alla team är med.
+**Regelbundna möten**: Veckovisa avstämningar där alla team är med. Avcheckning på Fredagar med Backend/SUVX
 
 **Problemlösning**: Direkt kommunikation inom teamet vid uppkomst av blockerande problem, med eskalering till övriga team om behovet uppstår.
 
