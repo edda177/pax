@@ -1,7 +1,7 @@
 #ifndef NETWORKING_BASE_H
 #define NETWORKING_BASE_H
 
-#include <arduino.h>
+#include "arduino.h"
 
 class NetworkingBase {
 private:
