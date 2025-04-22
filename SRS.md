@@ -48,11 +48,11 @@ PAX är ett automatiserat bokningssystem där varje mötesrum utrustas med senso
 
 ## 2.1 Produktperspektiv
 
-PAX är en fristående lösning som ska integreras i större företags- och företagshotellsmiljöer. Systemet fungerar både som ett operativt bokningsverktyg och som en dataansamlingstjänst för framtida analyser. Genom att automatiskt registrera om rummen används, optimeras utnyttjandegraden och ekonomiska besparingar kan uppnås.
+PAX är en fristående lösning som ska integreras i större företags- och företagshotellsmiljöer. Systemet fungerar både som ett operativt bokningsverktyg och som en dataansamlingstjänst för framtida analyser. Genom att automatiskt registrera om rummen används optimeras utnyttjandegraden och ekonomiska besparingar kan uppnås.
 
 ## 2.2 Produktfunktioner
 
-**Automatisk bokning**: Närvaro i rummet registreras via installerade sensorer, vilket exempelvis kan resulterar i en omedelbar (av)bokning genom systemet.
+**Automatisk bokning**: Närvaro i rummet registreras via installerad sensor.
 
 **Användarvänlig app**: Användargränssnittet ger en översikt över mötesrum, bokningsstatus och historik.
 
@@ -96,7 +96,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 ### 3.1.1 Bokningslogik och Automatisering
 
-- FK1: Systemet ska kunna automatiskt (av)boka ett mötesrum när närvarosensorer registrerar aktivitet.
+- FK1: Systemet ska kunna automatiskt boka eller avboka ett rum baserat på aktivitet.
 
 - FK2: Appen ska realtidsvis visa en översikt över vilka rum som är bokade samt vilka som är lediga.
 
@@ -108,31 +108,29 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - FK5: Mobilapplikationen ska tillhandahålla ett intuitivt och tillgängligt gränssnitt enligt WCAG-standarder.
 
-- ~~FK6: En separat layout (t.ex. iPad-layout) ska finnas för bokningsskärmar utanför konferensrummen.~~
-
-- FK7: Appen ska kunna kommunicera med backend-API:et för att hämta aktuell data och skicka bokningsinformation.
+- FK6: Appen ska kunna kommunicera med backend-API:et för att hämta aktuell data och skicka bokningsinformation.
 
 ### 3.1.3 API och Datakommunikation
 
-- FK8: Ett robust API ska utvecklas för att hantera dataöverföring mellan IoT-enheterna, databasen och frontend-applikationen.
+- FK7: Ett robust API ska utvecklas för att hantera dataöverföring mellan IoT-enheterna, databasen och frontend-applikationen.
 
-* FK9: API:et ska erbjuda endpoints för autentisering, datainsamling, statusuppdateringar och notifieringar.
+* FK8: API:et ska erbjuda endpoints för autentisering, datainsamling, statusuppdateringar och notifieringar.
 
-* FK10: Systemet ska implementera JWT för att säkerställa säker åtkomst och hantering av känsliga data.
+* FK9: Systemet ska implementera JWT för att säkerställa säker åtkomst och hantering av känsliga data.
 
 ### 3.1.4 IoT-integration
 
-- FK11: Hårdvaran ska inkludera sensorer såsom PIR-sensor, mikrofon och luftkvalitetssensor som kan kommunicera med kontrollenheten.
+- FK10: Hårdvaran ska inkludera sensorer såsom PIR-sensor och luftkvalitetssensor som kan kommunicera med kontrollenheten.
 
-- FK12: Kontrollpanelen för varje mötesrum ska övervaka och hantera sensordata i realtid.
+- FK11: Kontrollpanelen för varje mötesrum ska övervaka och hantera sensordata.
 
-- FK13: Firmware för mikrokontroller (programmerad i C++) ska möjliggöra skalbar hantering av sensorinformationen och kommunikation med backend.
+- FK12: Firmware för mikrokontroller (programmerad i C++) ska möjliggöra skalbar hantering av sensorinformationen och kommunikation med backend.
 
 ### 3.1.5 Databashantering
 
-- FK14: En PostgreSQL-databas ska implementeras för att lagra bokningsdata, sensorhändelser och användarinformation.
+- FK13: En PostgreSQL-databas ska implementeras för att lagra bokningsdata, sensorhändelser och användarinformation.
 
-- FK15: Backend-systemet ska möjliggöra datainsamling för att senare kunna genomföra analys och generera statistik.
+- FK14: Backend-systemet ska möjliggöra datainsamling för att senare kunna genomföra analys och generera statistik.
 
 ## 3.2 Icke-Funktionella Krav
 
@@ -146,23 +144,21 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - IFK3: Systemet ska implementera säker autentisering med JWT.
 
-- ~~IFK4: Dataöverföring ska ske över säkra kommunikationskanaler (t.ex. HTTPS) för att förhindra obehörig åtkomst.~~
-
-- IFK5: Roller och behörigheter ska definieras noggrant för att säkerställa att endast behöriga användare får tillgång till kritiska funktioner.
+- IFK4: Roller och behörigheter ska definieras noggrant för att säkerställa att endast behöriga användare får tillgång till kritiska funktioner.
 
 ### 3.2.3 Tillförlitlighet och Underhållbarhet
 
-- IFK6: Systemet ska vara robust nog att hantera sensorfel samt kommunikationsavbrott med möjlighet till automatisk återkoppling.
+- IFK5: Systemet ska vara robust nog att hantera sensorfel samt kommunikationsavbrott med möjlighet till automatisk återkoppling.
 
-- IFK7: Tydlig och uppdaterad dokumentation ska finnas för varje systemkomponent, vilket möjliggör underhåll och vidareutveckling.
+- IFK6: Tydlig och uppdaterad dokumentation ska finnas för varje systemkomponent, vilket möjliggör underhåll och vidareutveckling.
 
-- IFK8: Versionshantering ska ske genom GitHub och arbeta med agila metoder med regelbundna standups och retrospektiv.
+- IFK7: Versionshantering ska ske genom GitHub och arbeta med agila metoder med regelbundna standups och retrospektiv.
 
 ### 3.2.4 Användbarhet
 
-- IFK9: Användargränssnittet ska utformas med fokus på enkelhet och intuitivitet, baserat på användarbehov och tidiga användartester.
+- IFK8: Användargränssnittet ska utformas med fokus på enkelhet och intuitivitet, baserat på användarbehov och tidiga användartester.
 
-- IFK10: Systemet ska erbjuda tydliga notifieringar samt felmeddelanden vid driftstörningar.
+- IFK9: Systemet ska erbjuda tydliga notifieringar samt felmeddelanden vid driftstörningar.
 
 # 4. Systemarkitektur och Designkrav
 
@@ -172,7 +168,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 **Backend**: Byggs med Node.js och Express.js för att exponera ett RESTful API. Användning av PostgreSQL för lagring och hantering av databas.
 
-**IoT**: Hårdvara baserad på Arduino med programmering i C++ och integrerade sensorer (PIR-sensor, mikrofon, luftkvalitetssensor). Anskaffad data kommuniceras via WiFi till backend.
+**IoT**: Hårdvara baserad på Arduino med programmering i C++ och integrerade sensorer (PIR-sensor, mikrofon, luftkvalitetssensor). Anskaffad data kommuniceras till backend.
 
 ## 4.2 Systemintegration
 
