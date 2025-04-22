@@ -52,7 +52,7 @@ PAX är en fristående lösning som ska integreras i större företags- och för
 
 ## 2.2 Produktfunktioner
 
-**Automatisk bokning**: Närvaro i rummet registreras via installerad sensor.
+**Automatisk bokning**: Närvaro i rummet registreras via installerad sensor och kommunicerar detta till Backend.
 
 **Användarvänlig app**: Användargränssnittet ger en översikt över mötesrum, bokningsstatus och historik.
 
@@ -96,19 +96,19 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 ### 3.1.1 Bokningslogik och Automatisering
 
-- FK1: Systemet ska kunna automatiskt boka eller avboka ett rum baserat på aktivitet.
+- FK1: Systemet ska automatiskt flagga om ett rum är aktivt baserat på en PIR-sensors utdata.
 
-- FK2: Appen ska realtidsvis visa en översikt över vilka rum som är bokade samt vilka som är lediga.
+- FK2: Appen ska kunna visa en översikt över vilka rum som är bokade samt vilka som är lediga.
 
-- FK3: Systemet ska uppdatera bokningsstatus baserat på kontinuerlig sensorövervakning.
+- FK3: Systemet ska kunna uppdatera bokningsstatus baserat på kontinuerlig sensorövervakning.
 
 - FK4: Vid avvikande händelser (t.ex. sensorfel) ska systemet generera en notifiering till administratören.
 
 ### 3.1.2 Användargränssnitt
 
-- FK5: Mobilapplikationen ska tillhandahålla ett intuitivt och tillgängligt gränssnitt enligt WCAG-standarder.
+- FK5: Mobilapplikationen ska tillhandahålla ett intuitivt och tillgängligt gränssnitt enligt [WCAG-standarder](https://www.w3.org/WAI/standards-guidelines/wcag/).
 
-- FK6: Appen ska kunna kommunicera med backend-API:et för att hämta aktuell data och skicka bokningsinformation.
+- FK6: Appen ska kunna kommunicera med backend-API:et för att hämta och skicka data.
 
 ### 3.1.3 API och Datakommunikation
 
