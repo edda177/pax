@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-
-const Map = () => {
+export default function Map() {
   return (
-    <View>
-      <Text>Överblick rum</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Map View</Text>
     </View>
   );
-};
+}
 
-export default Map;
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  text: { fontSize: 24, fontWeight: "bold" },
+});
