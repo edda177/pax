@@ -8,7 +8,7 @@ NetworkingBase::NetworkingBase( Stream * wifi_in, Stream * ethernet_in ) :
 
 }
 
-NetworkingBase::begin ( ) 
+void NetworkingBase::begin ( ) 
 {
     pinMode( NETWORK_CONFIG_PIN, INPUT_PULLUP );
     wifi_pin_set = digitalRead(NETWORK_CONFIG_PIN);
