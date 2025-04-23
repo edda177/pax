@@ -1,10 +1,12 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import ThemeToggleScreen from '../screens/ThemeToggleScreen';
 import HomeScreen from '../screens/HomeScreen';
 import Booking from '../screens/Booking';
 import Map from '../screens/Map';
+import ThemeToggleTabButton from '../components/ThemeToggleTabButton';
+
 
 import BookingButton from '../components/BookingButton';
 
@@ -35,6 +37,21 @@ export default function BottomTabNavigator() {
                 }}
             />
             <Tab.Screen name="Map" component={Map} />
+            <Tab.Screen
+                name="Theme"
+                component={ThemeToggleScreen}
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name={isDark ? "white-balance-sunny" : "weather-night"}
+                            color={color}
+                            size={size}
+                        />
+                    ),
+                    tabBarLabel: "Tema",
+                    tabBarButton: (props) => <ThemeToggleTabButton {...props} />,
+                }}
+            />
         </Tab.Navigator>
     );
 }
