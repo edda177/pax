@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
+#include <Ethernet.h>
 
 constexpr uint8_t NETWORK_CONFIG_PIN = 7;
 
@@ -16,7 +17,7 @@ public:
     NetworkingBase( Stream * wifi_in, Stream * ethernet_in );
     const Stream * network() const; // does this mean wifi and ether need to be public?
     bool wifi_on ( ) const;
-    ~NetworkingBase();
+    // ~NetworkingBase();
 };
 
 #endif
