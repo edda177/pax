@@ -17,7 +17,7 @@ class Wifi : public NetworkingBase {
     WiFiServer server{80};
 
    public:
-    void connect() override {
+    void connect() {
         Serial.begin(9600);
         while (!Serial) {  // wait for serial port to connect. Needed for native USB port only
         }
@@ -48,7 +48,7 @@ class Wifi : public NetworkingBase {
     }
 
     // Check for and handle incoming client connections
-    void poll() override {
+    void poll() {
         WiFiClient client = server.available();
         if (client && client.connected()) {
             handle_request(client);
