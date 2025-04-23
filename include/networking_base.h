@@ -10,10 +10,12 @@ class NetworkingBase {
 private:
     Stream * wifi_ptr;
     Stream * ethernet_ptr;
+    bool wifi_pin_set;
 public:
     NetworkingBase();
     NetworkingBase( Stream * wifi_in, Stream * ethernet_in );
     const Stream * network() const; // does this mean wifi and ether need to be public?
+    bool wifi_on ( ) const;
     ~NetworkingBase();
 };
 
