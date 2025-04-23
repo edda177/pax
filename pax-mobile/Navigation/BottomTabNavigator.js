@@ -6,16 +6,19 @@ import HomeScreen from '../screens/HomeScreen';
 import Booking from '../screens/Booking';
 import Map from '../screens/Map';
 import ThemeToggleTabButton from '../components/ThemeToggleTabButton';
-
-
 import BookingButton from '../components/BookingButton';
+import { useTheme } from '../theme/ThemeContext';
+import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
+    const {customTheme} = useTheme();
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
+                headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === 'Booking') return null;
 
@@ -25,7 +28,9 @@ export default function BottomTabNavigator() {
 
                     return <Icon name={iconName} size={size} color={color} />;
                 },
-                headerShown: false,
+                    tabBarStyle: {
+                        backgroundColor: customTheme.colors.tabBar,
+                    },
             })}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
