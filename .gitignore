@@ -12,3 +12,5 @@
 # Ignore pio files
 .pio
 
+# Ignore sensitive files
+arduino_secrets.h
