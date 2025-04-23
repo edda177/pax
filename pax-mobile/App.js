@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { ThemeProvider } from './theme/ThemeContext';
 import HomeScreen from './screens/HomeScreen';
 import Booking from './screens/Booking';
 import Map from './screens/Map';
@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    <ThemeProvider>
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
@@ -38,5 +39,6 @@ export default function App() {
         <Tab.Screen name="Map" component={Map} />
       </Tab.Navigator>
     </NavigationContainer>
+    </ThemeProvider>
   );
 }

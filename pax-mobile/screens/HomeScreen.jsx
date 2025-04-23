@@ -1,15 +1,66 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+  Platform,
+  Pressable,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons"; // or "react-native-vector-icons/MaterialCommunityIcons"
+import { useTheme } from "../theme/ThemeContext";
 
-export default function HomeScreen() {
+const HomeScreen = () => {
+  const { theme, isDark, toggleTheme } = useTheme();
+  const styles = createStyles(theme);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the Home Screen!</Text>
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar
+        barStyle={isDark ? "light-content" : "dark-content"}
+        backgroundColor={theme.headerBackground}
+      />
+      <View style={styles.container}>
+        <Text style={styles.text}>Welcome to the Home Screen!</Text>
+        <Pressable
+          onPress={toggleTheme}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={isDark ? "Byt till ljust tema" : "Byt till mörkt tema"}
+        >
+          <MaterialCommunityIcons
+            name={isDark ? "white-balance-sunny" : "weather-night"}
+            color={theme.accent}
+            size={24}
+            accessibilityElementsHidden={true}
+          />
+        </Pressable>
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  text: { fontSize: 24, fontWeight: "bold" },
-});
+export default HomeScreen;
+
+const createStyles = (theme) =>
+  StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: theme.background,
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    container: {
+      flex: 1,
+      backgroundColor: theme.background,
+      paddingBottom: 150,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    text: {
+      fontSize: 18,
+      color: theme.text,
+      marginBottom: 16,
+    },
+  });
