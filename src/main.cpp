@@ -6,8 +6,8 @@ int ledPin = 3;
 MeasurementState roomState(2, 5000);
 
 WiFiClient wifi;
-//EthernetClient ether;
-//NetworkingBase network (&wifi, &ether) ;
+EthernetClient ether;
+NetworkingBase network (&wifi, &ether) ;
 
 
 void setup() {
