@@ -8,7 +8,7 @@ export const lightTheme = {
     background: '#10302B',     
     card: '#264247',
     headerBackground: '#f8c0b3',
-    tabBackground: '#211522',
+    tabBackground: '#24524B',
   
     // Text
     textPrimary: '#24524B',
@@ -25,7 +25,7 @@ export const lightTheme = {
     background: '#10302B',      
     card: '#24524B',
     headerBackground: '#264247',
-    tabBackground: '#d3b1c',
+    tabBackground: '#24524B',
   
     // Text
     textPrimary: 'rgb(241, 234, 234)',
