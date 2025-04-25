@@ -22,6 +22,24 @@ const App: React.FC = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const API_BASE_URL = "http://localhost:13000";
+
+  const handleDeleteRoom = async (id: number) => {
+    if (!window.confirm("Är du säker på att du vill ta bort detta rum?")) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/room/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Kunde inte ta bort rummet");
+      }
+
+      setRooms((prevRooms) => prevRooms.filter((room) => room.id !== id));
+    } catch (error) {
+      console.error("Fel deleting", error);
+    }
+  };
+
   const handleCreateRoom = (room: Room) => {
     setRooms((prev) => [...prev, room]);
   };
@@ -50,7 +68,7 @@ const App: React.FC = () => {
                   key={room.id}
                   room={room}
                   onEdit={() => { }}
-                  onDelete={() => { }}
+                  onDelete={handleDeleteRoom}
                 />
               ))}
             </div>
