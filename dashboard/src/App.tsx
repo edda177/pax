@@ -29,11 +29,11 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar with button trigger */}
-      <Sidebar onCreateRoomClick={() => setIsModalOpen(true)} />
+      {/* <Sidebar onCreateRoomClick={() => setIsModalOpen(true)} /> */}
 
       {/* Main content */}
       <div className="flex flex-col flex-grow bg-gray-300">
-        <Header />
+        {/* <Header /> */}
 
         <main className="flex-grow p-6">
           <div className="flex justify-between items-center mb-6">
@@ -49,8 +49,8 @@ const App: React.FC = () => {
                 <RoomCard
                   key={room.id}
                   room={room}
-                  onEdit={() => { }}
-                  onDelete={() => { }}
+                  onEdit={() => {}}
+                  onDelete={() => {}}
                 />
               ))}
             </div>

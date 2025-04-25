@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from "./pages/Auth";
 import Stats from "./pages/Stats";
 import Users from "./pages/Users";
+import Navbar from "./components/Navbar";
 const rootElement = document.getElementById("root");
 
 if (!rootElement) {
@@ -13,6 +14,7 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <BrowserRouter>
+    <Navbar />
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/auth" element={<Auth />} />
