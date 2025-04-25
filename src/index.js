@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import pool from "./db.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
 
 console.log("index.js is running");
 
@@ -17,6 +19,9 @@ import userRoutes from "./routes/users.js";
 import roomRoutes from "./routes/rooms.js";
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
+
+// Swagger route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/setup", async (req, res) => {
   console.log("setup starting");
@@ -43,7 +48,8 @@ app.get("/setup", async (req, res) => {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
+        firstname VARCHAR(100) NOT NULL,
+        lastname VARCHAR(100) NOT NULL,
         email VARCHAR(150) UNIQUE NOT NULL,
         password TEXT NOT NULL,
         role VARCHAR(50) DEFAULT 'user'
@@ -59,8 +65,13 @@ app.get("/setup", async (req, res) => {
   }
 });
 
+app.get("/ping", (req, res) => {
+  res.send("pong!");
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+  console.log(`Swagger docs: http://localhost:${port}/api-docs`);
 });
 
 //only in dev mode

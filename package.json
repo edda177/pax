@@ -25,6 +25,8 @@
     "express": "^5.1.0",
     "nodemon": "^3.1.9",
     "pg": "^8.14.1",
-    "ps": "^1.0.0"
+    "ps": "^1.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
