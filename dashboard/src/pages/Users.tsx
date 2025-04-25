@@ -43,11 +43,11 @@ const Users: React.FC = () => {
       role: "user",
     },
   ];
-  console.log(mockUsers);
+
   return (
-    <main className="flex flex-col justify-center p-6 bg-[#10302B] gap-4 text-white w-full h-screen overflow-auto">
+    <main className="flex flex-col justify-center p-6 bg-gray-300 gap-4 text-black w-full h-screen overflow-auto">
       <section className="flex gap-4">
-        <h1 className="text-2xl font-bold text-white">Users</h1>
+        <h1 className="text-2xl font-bold">Users</h1>
         <Button onClick={() => {}}>Add User</Button>
       </section>
       <section className="flex-grow gap-4 flex">
@@ -60,7 +60,7 @@ const Users: React.FC = () => {
               <CardDescription>{user.email}</CardDescription>
             </CardHeader>
             <CardContent>
-              <p> Role:{user.role}</p>
+              <p> Role: {user.role}</p>
             </CardContent>
             <CardFooter className="flex gap-2">
               <Button onClick={() => {}}>Update</Button>

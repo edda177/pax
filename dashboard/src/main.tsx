@@ -6,6 +6,7 @@ import Auth from "./pages/Auth";
 import Stats from "./pages/Stats";
 import Users from "./pages/Users";
 import Navbar from "./components/Navbar";
+import Dashboard from "./pages/Dashboard";
 const rootElement = document.getElementById("root");
 
 if (!rootElement) {
@@ -16,7 +17,7 @@ createRoot(rootElement).render(
   <BrowserRouter>
     <Navbar />
     <Routes>
-      <Route path="/" element={<App />} />
+      <Route path="/" element={<Dashboard />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/stats" element={<Stats />} />
       <Route path="/users" element={<Users />} />
