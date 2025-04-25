@@ -5,14 +5,14 @@ const router = express.Router();
 
 // Create a new user
 router.post("/", async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { firstname, lastname, email, password, role } = req.body;
 
   try {
     const result = await pool.query(
-      `INSERT INTO users (name, email, password, role)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, name, email, role`,
-      [name, email, password, role || "user"]
+      `INSERT INTO users (firstname, lastname, email, password, role)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, firstname, lastname, email, role`,
+      [firstname, lastname, email, password, role || "user"]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -24,7 +24,9 @@ router.post("/", async (req, res) => {
 // GET all users
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM users");
+    const result = await pool.query(
+      "SELECT id, firstname, lastname, email, role FROM users"
+    );
     res.json(result.rows);
   } catch (err) {
     console.error("Error fetching users:", err);
@@ -38,7 +40,7 @@ router.get("/:id", async (req, res) => {
 
   try {
     const result = await pool.query(
-      "SELECT id, name, email, role FROM users WHERE id = $1",
+      "SELECT id, firstname, lastname, email, role FROM users WHERE id = $1",
       [id]
     );
 
@@ -56,13 +58,15 @@ router.get("/:id", async (req, res) => {
 // Update a user
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, email, role } = req.body;
+  const { firstname, lastname, email, role } = req.body;
 
   try {
     const result = await pool.query(
-      `UPDATE users SET name = $1, email = $2, role = $3
-       WHERE id = $4 RETURNING id, name, email, role`,
-      [name, email, role, id]
+      `UPDATE users 
+       SET firstname = $1, lastname = $2, email = $3, role = $4
+       WHERE id = $5 
+       RETURNING id, firstname, lastname, email, role`,
+      [firstname, lastname, email, role, id]
     );
 
     if (result.rows.length === 0) {
@@ -82,7 +86,7 @@ router.delete("/:id", async (req, res) => {
 
   try {
     const result = await pool.query(
-      "DELETE FROM users WHERE id = $1 RETURNING *",
+      "DELETE FROM users WHERE id = $1 RETURNING id, firstname, lastname, email, role",
       [id]
     );
 
