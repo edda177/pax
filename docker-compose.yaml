@@ -1,18 +1,24 @@
-version: "3"
+version: "3.8"
+
 services:
   db:
-    image: postgres
+    image: postgres:13
     environment:
       POSTGRES_USER: Test
       POSTGRES_PASSWORD: password123
       POSTGRES_DB: db123
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     networks:
       - mynetwork
+
   app:
     build:
       context: .
+    depends_on:
+      - db # 👈 Vänta på att databasen startar
     ports:
       - "13000:13000"
     networks:
@@ -24,6 +30,12 @@ services:
       DB_PASSWORD: password123
       DB_PORT: 5432
       PORT: 13000
+    volumes:
+      - .:/usr/src/app # 👈 Gör det enkelt att utveckla utan rebuild
+
+volumes:
+  pgdata:
+
 networks:
   mynetwork:
     driver: bridge
