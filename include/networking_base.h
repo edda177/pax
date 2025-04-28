@@ -1,6 +1,7 @@
 #ifndef NETWORKING_BASE_H
 #define NETWORKING_BASE_H
 
+#include "arduino_secrets.h"
 #include <Arduino.h>
 #include <WiFi.h>
 #include <Ethernet.h>
@@ -15,7 +16,7 @@ private:
 public:
     NetworkingBase();
     NetworkingBase( WiFiClient* wifi_in, EthernetClient* ethernet_in );
-    const Stream * network() const; // does this mean wifi and ether need to be public?
+    Stream * network() const; // does this mean wifi and ether need to be public?
     const bool wifi_on ( ) const;
     void begin();
     void operator ()();
