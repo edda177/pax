@@ -1,7 +1,7 @@
 #include "networking_base.h"
 #include "arduino_secrets.h"
 
-NetworkingBase::NetworkingBase( Stream * wifi_in, Stream * ethernet_in ) : 
+NetworkingBase::NetworkingBase( WiFiClient* wifi_in, EthernetClient* ethernet_in ) : 
     wifi_ptr {wifi_in},
     ethernet_ptr {ethernet_in}
 {
@@ -30,4 +30,17 @@ const Stream * NetworkingBase::network() const
     {
         return ethernet_ptr;
     }
+}
+
+void NetworkingBase::operator ()(){
+    if (wifi_on()) {
+        if (WiFi.status() != WL_CONNECTED) {
+            WiFi.begin(SECRET_SSID, SECRET_PASS);
+        }
+    }
+    else {
+        // gör ethernetgrejs
+    }
+
+
 }

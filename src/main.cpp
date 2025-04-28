@@ -18,17 +18,15 @@ void setup() {
   delay(500);
   Serial.println(network.wifi_on());
 
-/*
-  if ( wifi )
-  {
-      wifi_in->begin(SECRET_SSID, SECRET_PASS);
-  }
+  // if ( wifi )
+  // {
+  //     wifi.begin(SECRET_SSID, SECRET_PASS);
+  // }
   
-  else 
-  {
-      ethernet_in->begin();
-  }
-*/
+  // else 
+  // {
+  //     ethernet_in->begin();
+  // }
 
 }
 
