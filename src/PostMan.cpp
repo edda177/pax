@@ -40,28 +40,52 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
         String httpRequest = createHTTPHeader(json);
 
         // Adds the json content behind the HTTP header
-        httpRequest += json;
+        // this is duplicating what create HTTPHeader already does
+//        httpRequest += json;
+
+        // log the httpRequest for debugging
+        Serial.println(httpRequest);
+
+        if (client != nullptr) {
+            Serial.println(client->connected());
+//            Serial.println("Client is not connected to the server.");
+        }
 
         // Send the request.
-        client->print(httpRequest);
+        uint16_t charsWritten = client->print(httpRequest);
+
+        Serial.println(charsWritten);
 
         // Wait for a response (with a timeout of 5 seconds).
         unsigned long timeout = millis();
         while (client->available() == 0)
         {
-            m_connection->current_client()->setTimeout(5000);
+            if (millis() - timeout > 5000) {  // 5000 ms timeout
+                Serial.println("Timeout: No response from server.");
+                break;  // Exit the loop
+            }
+//            client->setTimeout(5000);
+            //m_connection->current_client()->setTimeout(5000);
         }
+
+        Serial.println();
+        Serial.println("Response received");
 
         // Read the server response.
         String response = "";
         while (client->available())
         {
             response += static_cast<char>(client->read());
+            // logging response for debugging
+            Serial.println("");
+            Serial.print(response);
         }
+        // logging
+        Serial.println("Returning from sendPost() with value true");
         return true;
     }
     else
-    {
+    {        
         return false;
     }
 }

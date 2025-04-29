@@ -122,7 +122,24 @@ bool NetworkingBase::connect_wifi()
     m_local_ip = WiFi.localIP();
     
     // Validate IP address
-    return is_valid_ip(m_local_ip);
+    if (!is_valid_ip(m_local_ip))
+    {
+        return false;
+    }
+    
+    // Connect WiFi client to the server
+    Serial.println(F("Network: Connecting WiFi client to server..."));
+    if (wifi_ptr->connect(SERVER_IP, SERVER_PORT)) 
+    {
+        Serial.println(F("Network: WiFi client connected to server."));
+        return true;
+    }
+    else
+    {
+        Serial.println(F("Network: Failed to connect WiFi client to server."));
+        return false;
+    }
+
 }
 
 
