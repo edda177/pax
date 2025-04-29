@@ -8,14 +8,14 @@
 class PostMan
 {
 public:
-    PostMan(const char *server, const char *endpoint, uint16_t port, Stream* stream);
+    PostMan(const char *server, const char *endpoint, uint16_t port, NetworkingBase* connection);
     bool sendPost(const String &temperature, const String &occupancyStatus, const String &airQuality);
 
 private:
     const char *server;
     const char *endpoint;
     uint16_t port;
-    Stream* m_stream;
+    NetworkingBase* m_connection;
 
     String createJSON(const String &temperature, const String &occupancyStatus, const String &airQuality);
     String createHTTPHeader(const String &jsonPayload);
