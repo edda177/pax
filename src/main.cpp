@@ -37,14 +37,10 @@ void setup()
     delay( 100 );
     
     Serial.println( F("System: Initialization complete") );
-
-    Serial.print("Network connected: ");
-    Serial.println(network.current_client()->connected());
     
-    
-    postman.sendPost("1","101","10101");
+    // Sending test message to server
+    postman.sendPost("1","101","12345000");
 
-    Serial.println("Exited sendPost() call");
 }
 
 void loop()
