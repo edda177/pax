@@ -37,6 +37,10 @@ void setup()
     delay( 100 );
     
     Serial.println( F("System: Initialization complete") );
+    
+    // Sending test message to server
+    postman.sendPost("1","101","12345000");
+
 }
 
 void loop()

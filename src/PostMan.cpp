@@ -36,20 +36,20 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
     {
         
         Client* client = m_connection->current_client();
-        // Construct the HTTP POST request header.
-        String httpRequest = createHTTPHeader(json);
-
-        // Adds the json content behind the HTTP header
-        httpRequest += json;
+        // Construct the HTTP POST request header and JSON message.
+        String httpRequest = createHTTPHeaderWithJSON(json);
 
         // Send the request.
-        client->print(httpRequest);
+        uint16_t charsWritten = client->print(httpRequest);
 
         // Wait for a response (with a timeout of 5 seconds).
         unsigned long timeout = millis();
         while (client->available() == 0)
         {
-            m_connection->current_client()->setTimeout(5000);
+            if (millis() - timeout > 5000) {  // 5000 ms timeout
+                Serial.println("Timeout: No response from server.");
+                break;  // Exit the loop
+            }
         }
 
         // Read the server response.
@@ -58,10 +58,15 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
         {
             response += static_cast<char>(client->read());
         }
+        // Log server response
+        if (response != "") {
+            Serial.println("Server response: ");
+            Serial.println(response);
+        }
         return true;
     }
     else
-    {
+    {        
         return false;
     }
 }
@@ -71,7 +76,7 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
  * @param jsonPayload The JSON data to be sent.
  * @return String - The full HTTP POST request header.
  */
-String PostMan::createHTTPHeader(const String &json)
+String PostMan::createHTTPHeaderWithJSON(const String &json)
 {
     String httpRequest = "";
     httpRequest += "POST " + String(endpoint) + " HTTP/1.1\r\n";

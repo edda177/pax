@@ -17,8 +17,8 @@ private:
     uint16_t port;
     NetworkingBase* m_connection;
 
+    String createHTTPHeaderWithJSON(const String &jsonPayload);
     String createJSON(const String &temperature, const String &occupancyStatus, const String &airQuality);
-    String createHTTPHeader(const String &jsonPayload);
 };
 
 #endif // POSTMAN_H
