@@ -1,5 +1,6 @@
 #include "measurement_state.h"
 #include "networking_base.h"
+#include "PostMan.h"
 #include <Arduino.h>
 
 int ledPin = 3;
@@ -9,27 +10,15 @@ WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
 
+PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, network.out_stream());
 
 void setup() {
   roomState.init();
   network.begin();
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
-  delay(500);
+  delay(200);
   Serial.println(network.wifi_on());
-
-/*
-  if ( wifi )
-  {
-      wifi_in->begin(SECRET_SSID, SECRET_PASS);
-  }
-  
-  else 
-  {
-      ethernet_in->begin();
-  }
-*/
-
 }
 
 void loop() {

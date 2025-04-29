@@ -1,7 +1,7 @@
 #include "../include/PostMan.h"
 
-PostMan::PostMan(const char *server, const char *endpoint, uint16_t port)
-    : server{server}, endpoint{endpoint}, port{port} {}
+PostMan::PostMan(const char *server, const char *endpoint, uint16_t port, Stream* stream)
+    : server{server}, endpoint{endpoint}, port{port}, m_stream { stream } {}
 
 /**
  * @brief Create the JSON payload that passes sensor data and fetches the current date and time.
@@ -32,8 +32,7 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
 {
     String json = createJSON(temperature, occupancyStatus, airQuality);
 
-    WiFiClient client;
-    if (client.connect(server, port))
+    if (m_stream->availableForWrite()) // probably want NetworkBase.ready_for_traffic() instead!
     {
         // Construct the HTTP POST request header.
         String httpRequest = createHTTPHeader(json);
@@ -42,26 +41,21 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
         httpRequest += json;
 
         // Send the request.
-        client.print(httpRequest);
+        m_stream->print(httpRequest);
 
         // Wait for a response (with a timeout of 5 seconds).
         unsigned long timeout = millis();
-        while (client.available() == 0)
+        while (m_stream->available() == 0)
         {
-            if (millis() - timeout > 5000)
-            {
-                client.stop();
-                return false;
-            }
+                m_stream->setTimeout(5000);
         }
 
         // Read the server response.
         String response = "";
-        while (client.available())
+        while (m_stream->available())
         {
-            response += static_cast<char>(client.read());
+            response += static_cast<char>(m_stream->read());
         }
-        client.stop();
         return true;
     }
     else
