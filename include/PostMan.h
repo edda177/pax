@@ -3,8 +3,7 @@
 
 #include "networking_base.h"
 #include <Arduino.h>
-#include <WiFiS3.h>
-#include <memory>
+//#include <WiFiS3.h>
 
 class PostMan
 {
