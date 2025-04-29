@@ -32,7 +32,7 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
 {
     String json = createJSON(temperature, occupancyStatus, airQuality);
 
-    if (m_stream->availableForWrite())
+    if (m_stream->availableForWrite()) // probably want NetworkBase.ready_for_traffic() instead!
     {
         // Construct the HTTP POST request header.
         String httpRequest = createHTTPHeader(json);

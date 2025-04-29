@@ -10,7 +10,7 @@ WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
 
-PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, network.network());
+PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, network.out_stream());
 
 void setup() {
   roomState.init();
@@ -19,11 +19,6 @@ void setup() {
   Serial.begin(9600);
   delay(200);
   Serial.println(network.wifi_on());
-  network();
-  while(WiFi.status() != WL_CONNECTED) {}
-  Serial.println(WiFi.localIP());
-  delay(200);
-  postman.sendPost("50°C", "1", "42");
 }
 
 void loop() {
