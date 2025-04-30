@@ -35,7 +35,7 @@ const HomeScreen = () => {
           <MaterialCommunityIcons
             name={isDark ? "white-balance-sunny" : "weather-night"}
             size={30}
-            color={theme.headerBackground}
+            color={theme.iconSwitchmode}
           />
         </Pressable>
 
