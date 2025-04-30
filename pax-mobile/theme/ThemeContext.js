@@ -5,7 +5,7 @@ import { buildCustomeTheme } from "./customTheme";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   const theme = isDark ? darkTheme : lightTheme;
   const customTheme = buildCustomeTheme(theme, isDark);

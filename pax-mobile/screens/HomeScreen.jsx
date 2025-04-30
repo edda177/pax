@@ -30,12 +30,6 @@ const HomeScreen = () => {
           accessibilityRole="button"
           accessibilityLabel={isDark ? "Byt till ljust tema" : "Byt till mörkt tema"}
         >
-          <MaterialCommunityIcons
-            name={isDark ? "white-balance-sunny" : "weather-night"}
-            color={theme.accent}
-            size={24}
-            accessibilityElementsHidden={true}
-          />
         </Pressable>
       </View>
     </SafeAreaView>
