@@ -16,3 +16,8 @@ rnfes for open a react native funcion export with styles
 npm install react@18.3.1 react-dom@18.3.1 react-native-web@~0.19.13 @expo/metro-runtime@~4.0.1 --legacy-peer-deps
 ```
 
+## Se preview
+cd pax-mobile
+npm install
+npm start
+
