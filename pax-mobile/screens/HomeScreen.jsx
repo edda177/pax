@@ -38,8 +38,6 @@ const HomeScreen = () => {
             color={theme.headerBackground}
           />
         </Pressable>
-
-        <Text style={styles.text}>Welcome to the Home Screen!</Text>
         <CardComponent />
       </View>
     </SafeAreaView>
