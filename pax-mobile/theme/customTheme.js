@@ -5,6 +5,7 @@ export const buildCustomeTheme = (baseTheme, isDark) => ({
       card: baseTheme.card,
       textLight: baseTheme.textLight,
       textDark: baseTheme.textDark,
+      textPrimary: baseTheme.textPrimary,
       primary: baseTheme.primary,
       secondary: baseTheme.secondary,
       accent: baseTheme.accent,

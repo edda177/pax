@@ -1,0 +1,13 @@
+[
+    { 
+      "id": "1", 
+    "title": "Välkommen userName", 
+    "description": "Hoppas du har en fin dag, om du vill boka ett mötesrum så kolla in BOKA-knappen!"
+   },
+    { 
+      "id": "2", 
+      "title": "Igår", 
+      "description": "Igår var rum 4 det mest bokade, och populäraste tiden igår var 13.32"
+     }
+  ]
+  

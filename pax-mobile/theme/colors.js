@@ -28,7 +28,7 @@ export const lightTheme = {
     tabBackground: '#24524B',
   
     // Text
-    textPrimary: 'rgb(241, 234, 234)',
+    textPrimary: '#E3FAC8',
     textSecondary: ' #10302B',
   };
 
