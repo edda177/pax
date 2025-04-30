@@ -68,6 +68,9 @@ const createStyles = (theme) =>
       top: 20,
       left: 20,
       zIndex: 1,
+      backgroundColor: "#E3FAC825",
+      borderRadius: 25,
+      padding: 5,
     },
   });
 
