@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons"; // or "react-native-vector-icons/MaterialCommunityIcons"
 import { useTheme } from "../theme/ThemeContext";
+import CardComponent from "../components/CardComponent";
 
 const HomeScreen = () => {
   const { theme, isDark, toggleTheme } = useTheme();
@@ -31,6 +32,7 @@ const HomeScreen = () => {
           accessibilityLabel={isDark ? "Byt till ljust tema" : "Byt till mörkt tema"}
         >
         </Pressable>
+        <CardComponent/>
       </View>
     </SafeAreaView>
   );
