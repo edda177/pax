@@ -46,6 +46,9 @@ export default function BottomTabNavigator() {
                     paddingBottom: 0,
                     paddingTop: 10,
                     height: 60,
+                    borderTopWidth: 0, // <-- Lägg till detta
+                    elevation: 0,       // <-- Android: tar bort skugga
+                    shadowOpacity: 0,   // <-- iOS: tar bort skugga
                 },
             })}
         >
