@@ -6,7 +6,6 @@ import Booking from '../screens/Booking';
 import Map from '../screens/Map';
 import BookingButton from '../components/BookingButton';
 import { useTheme } from '../theme/ThemeContext';
-import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
