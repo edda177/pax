@@ -1,17 +1,17 @@
 export const lightTheme = {
     // Grundfärger  
     primary: '#DEDEDE',       
-    secondary: '#264247',
+    secondary: '#E3FAC8',
     accent: '#E3FAC8', 
   
     // Layout och bakgrunder
-    background: '#10302B',     
-    card: '#264247',
+    background: '#FCFFF5',     
+    card: '#E3FAC8',
     headerBackground: '#f8c0b3',
     tabBackground: '#24524B',
   
     // Text
-    textPrimary: '#24524B',
+    textPrimary: '#10302B',
     textSecondary: '#E3FAC8',
   };
   
@@ -31,3 +31,7 @@ export const lightTheme = {
     textPrimary: 'rgb(241, 234, 234)',
     textSecondary: ' #10302B',
   };
+
+  // Light mode background: #FCFFF5
+  // Light mode card: #E3FAC8
+  // Light mode primarytext: #10302B
