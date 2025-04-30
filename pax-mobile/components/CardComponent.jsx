@@ -9,7 +9,7 @@ const CardComponent = ({ title, description }) => {
 
     return (
             <View style={styles.card}>
-                <Text style={styles.title}>Hej userName</Text>
+                <Text style={styles.title}>Hej Hanna</Text>
                 <Text style={styles.description}>{description} </Text>
             </View>
     )
