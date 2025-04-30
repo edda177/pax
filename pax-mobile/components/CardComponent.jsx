@@ -31,6 +31,7 @@ const createStyles = (theme) =>
         },
         title: {
             color: theme.textPrimary,
+            fontFamily: "BadScript-Regular",
             fontSize: 18,
             fontWeight: 'bold',
             marginBottom: 8,

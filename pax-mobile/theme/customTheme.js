@@ -1,4 +1,4 @@
-export const buildCustomeTheme = (baseTheme, isDark) => ({
+export const buildCustomTheme = (baseTheme, isDark) => ({
     dark: isDark,
     colors: {
       background: baseTheme.background,
@@ -15,4 +15,5 @@ export const buildCustomeTheme = (baseTheme, isDark) => ({
       regular: { fontFamily: "System", fontWeight: "normal" },
       medium: { fontFamily: "System", fontWeight: "500" },
     },
+    fontFamily: "BadScript-Regular", 
   });
