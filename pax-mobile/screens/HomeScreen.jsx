@@ -5,11 +5,10 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
-  ScrollView,
   Platform,
   Pressable,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons"; // or "react-native-vector-icons/MaterialCommunityIcons"
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "../theme/ThemeContext";
 import CardComponent from "../components/CardComponent";
 
@@ -24,21 +23,28 @@ const HomeScreen = () => {
         backgroundColor={theme.headerBackground}
       />
       <View style={styles.container}>
-        <Text style={styles.text}>Welcome to the Home Screen!</Text>
         <Pressable
           onPress={toggleTheme}
           accessible={true}
           accessibilityRole="button"
-          accessibilityLabel={isDark ? "Byt till ljust tema" : "Byt till mörkt tema"}
+          accessibilityLabel={
+            isDark ? "Byt till ljust tema" : "Byt till mörkt tema"
+          }
+          style={styles.toggleButton}
         >
+          <MaterialCommunityIcons
+            name={isDark ? "white-balance-sunny" : "weather-night"}
+            size={30}
+            color={theme.headerBackground}
+          />
         </Pressable>
-        <CardComponent/>
+
+        <Text style={styles.text}>Welcome to the Home Screen!</Text>
+        <CardComponent />
       </View>
     </SafeAreaView>
   );
 };
-
-export default HomeScreen;
 
 const createStyles = (theme) =>
   StyleSheet.create({
@@ -50,13 +56,21 @@ const createStyles = (theme) =>
     container: {
       flex: 1,
       backgroundColor: theme.background,
-      paddingBottom: 150,
       justifyContent: "center",
       alignItems: "center",
+      paddingBottom: 0,
     },
     text: {
       fontSize: 18,
       color: theme.text,
       marginBottom: 16,
     },
+    toggleButton: {
+      position: "absolute",
+      top: 20,
+      left: 20,
+      zIndex: 1,
+    },
   });
+
+export default HomeScreen;
