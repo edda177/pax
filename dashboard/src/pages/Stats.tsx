@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -61,6 +62,25 @@ const usageData: UsageDatum[] = [
 ];
 
 const Stats: React.FC = () => {
+  const API_BASE_URL = "http://localhost:13000";
+  const [stats, setStats] = useState<UsageDatum[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/rooms`);
+        const data = await res.json();
+
+        setStats(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log(stats);
+
   return (
     <div className="bg-gray-100 min-h-screen p-8">
       <h1 className="text-2xl font-bold mb-8">

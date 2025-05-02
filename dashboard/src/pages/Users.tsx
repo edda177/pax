@@ -8,7 +8,25 @@ import {
 } from "@/components/Card";
 import { User } from "../types/user";
 import Button from "@/components/Button";
+import { useEffect, useState } from "react";
 const Users: React.FC = () => {
+  const API_BASE_URL = "http://localhost:13000";
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/users`);
+        const data = await res.json();
+        console.log(data);
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(users);
   const mockUsers: User[] = [
     {
       id: 1,
