@@ -4,6 +4,7 @@ import pool from "./db.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger.js";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 console.log("index.js is running");
 
@@ -15,6 +16,7 @@ const port = process.env.PORT || 13000;
 
 app.use(express.json()); // for parsing application/json
 
+app.use(limiter); // allows limiter on all routes
 // allow requests from frontend (localhost:5173)
 app.use(cors({
   origin: "http://localhost:5173",
@@ -24,6 +26,7 @@ app.use(cors({
 // routes
 import userRoutes from "./routes/users.js";
 import roomRoutes from "./routes/rooms.js";
+import limiter from "./middlewares/rateLimiter.js";
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
 
