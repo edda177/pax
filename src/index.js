@@ -15,7 +15,7 @@ const port = process.env.PORT || 13000;
 
 app.use(express.json()); // for parsing application/json
 
-// allow requests from your frontend (localhost:5173)
+// allow requests from frontend (localhost:5173)
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true
