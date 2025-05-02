@@ -1,18 +1,6 @@
 import { FC } from "react";
 import Button from "@/components/Button";
-
-type Room = {
-    id: number;
-    name: string;
-    description?: string;
-    available: boolean;
-    air_quality: number;
-    screen: boolean;
-    floor: number;
-    chairs: number;
-    whiteboard: boolean;
-    projector: boolean;
-};
+import { Room } from "../types/room";
 
 type RoomCardProps = {
     room: Room;
