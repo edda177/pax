@@ -6,6 +6,7 @@ export const buildCustomTheme = (baseTheme, isDark) => ({
       textLight: baseTheme.textLight,
       textDark: baseTheme.textDark,
       textPrimary: baseTheme.textPrimary,
+      textSecondary: baseTheme.textSecondary,
       primary: baseTheme.primary,
       secondary: baseTheme.secondary,
       accent: baseTheme.accent,
@@ -16,4 +17,5 @@ export const buildCustomTheme = (baseTheme, isDark) => ({
       medium: { fontFamily: "System", fontWeight: "500" },
     },
     fontFamily: "BadScript-Regular", 
+    fontFamily: "Nunito-VariableFont_wght.ttf",
   });

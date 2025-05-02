@@ -32,7 +32,7 @@ export const darkTheme = {
 
   // Text
   textPrimary: '#E3FAC8',
-  textSecondary: ' #10302B',
+  textSecondary: ' #B5DA87',
 
   //Knapp icon
   iconSwitchmode: '#7DBA6A'

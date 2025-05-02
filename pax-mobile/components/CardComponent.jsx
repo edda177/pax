@@ -10,7 +10,7 @@ const CardComponent = ({ title, description }) => {
     return (
             <View style={styles.card}>
                 <Text style={styles.title}>Välkommen Namn!</Text>
-                <Text style={styles.description}>{description} </Text>
+                <Text style={styles.description}> Ditt bokade rum är ledigt om ca. 3 min. Ditt rum är "PAX1"på våning 4. Ha en bra dag! </Text>
             </View>
     )
 }
@@ -38,7 +38,9 @@ const createStyles = (theme) =>
         },
         description: {
             color: theme.textSecondary,
-            fontSize: 14,
+            fontFamily: "Nunito",
+            fontSize: 20,
+            fontWeight: 500,
           },
     })
 
