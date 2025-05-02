@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RoomCard from "./components/RoomCard";
@@ -24,10 +24,27 @@ const App: React.FC = () => {
 
   const API_BASE_URL = "http://localhost:13000";
 
+  // fetch rooms
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/rooms`);
+        const data = await res.json();
+        console.log("Fetched rooms:", data); // Add this
+        setRooms(data);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      }
+    };
+  
+    fetchRooms();
+  }, []);
+
+  // Delete rooms frontend
   const handleDeleteRoom = async (id: number) => {
     if (!window.confirm("Är du säker på att du vill ta bort detta rum?")) return;
     try {
-      const res = await fetch(`${API_BASE_URL}/api/room/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/rooms/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) {

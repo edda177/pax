@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import pool from "./db.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger.js";
+import cors from "cors";
 
 console.log("index.js is running");
 
@@ -13,6 +14,12 @@ const app = express();
 const port = process.env.PORT || 13000;
 
 app.use(express.json()); // for parsing application/json
+
+// allow requests from your frontend (localhost:5173)
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
 // routes
 import userRoutes from "./routes/users.js";
