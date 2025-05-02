@@ -9,7 +9,7 @@ const CardComponent = ({ title, description }) => {
 
     return (
             <View style={styles.card}>
-                <Text style={styles.title}>Hej Hanna</Text>
+                <Text style={styles.title}>Välkommen Namn!</Text>
                 <Text style={styles.description}>{description} </Text>
             </View>
     )
@@ -31,8 +31,8 @@ const createStyles = (theme) =>
         },
         title: {
             color: theme.textPrimary,
-            fontFamily: "BadScript-Regular",
-            fontSize: 18,
+            fontFamily: "BadScript",
+            fontSize: 26,
             fontWeight: 'bold',
             marginBottom: 8,
         },
