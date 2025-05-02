@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import Button from "./Button";
 
 type Room = {
@@ -18,9 +18,11 @@ type CreateRoomModalProps = {
     isOpen: boolean;
     onClose: () => void;
     onCreate: (room: Room) => void;
+    onEdit?: (room: Room) => void;
+    roomToEdit?: Room;
 };
 
-const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate }) => {
+const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate, onEdit, roomToEdit, }) => {
     const [form, setForm] = useState<Omit<Room, "id">>({
         name: "",
         description: "",
@@ -33,6 +35,26 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate }
         projector: false,
     });
 
+    useEffect(() => {
+        if (roomToEdit) {
+          const { id, ...rest } = roomToEdit;
+          setForm(rest);
+        } else {
+        // Reset form if no room is being edited
+        setForm({
+            name: "",
+            description: "",
+            available: true,
+            air_quality: 0,
+            screen: false,
+            floor: 0,
+            chairs: 0,
+            whiteboard: false,
+            projector: false,
+        });
+        }
+      }, [roomToEdit]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type, checked } = e.target;
         setForm((prev) => ({
@@ -42,11 +64,16 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate }
     };
 
     const handleSubmit = () => {
-        const newRoom: Room = {
-            id: Date.now(),  // enkel mock-id
+        const room: Room = {
+            id: roomToEdit?.id ?? Date.now(), // reuse ID if editing
             ...form,
-        };
-        onCreate(newRoom);
+          };
+        
+          if (roomToEdit && onEdit) {
+            onEdit(room);
+          } else if (onCreate) {
+            onCreate(room);
+          }
         onClose(); // Stänger modalen efter skapandet
     };
 
@@ -55,7 +82,9 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate }
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md space-y-4">
-                <h2 className="text-xl font-semibold">Skapa nytt rum</h2>
+                <h2 className="text-xl font-semibold">
+                {roomToEdit ? "Redigera rum" : "Skapa nytt rum"}
+                </h2>
 
                 {/* Namn */}
                 <div className="space-y-2">
@@ -147,7 +176,7 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate }
                 {/* Knapp för att skicka formuläret */}
                 <div className="flex justify-end space-x-2">
                     <Button variant="outline" onClick={onClose}>Avbryt</Button>
-                    <Button onClick={handleSubmit}>Skapa</Button>
+                    <Button onClick={handleSubmit}>{roomToEdit ? "Spara ändringar" : "Skapa"}</Button>
                 </div>
             </div>
         </div>
