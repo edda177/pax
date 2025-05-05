@@ -33,7 +33,7 @@ const createStyles = (theme) =>
             color: theme.textPrimary,
             fontFamily: "BadScript",
             fontSize: 26,
-            fontWeight: 'bold',
+            fontWeight: 400,
             marginBottom: 8,
         },
         description: {
