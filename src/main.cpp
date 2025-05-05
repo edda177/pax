@@ -10,29 +10,56 @@ WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
 
-PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, network.network());
+PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, &network);
 
-void setup() {
-  roomState.init();
-  network.begin();
-  pinMode(ledPin, OUTPUT);
-  Serial.begin(9600);
-  delay(200);
-  Serial.println(network.wifi_on());
-  network();
-  while(WiFi.status() != WL_CONNECTED) {}
-  Serial.println(WiFi.localIP());
-  delay(200);
-  postman.sendPost("50°C", "1", "42");
+void setup()
+{
+    constexpr uint32_t serial_baud_rate = 115200;
+    Serial.begin( serial_baud_rate );
+    
+    // Let Serial start
+    delay( 50 );
+    
+
+    Serial.println( F("System: Initializing room state") );
+    roomState.init();
+    
+
+    Serial.println( F("System: Initializing network") );
+    network.begin();
+    
+
+    Serial.println( F("System: Configuring I/O pins") );
+    pinMode( ledPin, OUTPUT );
+    digitalWrite( ledPin, LOW );
+    
+
+    delay( 100 );
+    
+    Serial.println( F("System: Initialization complete") );
+    
+    // Sending test message to server
+    postman.sendPost("1","101","12345000");
+
 }
 
-void loop() {
-  roomState.update();
+void loop()
+{
+    roomState.update();
+    
+    
+    if ( roomState.roomHasActivity() )
+    {
+        digitalWrite( ledPin, HIGH );
+    }
+    else
+    {
+        digitalWrite( ledPin, LOW );
+    }
+    
+    
+    network();
+    
 
-  if (roomState.roomHasActivity()) {
-    digitalWrite(ledPin, HIGH);
-  } else {
-    digitalWrite(ledPin, LOW);
-  }
-
+    delay( 10 );
 }

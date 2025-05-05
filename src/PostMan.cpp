@@ -1,7 +1,7 @@
 #include "../include/PostMan.h"
 
-PostMan::PostMan(const char *server, const char *endpoint, uint16_t port, Stream* stream)
-    : server{server}, endpoint{endpoint}, port{port}, m_stream { stream } {}
+PostMan::PostMan(const char *server, const char *endpoint, uint16_t port, NetworkingBase* connection)
+    : server{server}, endpoint{endpoint}, port{port}, m_connection { connection } {}
 
 /**
  * @brief Create the JSON payload that passes sensor data and fetches the current date and time.
@@ -32,34 +32,41 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
 {
     String json = createJSON(temperature, occupancyStatus, airQuality);
 
-    if (m_stream->availableForWrite())
+    if ( m_connection->ready_for_traffic() ) 
     {
-        // Construct the HTTP POST request header.
-        String httpRequest = createHTTPHeader(json);
-
-        // Adds the json content behind the HTTP header
-        httpRequest += json;
+        
+        Client* client = m_connection->current_client();
+        // Construct the HTTP POST request header and JSON message.
+        String httpRequest = createHTTPHeaderWithJSON(json);
 
         // Send the request.
-        m_stream->print(httpRequest);
+        uint16_t charsWritten = client->print(httpRequest);
 
         // Wait for a response (with a timeout of 5 seconds).
         unsigned long timeout = millis();
-        while (m_stream->available() == 0)
+        while (client->available() == 0)
         {
-                m_stream->setTimeout(5000);
+            if (millis() - timeout > 5000) {  // 5000 ms timeout
+                Serial.println("Timeout: No response from server.");
+                break;  // Exit the loop
+            }
         }
 
         // Read the server response.
         String response = "";
-        while (m_stream->available())
+        while (client->available())
         {
-            response += static_cast<char>(m_stream->read());
+            response += static_cast<char>(client->read());
+        }
+        // Log server response
+        if (response != "") {
+            Serial.println("Server response: ");
+            Serial.println(response);
         }
         return true;
     }
     else
-    {
+    {        
         return false;
     }
 }
@@ -69,7 +76,7 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
  * @param jsonPayload The JSON data to be sent.
  * @return String - The full HTTP POST request header.
  */
-String PostMan::createHTTPHeader(const String &json)
+String PostMan::createHTTPHeaderWithJSON(const String &json)
 {
     String httpRequest = "";
     httpRequest += "POST " + String(endpoint) + " HTTP/1.1\r\n";
