@@ -1,7 +1,7 @@
 #include "../include/PostMan.h"
 
-PostMan::PostMan(const char *server, const char *endpoint, uint16_t port, NetworkingBase* connection)
-    : server{server}, endpoint{endpoint}, port{port}, m_connection { connection } {}
+PostMan::PostMan(const char *serverURL, const char *endpoint, uint16_t port, Stream *stream)
+    : serverURL{serverURL}, endpoint{endpoint}, port{port}, m_stream{stream} {}
 
 /**
  * @brief Create the JSON payload that passes sensor data and fetches the current date and time.
@@ -15,9 +15,25 @@ String PostMan::createJSON(const String &temperature, const String &occupancySta
     String json = "{\n";
     json += "  \"temperature\": \"" + temperature + "\",\n";
     json += "  \"motion\": \"" + occupancyStatus + "\",\n";
-    json += "  \"air_quality\": \"" + airQuality + "\",\n";
+    json += "  \"air_quality\": \"" + airQuality + "\"\n";
     json += "}";
     return json;
+}
+
+/**
+ * @brief Create HTTP POST request header for the given JSON payload.
+ * @param jsonPayload The JSON data to be sent.
+ * @return String - The full HTTP POST request header.
+ */
+String PostMan::createHTTPHeader(const String &json)
+{
+    String httpRequest = "";
+    httpRequest += "POST " + String(endpoint) + " HTTP/1.1\r\n";
+    httpRequest += "Host: " + String(serverURL) + "\r\n";
+    httpRequest += "Content-Type: application/json\r\n";
+    httpRequest += "Content-Length: " + String(json.length()) + "\r\n";
+    httpRequest += "Connection: close\r\n\r\n";
+    return httpRequest;
 }
 
 /**
@@ -28,62 +44,49 @@ String PostMan::createJSON(const String &temperature, const String &occupancySta
  * @return true = succesful transmission to server endpoint
  * @return false = failure to send to server endpoint
  */
-bool PostMan::sendPost(const String &temperature, const String &occupancyStatus, const String &airQuality)
+bool PostMan::sendPost(const String &temperature, const String &occupancyStatus, const String &airQuality, NetworkingBase &network)
 {
     String json = createJSON(temperature, occupancyStatus, airQuality);
 
-    if ( m_connection->ready_for_traffic() ) 
+    if (network.ready_for_traffic())
     {
-        
-        Client* client = m_connection->current_client();
-        // Construct the HTTP POST request header and JSON message.
-        String httpRequest = createHTTPHeaderWithJSON(json);
+        // Construct the HTTP POST request header.
+        String httpRequest = createHTTPHeader(json);
+
+        // Adds the json content behind the HTTP header
+        httpRequest += json;
+
+        if (!network.current_client()->connect(serverURL, port))
+        {
+            Serial.println("TCP connection failed.");
+            return false;
+        }
 
         // Send the request.
-        uint16_t charsWritten = client->print(httpRequest);
+        network.current_client()->print(httpRequest);
 
-        // Wait for a response (with a timeout of 5 seconds).
-        unsigned long timeout = millis();
-        while (client->available() == 0)
+        // wait for—and read—the response
+        unsigned long start = millis();
+        while (network.current_client()->connected() && millis() - start < timeout_SendPost)
         {
-            if (millis() - timeout > 5000) {  // 5000 ms timeout
-                Serial.println("Timeout: No response from server.");
-                break;  // Exit the loop
+            while (network.current_client()->available())
+            {
+                char c = network.current_client()->read();
+                Serial.write(c);
             }
         }
 
         // Read the server response.
         String response = "";
-        while (client->available())
+        while (m_stream->available())
         {
-            response += static_cast<char>(client->read());
+            response += static_cast<char>(m_stream->read());
         }
-        // Log server response
-        if (response != "") {
-            Serial.println("Server response: ");
-            Serial.println(response);
-        }
+        network.current_client()->stop();
         return true;
     }
     else
-    {        
+    {
         return false;
     }
-}
-
-/**
- * @brief Create HTTP POST request header for the given JSON payload.
- * @param jsonPayload The JSON data to be sent.
- * @return String - The full HTTP POST request header.
- */
-String PostMan::createHTTPHeaderWithJSON(const String &json)
-{
-    String httpRequest = "";
-    httpRequest += "POST " + String(endpoint) + " HTTP/1.1\r\n";
-    httpRequest += "Host: " + String(server) + "\r\n";
-    httpRequest += "Content-Type: application/json\r\n";
-    httpRequest += "Content-Length: " + String(json.length()) + "\r\n";
-    httpRequest += "Connection: close\r\n\r\n";
-    httpRequest += json;
-    return httpRequest;
 }
