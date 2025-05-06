@@ -38,7 +38,7 @@ const HomeScreen = () => {
             color={theme.iconSwitchmode}
           />
         </Pressable>
-        <CardComponent />
+        <CardComponent style={styles.CardComponentContainer} />
       </View>
     </SafeAreaView>
   );
@@ -50,13 +50,15 @@ const createStyles = (theme) =>
       flex: 1,
       backgroundColor: theme.background,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+      paddingBottom: 0,
     },
     container: {
       flex: 1,
       backgroundColor: theme.background,
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
       paddingBottom: 0,
+      paddingTop: 100,
     },
     text: {
       fontSize: 18,
@@ -71,6 +73,10 @@ const createStyles = (theme) =>
       backgroundColor: "#E3FAC825",
       borderRadius: 25,
       padding: 5,
+    },
+    CardComponentContainer: {
+      top: 80,
+      alignSelf: 'center',
     },
   });
 

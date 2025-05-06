@@ -33,8 +33,9 @@ const createStyles = (theme) =>
             color: theme.textPrimary,
             fontFamily: "BadScript",
             fontSize: 26,
-            fontWeight: 400,
+            fontWeight: 600,
             marginBottom: 8,
+            letterSpacing: 0.5,
         },
         description: {
             color: theme.textSecondary,
