@@ -3,12 +3,25 @@ import React from 'react'
 
 const LogoComponent = () => {
   return (
-    <View>
-      <Image source={require('../assets/logo/pax_logo-18.png')}></Image>
+    <View style={styles.container}>
+      <Image 
+      source={require('../assets/logo/pax_logo-18.png')}
+      style={styles.logo}
+      resizeMode='contain'></Image>
     </View>
   )
 }
 
 export default LogoComponent
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  logo: {
+    width: '100vh',
+    height: 330,
+  },
+
+})
