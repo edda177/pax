@@ -1,4 +1,4 @@
-import { baseTheme } from "./colors";
+import { darkTheme } from "./colors";
 
 export const buildCustomTheme = (baseTheme, isDark) => ({
     dark: isDark,
@@ -20,4 +20,5 @@ export const buildCustomTheme = (baseTheme, isDark) => ({
     },
     fontFamily: "BadScript-Regular", 
     fontFamily: "Nunito-VariableFont_wght.ttf",
+    fontFamily: 'NunitoSans.ttf'
   });

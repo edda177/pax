@@ -72,7 +72,7 @@ const Login = ({ navigation }) => {
           accessibilityLabel='Logga in knapp'
           accessibilityHint='Tryck här för att logga in med det angivna namnet'
          >
-           <Text>Logga in</Text>
+           <Text style={styles.buttonText}>Logga in</Text>
         </Pressable>
     </View>
   )
@@ -119,4 +119,7 @@ const createStyles = (theme) =>
       },
       pressed: {
       },
+      buttonText: {
+        color: theme.textPrimary,
+      }
     })
