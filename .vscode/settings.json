@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2D3015",
+        "titleBar.activeBackground": "#3E431D",
+        "titleBar.activeForeground": "#FAFAF4",
+        "statusBar.background": "#3E431D",
+        "statusBar.foreground": "#FAFAF4"
+    },
+    "window.title": "${activeEditorShort}${separator}${rootName}${separator}${profileName}${separator}[Branch: develop-frontend]"
+}

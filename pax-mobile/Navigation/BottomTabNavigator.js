@@ -19,8 +19,8 @@ export default function BottomTabNavigator() {
             screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarShowLabel: false,
-                tabBarActiveTintColor: '#24524B',
-                tabBarInactiveTintColor: '#999999',
+                tabBarActiveTintColor: '#7DBA6A',
+                tabBarInactiveTintColor: '#24524B',
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
 
