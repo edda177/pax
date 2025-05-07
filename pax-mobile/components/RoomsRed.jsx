@@ -14,6 +14,31 @@ const RoomsRed = () => {
         style={styles.image}
         resizeMode="cover"
       />
+            <Image
+        source={require("../assets/rooms-red/karta-bokat-rum_3.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-red/karta-bokat-rum_4.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-red/karta-bokat-rum_5.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-red/karta-bokat-rum_6.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-red/karta-bokat-rum_7.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
     </View>
   );
 };

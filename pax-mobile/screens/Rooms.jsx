@@ -48,9 +48,9 @@ export default Rooms;
 
 const styles = StyleSheet.create({ 
   textTitle: { fontSize: 18, fontWeight: "bold", textTransform: "uppercase" },
-  textSmaller: { fontSize: 12, fontWeight: "400"}
+  textSmaller: { fontSize: 12, fontWeight: "400"},
   image: {
     width: "60%", 
     minHeight: "30vh"
-}
+},
 });
