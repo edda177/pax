@@ -1,7 +1,7 @@
 {
     "rooms": {
     "room_1": {
-      "id": "r_01",
+      "id": "01",
       "name": "room_1",
       "title": "rum 1",
       "description": "Ett litet rum för gjord för 2-4 personer. Perfekt för enskilda samtal eller mindre möten.",
@@ -14,7 +14,7 @@
       "projector": false
     },
     "room_2": {
-        "id": "r_02",
+        "id": "02",
         "name": "room_2",
         "title": "rum 2",
         "description": "Ett litet rum för gjord för 2-4 personer. Perfekt för enskilda samtal eller mindre möten.",
@@ -27,7 +27,7 @@
         "projector": false
       },
       "room_3": {
-        "id": "r_03",
+        "id": "03",
         "name": "room_3",
         "title": "rum 3",
         "description": "Ett litet rum för gjord för 2-4 personer. Perfekt för enskilda samtal eller mindre möten.",
@@ -40,7 +40,7 @@
         "projector": false
       },
       "room_4": {
-        "id": "r_04",
+        "id": "04",
         "name": "room_4",
         "title": "rum 4",
         "description": "Ett större rum för 8-10 personer. Perfekt för konferenser eller större möten.",
@@ -53,7 +53,7 @@
         "projector": true
       },
       "room_5": {
-        "id": "r_05",
+        "id": "05",
         "name": "room_5",
         "title": "rum 5",
         "description": "Ett större rum för 8-10 personer. Perfekt för konferenser eller större möten.",
@@ -66,7 +66,7 @@
         "projector": true
       },
       "room_6": {
-        "id": "r_06",
+        "id": "06",
         "name": "room_6",
         "title": "rum 6",
         "description": "Ett litet rum för 2-4 personer. Perfekt för enskilda samtal eller mindre möten.",
@@ -79,7 +79,7 @@
         "projector": false
       },
       "room_7": {
-        "id": "r_07",
+        "id": "07",
         "name": "room_7",
         "title": "rum 7",
         "description": "Ett större rum för 8-10 personer. Perfekt för konferenser eller större möten.",
