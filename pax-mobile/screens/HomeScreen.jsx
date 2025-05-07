@@ -11,7 +11,6 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "../theme/ThemeContext";
 import CardComponent from "../components/CardComponent";
-import FormComponent from "../components/FormComponent";
 
 const HomeScreen = () => {
   const { theme, isDark, toggleTheme } = useTheme();
