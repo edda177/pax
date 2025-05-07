@@ -35,23 +35,3 @@ export const ThemeProvider = ({ children }) => {
 };
 
 export const useTheme = () => useContext(ThemeContext);
-
-
-
-
-
-
-
-//   const theme = isDark ? darkTheme : lightTheme;
-//   const customTheme = buildCustomeTheme(theme, isDark);
-
-//   const toggleTheme = () => setIsDark((prev) => !prev);
-
-//   return (
-//     <ThemeContext.Provider value={{ isDark, theme, toggleTheme, customTheme }}>
-//       {children}
-//     </ThemeContext.Provider>
-//   );
-// };
-
-// export const useTheme = () => useContext(ThemeContext);

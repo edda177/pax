@@ -44,15 +44,3 @@ const createStyles = (theme) =>
             fontWeight: 500,
           },
     })
-
-// const styles = StyleSheet.create({
-//     card: {
-//         borderRadius: 12,
-//         padding: 20, 
-//         width: 260,
-//         height: 160, 
-//         marginBottom: 14,
-//         marginHorizontal: 14
-
-//     }
-// })

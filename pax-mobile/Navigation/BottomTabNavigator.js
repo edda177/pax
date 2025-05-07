@@ -7,7 +7,6 @@ import Booking from '../screens/Booking';
 import Map from '../screens/Map';
 import BookingButton from '../components/BookingButton';
 import { useTheme } from '../theme/ThemeContext';
-import Login from '../screens/Login';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,7 +61,6 @@ export default function BottomTabNavigator() {
                 }}
             />
             <Tab.Screen name="Map" component={Map} />
-            <Tab.Screen name="Login" component={Login} />
         </Tab.Navigator>
     );
 }

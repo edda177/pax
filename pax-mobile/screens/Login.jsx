@@ -23,12 +23,6 @@ const Login = ({ navigation }) => {
         saveUserName(name.trim());
       }
 
-    //     const fakeToken = Math.random().toString(36).slice(2)
-    //     // Använda logion funktionen från AuthContext
-    //     // fakeToken ersätts senare av det token som erhålls från backend
-    //     login(fakeToken);
-    //     navigation.navigate("Home")
-    // }
   return (
     <View style={styles.container}>
      <LogoComponent style={styles.logo} />

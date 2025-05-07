@@ -21,29 +21,6 @@ export const lightTheme = {
   iconSwitchmode: '#B5DA87'
 };
 
-// export const baseTheme = {
-//   // Grundfärger 
-//   primary: '#10302B',
-//   secondary: '#24524B',
-//   accent: '#E3FAC8',
-
-//   // Layout och bakgrunder
-//   background: '#10302B',
-//   card: '#24524B',
-//   headerBackground: '#264247',
-//   tabBackground: '#24524B',
-
-//   // Text
-//   textDark: '#7DBA6A',
-//   textPrimary: '#E3FAC8',
-//   textSecondary: '#B5DA87',
-//   textDarkPrimary: '#E3FAC8',
-//   textDarkSecondary: '#B5DA87',
-
-//   //Knapp icon
-//   iconSwitchmode: '#7DBA6A'
-// };
-
 export const darkTheme = {
   // Grundfärger 
   primary: '#10302B',
