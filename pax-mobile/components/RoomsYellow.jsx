@@ -14,6 +14,31 @@ const RoomsYellow = () => {
         style={styles.image}
         resizeMode="cover"
       />
+            <Image
+        source={require("../assets/rooms-yellow/karta-rum_3-free.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-yellow/karta-rum_4-free.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-yellow/karta-rum_5-free.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-yellow/karta-rum_6-free.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
+            <Image
+        source={require("../assets/rooms-yellow/karta-rum_7-free.png")}
+        style={styles.image}
+        resizeMode="cover"
+      />
     </View>
   );
 };

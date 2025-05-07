@@ -1,3 +1,5 @@
+import { baseTheme } from "./colors";
+
 export const buildCustomTheme = (baseTheme, isDark) => ({
     dark: isDark,
     colors: {
