@@ -25,14 +25,22 @@ const Booking = () => {
         <View style={styles.toggleButtonContainer}>
           <ThemeToggleTabButton />
         </View>
-        <Text style={styles.bookingtext}>Boka ett rum </Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.title}>Lediga rum:</Text>
-      </View>
-      <Pressable>hej</Pressable>
-      <View style={styles.card2}>
-        <Text style={styles.title}>Favoritrum:</Text>
+        <Text style={styles.bookingtext}>Boka ett rum</Text>
+
+        {/* Allt innehåll under rubriken */}
+        <View style={styles.cardWrapper}>
+          <View style={styles.card}>
+            <Text style={styles.title}>Lediga rum:</Text>
+          </View>
+
+          <Pressable style={styles.pressableButton}>
+            <Text style={styles.pressableText}>Kartöversikt</Text>
+          </Pressable>
+
+          <View style={styles.card2}>
+            <Text style={styles.title}>Favoritrum:</Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -48,7 +56,6 @@ const createStyles = (theme) =>
     container: {
       flex: 1,
       backgroundColor: theme.background,
-      justifyContent: "flex-start",
       alignItems: "center",
       paddingTop: 80,
     },
@@ -62,42 +69,58 @@ const createStyles = (theme) =>
       color: theme.textPrimary,
       fontFamily: "Nunito",
       fontSize: 30,
-      fontWeight: 600,
+      fontWeight: "600",
       marginBottom: 8,
       letterSpacing: 0.5,
       textTransform: "uppercase",
     },
+    cardWrapper: {
+      width: "100%",
+      alignItems: "center",
+      marginTop: 16,
+    },
     card: {
       backgroundColor: theme.card,
       height: 217,
-      width: 364,
+      width: "90%",
       padding: 16,
       borderBottomRightRadius: 30,
       borderTopLeftRadius: 30,
-      marginVertical: 8,
+      marginVertical: 12,
       elevation: 3,
-      alignSelf: "center",
-      position: "absolute",
-      top: 125,
     },
     card2: {
       backgroundColor: theme.card,
       height: 217,
-      width: 364,
+      width: "90%",
       padding: 16,
       borderBottomRightRadius: 30,
       borderTopLeftRadius: 30,
-      marginVertical: 8,
+      marginVertical: 12,
       elevation: 3,
-      alignSelf: "center",
-      position: "absolute",
-      bottom: 190,
     },
     title: {
       color: theme.textSecondary,
       fontFamily: "Nunito",
       fontSize: 20,
-      fontWeight: 500,
+      fontWeight: "500",
+    },
+    pressableButton: {
+      backgroundColor: theme.primary,
+      width: "90%",
+      height: 60,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 30,
+      marginVertical: 12,
+      elevation: 3,
+    },
+    pressableText: {
+      color: theme.textOnPrimary,
+      fontFamily: "Nunito",
+      fontSize: 18,
+      fontWeight: "600",
+      textTransform: "uppercase",
     },
   });
 
