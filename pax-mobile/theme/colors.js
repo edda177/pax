@@ -11,11 +11,37 @@ export const lightTheme = {
   tabBackground: '#24524B',
 
   // Text
-  textPrimary: '#10302B',
-  textSecondary: '#10302B',
+  textLight: '#7DBA6A',
+  textPrimary: '#097564',
+  textSecondary: '#10302B',  
+  textLightPrimary: '#097564',
+  textLightSecondary: '#10302B',
 
   //Knapp icon
   iconSwitchmode: '#B5DA87'
+};
+
+export const baseTheme = {
+  // Grundfärger 
+  primary: '#10302B',
+  secondary: '#24524B',
+  accent: '#E3FAC8',
+
+  // Layout och bakgrunder
+  background: '#10302B',
+  card: '#24524B',
+  headerBackground: '#264247',
+  tabBackground: '#24524B',
+
+  // Text
+  textDark: '#7DBA6A',
+  textPrimary: '#E3FAC8',
+  textSecondary: '#B5DA87',
+  textDarkPrimary: '#E3FAC8',
+  textDarkSecondary: '#B5DA87',
+
+  //Knapp icon
+  iconSwitchmode: '#7DBA6A'
 };
 
 export const darkTheme = {
@@ -31,8 +57,11 @@ export const darkTheme = {
   tabBackground: '#24524B',
 
   // Text
+  textDark: '#7DBA6A',
   textPrimary: '#E3FAC8',
-  textSecondary: ' #B5DA87',
+  textSecondary: '#B5DA87',
+  textDarkPrimary: '#E3FAC8',
+  textDarkSecondary: '#B5DA87',
 
   //Knapp icon
   iconSwitchmode: '#7DBA6A'

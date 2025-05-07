@@ -1,9 +1,9 @@
 import { StyleSheet, Pressable, View } from "react-native";
 import React from "react";
-import RoomsYellow from "./RoomsYellow";
-import RoomsRed from "./RoomsRed";
+import { RoomsYellow } from "./RoomsYellow";
+import { RoomsRed } from "./RoomsRed";
 
-const MapComponent = () => {
+const MapComponent = (RoomsRed, RoomsYellow) => {
   <View>
     <RoomsRed style={styles.layerOne}/>
     <RoomsYellow style={styles.layerTwo}/>

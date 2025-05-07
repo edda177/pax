@@ -1,6 +1,6 @@
 import React from "react";
-import { View, ScrollView, Pressable, Image, StyleSheet } from "react-native";
-import MapComponent from '../components/MapComponent'
+import { View, ScrollView, Image, StyleSheet } from "react-native";
+import MapComponent from '../components/MapComponent';
 
 export default function Map() {
   return (
@@ -10,12 +10,15 @@ export default function Map() {
         source={require("../assets/maps/karta-pax_med-nr_textkontur.png")}
         style={styles.image}
         resizeMode="cover"/>
-        <Pressable
+        {/* <Image
      source={require("../assets/rooms-yellow/karta-rum_4-free.png")}
       style={styles.image2}
+      resizeMode="cover"/> */}
+
+          <MapComponent 
+      style={styles.map}
       resizeMode="cover"/>
-      <MapComponent 
-      style={styles.theRooms}/>
+
     </View>
     </ScrollView>
   );
@@ -25,9 +28,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "100vw",
-    minHeight: "120vh",
-    marginTop: "20vh",
-    flexDirection: "row",
+    minHeight: "80vh",
+    marginTop: "5vh",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -37,21 +40,26 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   image: {
-    width: "75%",
+    width: "92vw",
     height: "32vh",
-    position: "relative",
-    zIndex: "1",
+    position: "absolute",
+    zIndex: "99",
   },
   image2: {
-    width: "75%",
+    width: "80vw",
     height: "32vh",
     position: "absolute",
+    opacity: "0.7",
     zIndex: "2",
+    borderStyle: "solid",
+    broderWidth: "6px",
+    borderColor: "yellow",
   },
-  theRooms: {
-    width: "50%",
-    minHeight: "20vh",
+  map: {
+    backgroundColor: "#ffffff",
+    width: "80vw",
+    height: "50vh",
     position: "absolute",
-    zIndex: "5",
+    zIndex: "4",
   },
 });
