@@ -5,14 +5,14 @@ export const lightTheme = {
   accent: '#E3FAC8',
 
   // Layout och bakgrunder
-  background: '#FCFFF5',
-  card: '#E3FAC8',
+  background: '#E3FAC8',
+  card: '#FCFFF5',
   headerBackground: '#f8c0b3',
   tabBackground: '#24524B',
 
   // Text
   textLight: '#7DBA6A',
-  textPrimary: '#097564',
+  textPrimary: '#24524B',
   textSecondary: '#10302B',  
   textLightPrimary: '#097564',
   textLightSecondary: '#10302B',
