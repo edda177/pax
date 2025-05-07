@@ -6,6 +6,7 @@
       "title": "rum 1",
       "description": "Ett litet rum för gjord för 2-4 personer. Perfekt för enskilda samtal eller mindre möten.",
       "available": true,
+      "uri": "./assets/rooms-yellow/karta-rum_1-free.png",
       "air_quality": 5,
       "screen": false,
       "floor": 1,
