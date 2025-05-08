@@ -23,6 +23,12 @@ const Login = ({ navigation }) => {
         saveUserName(name.trim());
       }
 
+    //     const fakeToken = Math.random().toString(36).slice(2)
+    //     // Använda logion funktionen från AuthContext
+    //     // fakeToken ersätts senare av det token som erhålls från backend
+    //     login(fakeToken);
+    //     navigation.navigate("Home")
+    // }
   return (
     <View style={styles.container}>
      <LogoComponent style={styles.logo} />
@@ -66,7 +72,7 @@ const Login = ({ navigation }) => {
           accessibilityLabel='Logga in knapp'
           accessibilityHint='Tryck här för att logga in med det angivna namnet'
          >
-           <Text style={styles.buttonText}>Logga in</Text>
+           <Text>Logga in</Text>
         </Pressable>
     </View>
   )
@@ -113,7 +119,4 @@ const createStyles = (theme) =>
       },
       pressed: {
       },
-      buttonText: {
-        color: theme.textPrimary,
-      }
     })
