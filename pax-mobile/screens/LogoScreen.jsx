@@ -10,6 +10,7 @@ const LogoScreen = () => {
   const scaleAnimated = useRef(new Animated.Value(0.5)).current;
   const opacityAnimated = useRef(new Animated.Value(0.2)).current;
 
+  
   useEffect(() => {
     const timeout = setTimeout(() => {
       //Funtion aniering

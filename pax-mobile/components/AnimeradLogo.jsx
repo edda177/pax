@@ -9,6 +9,7 @@ const AnimatedLogo = ({ style }) => {
       resizeMode="cover"
     />
   );
+  
 };
 
 export default AnimatedLogo;

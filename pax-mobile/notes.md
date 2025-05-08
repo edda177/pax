@@ -1,15 +1,12 @@
-
-
 ## Kusten Är Klar KÄK - Grupp 2 Extended
+
+### FWMX24
+
 
 ## Medlemmar:
 **FJSX24:** Alice Eriksson, Phithai Lai, Dennis Granheimer, Rhiannon Brönnimann
 **SUVX24:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin  
 **FMWX24:** Hannah Bärlin, Hanna Kindholm, Tova Hansen  
-
-   
-Projektplan:
-https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md
 
 
 ## Rum info:
@@ -33,6 +30,10 @@ rum 6: 4,7 m2
 rum 7: 20,0 m2
 Kortsida: 90m
 Långsida: 170m
+
+   
+Projektplan:
+https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md
 
 
 
@@ -73,7 +74,10 @@ Hur visa data?
 
 - (Temperatur? Finns sensorer?)
 
+
+
 ## Features:
+
 - Aktiva/populära tider
 
 - Koppla till kalendern
@@ -96,4 +100,6 @@ Filtrering rum:
 - Projektor
 - Whiteboard
 - Våning
+
+
 
