@@ -53,7 +53,7 @@ const Booking = () => {
         isVisible={isModalVisible}
         onClose={toggleModal}
         mapImage={require("../assets/maps/karta_pax-04.png")}
-        imageDescription="Namnlista kommer snart"
+        imageDescription="Namnlista kommer snart :)"
       />
     </SafeAreaView>
   );
