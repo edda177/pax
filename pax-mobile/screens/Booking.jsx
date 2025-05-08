@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,10 +10,17 @@ import {
 } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 import ThemeToggleTabButton from "../components/ThemeToggleTabButton";
+import MapModal from "../components/MapModal";
 
 const Booking = () => {
   const { theme, isDark } = useTheme();
   const styles = createStyles(theme);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -27,13 +34,12 @@ const Booking = () => {
         </View>
         <Text style={styles.bookingtext}>Boka ett rum</Text>
 
-        {/* Allt innehåll under rubriken */}
         <View style={styles.cardWrapper}>
           <View style={styles.card}>
             <Text style={styles.title}>Lediga rum:</Text>
           </View>
 
-          <Pressable style={styles.pressableButton}>
+          <Pressable style={styles.pressableButton} onPress={toggleModal}>
             <Text style={styles.pressableText}>Kartöversikt</Text>
           </Pressable>
 
@@ -42,6 +48,13 @@ const Booking = () => {
           </View>
         </View>
       </View>
+
+      <MapModal
+        isVisible={isModalVisible}
+        onClose={toggleModal}
+        mapImage={require("../assets/maps/karta_pax-04.png")}
+        imageDescription="Namnlista kommer snart"
+      />
     </SafeAreaView>
   );
 };
