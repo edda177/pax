@@ -33,11 +33,12 @@ export default function BottomTabNavigator() {
                     return (
                         <View
                             style={{
-                                backgroundColor: '#E3FAC8',
+                                backgroundColor: '#f6f8c4',
                                 borderRadius: 25,
                                 padding: 10,
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                fontFamily: "Nunito",
                             }}
                         >
                             <Icon name={iconName} size={size} color={color} />

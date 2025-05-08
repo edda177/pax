@@ -10,7 +10,7 @@ const LogoScreen = () => {
   const scaleAnimated = useRef(new Animated.Value(0.5)).current;
   const opacityAnimated = useRef(new Animated.Value(0.2)).current;
 
-  
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       //Funtion aniering
@@ -40,7 +40,7 @@ const LogoScreen = () => {
           opacity: opacityAnimated,
         }}
       />
-      <Text>välkommen</Text>
+      <Text style={styles.text}> välkommen</Text>
     </View>
   );
 };
@@ -52,7 +52,24 @@ const createStyles = () =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#202020",
+      backgroundColor: "#061a17",
       paddingBottom: 150,
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      paddingTop: "20%",
+    },
+    text: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      color: "#f6f8c4",
+      fontSize: "1.3rem",
+      fontWeight: "100",
+      textAlign: "center",
+      paddingTop: "10%",
+      textTransform: "uppercase",
+      letterSpacing: "1.4rch",
     },
   });

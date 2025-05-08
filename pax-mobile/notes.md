@@ -101,5 +101,16 @@ Filtrering rum:
 - Whiteboard
 - Våning
 
+## Colors
+pax-white			#FCFFF5
+bright-creme		#FFFEE9
+light-yellow		#FFFDCB
+bright-green		#E3FAC8
+the-greener		#B5DA87
+the-green	    	#7DBA6A
+middle-green		#097564
+dark-green	        #24524B
+darker-green		#10302B
 
-
+lighter-yellow     #f6f8c4
+black-green        #061a17
