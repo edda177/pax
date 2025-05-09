@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var swagger_jsdoc_1 = require("swagger-jsdoc");
-var path_1 = require("path");
-var url_1 = require("url");
-var path_2 = require("path");
-var __filename = (0, url_1.fileURLToPath)(import.meta.url);
-var __dirname = (0, path_2.dirname)(__filename);
-var swaggerDefinition = {
+import swaggerJSDoc from "swagger-jsdoc";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const swaggerDefinition = {
     openapi: "3.0.0",
     info: {
         title: "Pax API",
@@ -90,10 +88,10 @@ var swaggerDefinition = {
         },
     },
 };
-var options = {
-    swaggerDefinition: swaggerDefinition,
-    apis: [path_1.default.join(__dirname, "../routes/*.js")],
+const options = {
+    swaggerDefinition,
+    apis: [path.join(__dirname, "../routes/*.js")],
 };
-console.log("Looking for Swagger comments in:", path_1.default.join(__dirname, "../routes/*.js"));
-var swaggerSpec = (0, swagger_jsdoc_1.default)(options);
-exports.default = swaggerSpec;
+console.log("Looking for Swagger comments in:", path.join(__dirname, "../routes/*.js"));
+const swaggerSpec = swaggerJSDoc(options);
+export default swaggerSpec;
