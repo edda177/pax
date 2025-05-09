@@ -4,9 +4,10 @@ import pool from "./db";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
+import limiter from "./middlewares/rateLimiter";
+import { Request, Response } from "express";
 
-console.log("index.js is running");
+console.log("Index.ts is running");
 
 dotenv.config();
 
@@ -28,7 +29,6 @@ app.use(
 // routes
 import userRoutes from "./routes/users";
 import roomRoutes from "./routes/rooms";
-import limiter from "./middlewares/rateLimiter.js";
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
 

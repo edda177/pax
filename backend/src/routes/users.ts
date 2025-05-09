@@ -1,8 +1,17 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import pool from "../db";
-import { Request, Response } from "express";
 
 const router = express.Router();
+
+interface User {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  role: string;
+}
+
+type UserInput = Omit<User, "id"> & { password: string };
 
 /**
  * @swagger
@@ -53,7 +62,7 @@ const router = express.Router();
  */
 
 // Create a new user
-router.post("/", async (req, res) => {
+router.post("/", async (req: Request<{}, {}, UserInput>, res: Response) => {
   const { firstname, lastname, email, password, role } = req.body;
 
   try {
@@ -94,7 +103,7 @@ router.post("/", async (req, res) => {
  */
 
 // GET all users
-router.get("/", async (req, res) => {
+router.get("/", async (_req: Request, res: Response) => {
   try {
     const result = await pool.query(
       "SELECT id, firstname, lastname, email, role FROM users"
@@ -141,7 +150,7 @@ router.get("/", async (req, res) => {
  */
 
 // GET a specific user
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -202,29 +211,35 @@ router.get("/:id", async (req, res) => {
  */
 
 // Update a user
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { firstname, lastname, email, role } = req.body;
+router.put(
+  "/:id",
+  async (
+    req: Request<{ id: string }, {}, Partial<UserInput>>,
+    res: Response
+  ) => {
+    const { id } = req.params;
+    const { firstname, lastname, email, role } = req.body;
 
-  try {
-    const result = await pool.query(
-      `UPDATE users 
-       SET firstname = $1, lastname = $2, email = $3, role = $4
-       WHERE id = $5 
-       RETURNING id, firstname, lastname, email, role`,
-      [firstname, lastname, email, role, id]
-    );
+    try {
+      const result = await pool.query(
+        `UPDATE users 
+         SET firstname = $1, lastname = $2, email = $3, role = $4
+         WHERE id = $5 
+         RETURNING id, firstname, lastname, email, role`,
+        [firstname, lastname, email, role, id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "User not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.json(result.rows[0]);
+    } catch (err) {
+      console.error("Error updating user:", err);
+      res.status(500).json({ error: "Error updating user" });
     }
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error("Error updating user:", err);
-    res.status(500).json({ error: "Error updating user" });
   }
-});
+);
 
 /**
  * @swagger
@@ -266,7 +281,7 @@ router.put("/:id", async (req, res) => {
  */
 
 // Delete a user
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
 
   try {
