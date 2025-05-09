@@ -39,7 +39,7 @@ const createStyles = (theme) =>
         },
         description: {
             color: theme.textSecondary,
-            fontFamily: "Nunito",
+            fontFamily: "NunitoSans",
             fontSize: 20,
             fontWeight: 500,
           },

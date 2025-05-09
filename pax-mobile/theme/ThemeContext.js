@@ -14,7 +14,7 @@ export const ThemeProvider = ({ children }) => {
 
   const [fontsLoaded] = useFonts({
     "BadScript": require("../assets/fonts/BadScript-Regular.ttf"),
-    "Nunito": require("../assets/fonts/Nunito-VariableFont_wght.ttf")
+    "NunitoSans": require('../assets/fonts/NunitoSans.ttf'),
   });
 
   if (!fontsLoaded) {

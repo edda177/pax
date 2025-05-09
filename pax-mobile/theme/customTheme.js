@@ -19,5 +19,5 @@ export const buildCustomTheme = (baseTheme, isDark) => ({
       medium: { fontFamily: "System", fontWeight: "500" },
     },
     fontFamily: "BadScript-Regular", 
-    fontFamily: "Nunito-VariableFont_wght.ttf",
+    fontFamily: 'NunitoSans.ttf'
   });
