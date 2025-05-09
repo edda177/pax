@@ -4,9 +4,10 @@ type ButtonProps = {
     variant?: "default" | "outline" | "destructive";
     onClick: () => void;
     children: React.ReactNode;
+    type?: "button" | "submit" | "reset"; // Allow custom button types
 };
 
-const Button: FC<ButtonProps> = ({ variant = "default", onClick, children }) => {
+const Button: FC<ButtonProps> = ({ variant = "default", onClick, children, type = "button" }) => {
     let buttonClass = "px-4 py-2 rounded-lg font-semibold transition duration-200";
 
     if (variant === "default") {
@@ -18,7 +19,7 @@ const Button: FC<ButtonProps> = ({ variant = "default", onClick, children }) => 
     }
 
     return (
-        <button onClick={onClick} className={buttonClass}>
+        <button type={type} onClick={onClick} className={buttonClass}>
             {children}
         </button>
     );

@@ -17,7 +17,7 @@ type Room = {
 type CreateRoomModalProps = {
     isOpen: boolean;
     onClose: () => void;
-    onCreate: (room: Room) => void;
+    onCreate: (room: Omit<Room, "id">) => void;
     onEdit?: (room: Room) => void;
     roomToEdit?: Room;
 };
@@ -118,7 +118,7 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({ isOpen, onClose, onCreate, 
                         <label htmlFor="floor" className="block text-sm font-medium text-gray-700">Våning</label>
                         <input
                             id="floor"
-                            type="text"
+                            type="number"
                             className="border rounded p-2"
                             placeholder="Våning"
                             name="floor"
