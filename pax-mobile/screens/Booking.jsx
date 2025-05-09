@@ -80,7 +80,7 @@ const createStyles = (theme) =>
     },
     bookingtext: {
       color: theme.textPrimary,
-      fontFamily: "Nunito",
+      fontFamily: "NunitoSans",
       fontSize: 30,
       fontWeight: "600",
       marginBottom: 8,
@@ -114,7 +114,7 @@ const createStyles = (theme) =>
     },
     title: {
       color: theme.textSecondary,
-      fontFamily: "Nunito",
+      fontFamily: "NunitoSans",
       fontSize: 20,
       fontWeight: "500",
     },
@@ -139,7 +139,7 @@ const createStyles = (theme) =>
     },
     pressableText: {
       color: theme.textSecondary,
-      fontFamily: "Nunito",
+      fontFamily: "NunitoSans",
       fontSize: 18,
       fontWeight: "600",
       textTransform: "uppercase",
