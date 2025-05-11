@@ -1,12 +1,29 @@
-FROM node:16
+FROM node:18
+
+# Arbetskatalog
 WORKDIR /usr/src/app
-# Kopiera package.json först (för cache)
+
+# Kopiera package-filer först för cache-effektivitet
 COPY package*.json ./
+
 # Installera beroenden
 RUN npm install
-# Installera nodemon globalt
-RUN npm install -g nodemon
-# Kopiera resten av koden
+
+# Installera dev-verktyg globalt (valfritt)
+RUN npm install -g ts-node-dev
+
+# Kopiera resten av projektet
 COPY . .
+
+# Kompilera TypeScript (valfritt, om du kör i prod-läge)
+# RUN npm run build
+
+# Exponera port
 EXPOSE 13000
-CMD ["nodemon", "src/index.js"]
+
+# Starta utvecklingsserver
+CMD ["npx", "ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"]
+
+# Produktion: kör kompilerad kod
+# RUN npm run build
+# CMD ["node", "dist/index.js"]
