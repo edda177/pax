@@ -6,6 +6,7 @@ import swaggerSpec from "./swagger";
 import cors from "cors";
 import limiter from "./middlewares/rateLimiter";
 import { Request, Response } from "express";
+import errorHandler from "./middlewares/errorHandler";
 
 console.log("Index.ts is running");
 
@@ -31,6 +32,7 @@ import userRoutes from "./routes/users";
 import roomRoutes from "./routes/rooms";
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
+app.use(errorHandler);
 
 // Swagger route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
