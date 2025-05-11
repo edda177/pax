@@ -13,12 +13,11 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - mynetwork
-
   app:
     build:
       context: .
     depends_on:
-      - db # 👈 Vänta på att databasen startar
+      - db
     ports:
       - "13000:13000"
     networks:
@@ -31,7 +30,9 @@ services:
       DB_PORT: 5432
       PORT: 13000
     volumes:
-      - .:/usr/src/app # 👈 Gör det enkelt att utveckla utan rebuild
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # 👈 Förhindra att lokala node_modules krockar
+    command: sh -c "npx ts-node-dev --respawn --transpile-only src/index.ts"
 
 volumes:
   pgdata:

@@ -1,12 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
-import pool from "./db.js";
+import pool from "./db";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger.js";
+import swaggerSpec from "./swagger";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
+import limiter from "./middlewares/rateLimiter";
+import { Request, Response } from "express";
+import errorHandler from "./middlewares/errorHandler";
 
-console.log("index.js is running");
+console.log("Index.ts is running");
 
 dotenv.config();
 
@@ -18,22 +20,24 @@ app.use(express.json()); // for parsing application/json
 
 app.use(limiter); // allows limiter on all routes
 // allow requests from frontend (localhost:5173)
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // routes
-import userRoutes from "./routes/users.js";
-import roomRoutes from "./routes/rooms.js";
-import limiter from "./middlewares/rateLimiter.js";
+import userRoutes from "./routes/users";
+import roomRoutes from "./routes/rooms";
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
+app.use(errorHandler);
 
 // Swagger route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.get("/setup", async (req, res) => {
+app.get("/setup", async (_req: Request, res: Response) => {
   console.log("setup starting");
   try {
     // Vänta 5 sekunder för att säkerställa att DB är redo
@@ -73,10 +77,6 @@ app.get("/setup", async (req, res) => {
     console.error("Full error:", err);
     res.status(500).send("Error setting up database");
   }
-});
-
-app.get("/ping", (req, res) => {
-  res.send("pong!");
 });
 
 app.listen(port, () => {

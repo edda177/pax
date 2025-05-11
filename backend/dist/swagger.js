@@ -1,17 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var swagger_jsdoc_1 = require("swagger-jsdoc");
-var path_1 = require("path");
-var url_1 = require("url");
-var path_2 = require("path");
-var __filename = (0, url_1.fileURLToPath)(import.meta.url);
-var __dirname = (0, path_2.dirname)(__filename);
-var swaggerDefinition = {
+import swaggerJSDoc from "swagger-jsdoc";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const swaggerDefinition = {
     openapi: "3.0.0",
     info: {
         title: "Pax API",
         version: "1.0.0",
-        description: "Documentation for the Pax API, powering automated room bookings through real-time sensor data. This API handles users, rooms, and sensors to streamline presence-based reservation management.",
+        description: "Documentation for the Pax API, powering automated room bookings through real-time sensor data.",
     },
     servers: [
         {
@@ -30,7 +27,7 @@ var swaggerDefinition = {
                     role: { type: "string" },
                 },
             },
-            CreateUserInput: {
+            UserInput: {
                 type: "object",
                 required: ["firstname", "lastname", "email", "password"],
                 properties: {
@@ -48,7 +45,7 @@ var swaggerDefinition = {
                     name: { type: "string" },
                     description: { type: "string" },
                     available: { type: "boolean" },
-                    air_quality: { type: "string" },
+                    air_quality: { type: "integer" },
                     screen: { type: "boolean" },
                     floor: { type: "integer" },
                     chairs: { type: "integer" },
@@ -56,44 +53,27 @@ var swaggerDefinition = {
                     projector: { type: "boolean" },
                 },
             },
-            CreateRoomInput: {
+            RoomInput: {
                 type: "object",
-                required: [
-                    "name",
-                    "description",
-                    "available",
-                    "air_quality",
-                    "screen",
-                    "floor",
-                    "chairs",
-                    "whiteboard",
-                    "projector",
-                ],
+                required: ["name"],
                 properties: {
                     name: { type: "string" },
                     description: { type: "string" },
                     available: { type: "boolean" },
-                    air_quality: { type: "string" },
+                    air_quality: { type: "integer" },
                     screen: { type: "boolean" },
                     floor: { type: "integer" },
                     chairs: { type: "integer" },
                     whiteboard: { type: "boolean" },
                     projector: { type: "boolean" },
-                },
-            },
-            Error: {
-                type: "object",
-                properties: {
-                    error: { type: "string" },
                 },
             },
         },
     },
 };
-var options = {
-    swaggerDefinition: swaggerDefinition,
-    apis: [path_1.default.join(__dirname, "../routes/*.js")],
+const options = {
+    swaggerDefinition,
+    apis: [path.join(__dirname, "./routes/*.{ts,js}")], // TS & JS för dev/prod
 };
-console.log("Looking for Swagger comments in:", path_1.default.join(__dirname, "../routes/*.js"));
-var swaggerSpec = (0, swagger_jsdoc_1.default)(options);
-exports.default = swaggerSpec;
+const swaggerSpec = swaggerJSDoc(options);
+export default swaggerSpec;

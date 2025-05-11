@@ -1,10 +1,9 @@
-import swaggerJSDoc from "swagger-jsdoc";
+import swaggerJSDoc, { Options } from "swagger-jsdoc";
 import path from "path";
 import { fileURLToPath } from "url";
-import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
 const swaggerDefinition = {
   openapi: "3.0.0",
@@ -12,7 +11,7 @@ const swaggerDefinition = {
     title: "Pax API",
     version: "1.0.0",
     description:
-      "Documentation for the Pax API, powering automated room bookings through real-time sensor data. This API handles users, rooms, and sensors to streamline presence-based reservation management.",
+      "Documentation for the Pax API, powering automated room bookings through real-time sensor data.",
   },
   servers: [
     {
@@ -21,7 +20,6 @@ const swaggerDefinition = {
   ],
   components: {
     schemas: {
-      // ✅ User schema
       User: {
         type: "object",
         properties: {
@@ -43,8 +41,6 @@ const swaggerDefinition = {
           role: { type: "string" },
         },
       },
-
-      // ✅ Room schema
       Room: {
         type: "object",
         properties: {
@@ -79,9 +75,9 @@ const swaggerDefinition = {
   },
 };
 
-const options = {
+const options: Options = {
   swaggerDefinition,
-  apis: [path.join(__dirname, "routes/*.js")],
+  apis: [path.join(__dirname, "./routes/*.{ts,js}")], // TS & JS för dev/prod
 };
 
 const swaggerSpec = swaggerJSDoc(options);
