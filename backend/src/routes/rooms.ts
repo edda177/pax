@@ -40,13 +40,8 @@ type CreateRoomInput = Omit<Room, "id">;
 router.get(
   "/",
   asyncHandler(async (_req: Request, res: Response) => {
-    try {
-      const result = await pool.query("SELECT * FROM rooms");
-      res.status(200).json(result.rows);
-    } catch (err) {
-      console.error("Error fetching rooms:", err);
-      res.status(500).json({ message: "Internal server error" });
-    }
+    const result = await pool.query("SELECT * FROM rooms");
+    res.status(200).json(result.rows);
   })
 );
 
@@ -77,26 +72,18 @@ router.get(
  */
 router.get(
   "/:id",
-  asyncHandler(async (req: Request, res: Response) => {
+  asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id, 10);
     if (isNaN(id)) {
       return res.status(400).json({ message: "Invalid room ID" });
     }
 
-    try {
-      const result = await pool.query("SELECT * FROM rooms WHERE id = $1", [
-        id,
-      ]);
-
-      if (result.rows.length === 0) {
-        return res.status(404).json({ message: "Room not found" });
-      }
-
-      res.status(200).json(result.rows[0]);
-    } catch (err) {
-      console.error("Error fetching room:", err);
-      res.status(500).json({ message: "Internal server error" });
+    const result = await pool.query("SELECT * FROM rooms WHERE id = $1", [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Room not found" });
     }
+
+    res.status(200).json(result.rows[0]);
   })
 );
 
@@ -135,32 +122,27 @@ router.post(
       chairs,
       whiteboard,
       projector,
-    } = req.body;
+    } = req.body as CreateRoomInput;
 
-    try {
-      const result = await pool.query(
-        `INSERT INTO rooms 
-      (name, description, available, air_quality, screen, floor, chairs, whiteboard, projector)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-     RETURNING *`,
-        [
-          name,
-          description,
-          available,
-          air_quality,
-          screen,
-          floor,
-          chairs,
-          whiteboard,
-          projector,
-        ]
-      );
+    const result = await pool.query(
+      `INSERT INTO rooms 
+    (name, description, available, air_quality, screen, floor, chairs, whiteboard, projector)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *`,
+      [
+        name,
+        description,
+        available,
+        air_quality,
+        screen,
+        floor,
+        chairs,
+        whiteboard,
+        projector,
+      ]
+    );
 
-      res.status(201).json(result.rows[0]);
-    } catch (err) {
-      console.error("Error creating room:", err);
-      res.status(500).send("Error creating room");
-    }
+    res.status(201).json(result.rows[0]);
   })
 );
 
@@ -197,7 +179,7 @@ router.post(
  */
 router.put(
   "/:id",
-  asyncHandler(async (req: Request, res: Response) => {
+  asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id, 10);
     const {
       name,
@@ -209,45 +191,40 @@ router.put(
       chairs,
       whiteboard,
       projector,
-    } = req.body;
+    } = req.body as CreateRoomInput;
 
-    try {
-      const result = await pool.query(
-        `UPDATE rooms SET 
-      name = $1,
-      description = $2,
-      available = $3,
-      air_quality = $4,
-      screen = $5,
-      floor = $6,
-      chairs = $7,
-      whiteboard = $8,
-      projector = $9
+    const result = await pool.query(
+      `UPDATE rooms SET 
+    name = $1,
+    description = $2,
+    available = $3,
+    air_quality = $4,
+    screen = $5,
+    floor = $6,
+    chairs = $7,
+    whiteboard = $8,
+    projector = $9
     WHERE id = $10
     RETURNING *`,
-        [
-          name,
-          description,
-          available,
-          air_quality,
-          screen,
-          floor,
-          chairs,
-          whiteboard,
-          projector,
-          id,
-        ]
-      );
+      [
+        name,
+        description,
+        available,
+        air_quality,
+        screen,
+        floor,
+        chairs,
+        whiteboard,
+        projector,
+        id,
+      ]
+    );
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({ message: "Room not found" });
-      }
-
-      res.status(200).json(result.rows[0]);
-    } catch (err) {
-      console.error("Error updating room:", err);
-      res.status(500).json({ message: "Internal server error" });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Room not found" });
     }
+
+    res.status(200).json(result.rows[0]);
   })
 );
 
@@ -283,24 +260,19 @@ router.put(
  */
 router.delete(
   "/:id",
-  asyncHandler(async (req: Request, res: Response) => {
+  asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id, 10);
 
-    try {
-      const result = await pool.query(
-        "DELETE FROM rooms WHERE id = $1 RETURNING *",
-        [id]
-      );
+    const result = await pool.query(
+      "DELETE FROM rooms WHERE id = $1 RETURNING *",
+      [id]
+    );
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({ message: "Room not found" });
-      }
-
-      res.status(200).json({ message: "Room deleted", room: result.rows[0] });
-    } catch (err) {
-      console.error("Error deleting room:", err);
-      res.status(500).json({ message: "Internal server error" });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Room not found" });
     }
+
+    res.status(200).json({ message: "Room deleted", room: result.rows[0] });
   })
 );
 
