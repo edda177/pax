@@ -13,6 +13,7 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - mynetwork
+
   app:
     build:
       context: .
@@ -31,7 +32,7 @@ services:
       PORT: 13000
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules # 👈 Förhindra att lokala node_modules krockar
+      - /usr/src/app/node_modules
     command: sh -c "npx ts-node-dev --respawn --transpile-only src/index.ts"
 
 volumes:
@@ -39,4 +40,3 @@ volumes:
 
 networks:
   mynetwork:
-    driver: bridge

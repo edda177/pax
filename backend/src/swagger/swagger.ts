@@ -1,10 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
 import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const swaggerDefinition = {
   openapi: "3.0.0",

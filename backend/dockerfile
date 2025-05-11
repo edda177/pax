@@ -1,29 +1,20 @@
+# 1. Basbild
 FROM node:18
 
-# Arbetskatalog
+# 2. Arbetskatalog
 WORKDIR /usr/src/app
 
-# Kopiera package-filer först för cache-effektivitet
+# 3. Kopiera package-filer och installera beroenden
 COPY package*.json ./
-
-# Installera beroenden
 RUN npm install
 
-# Installera dev-verktyg globalt (valfritt)
-RUN npm install -g ts-node-dev
-
-# Kopiera resten av projektet
+# 4. Kopiera resten av koden
 COPY . .
 
-# Kompilera TypeScript (valfritt, om du kör i prod-läge)
-# RUN npm run build
-
-# Exponera port
+# 5. Exponera porten
 EXPOSE 13000
 
-# Starta utvecklingsserver
-CMD ["npx", "ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"]
-
-# Produktion: kör kompilerad kod
-# RUN npm run build
-# CMD ["node", "dist/index.js"]
+# 6. Välj startkommando baserat på miljö
+# DEV = ts-node-dev
+# PROD = kör kompilerad JS från dist
+CMD [ "npm", "run", "dev" ]

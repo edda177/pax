@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import pool from "./db";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger";
+import swaggerSpec from "./swagger/swagger";
 import cors from "cors";
 import limiter from "./middlewares/rateLimiter";
 import { Request, Response } from "express";
