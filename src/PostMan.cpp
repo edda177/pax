@@ -44,6 +44,8 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
 
         // Wait for a response (with a timeout of 5 seconds).
         unsigned long timeout = millis();
+        Serial.print("Client connected: ");
+        Serial.println(client->connected());
         while (client->available() == 0)
         {
             if (millis() - timeout > 5000) {  // 5000 ms timeout
