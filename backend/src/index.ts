@@ -30,8 +30,10 @@ app.use(
 // routes
 import userRoutes from "./routes/users";
 import roomRoutes from "./routes/rooms";
+import bookingRoutes from "./routes/bookings";
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
+app.use("/bookings", bookingRoutes);
 app.use(errorHandler);
 
 // Swagger route
