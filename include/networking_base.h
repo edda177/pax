@@ -68,7 +68,7 @@ private:
     //! @brief Attempts to connect to WiFi network
     //! @return true if connection successful, false otherwise
     bool connect_wifi();
-    
+
     //! @brief Attempts to establish Ethernet connection
     //! @return true if connection successful, false otherwise
     bool connect_ethernet();
@@ -103,6 +103,10 @@ public:
     //! Will return false if configured is false.
     bool ready_for_traffic() const;
     
+    //! @brief Attempts to connect to WiFi server
+    //! @return true if connection successful, false otherwise
+    bool connect_wifi_to_server();
+
     //! @brief Returns the logged IP address
     //! Do not trust this if configured is not true.
     IPAddress local_ip() const;

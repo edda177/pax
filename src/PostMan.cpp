@@ -39,6 +39,15 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
         // Construct the HTTP POST request header and JSON message.
         String httpRequest = createHTTPHeaderWithJSON(json);
 
+        // If not connected connect to Server
+        if (!client->connected()) 
+        {
+            if (!m_connection->connect_wifi_to_server())
+            {
+                Serial.println("Unable to connect to server");
+            }
+        }
+
         // Send the request.
         uint16_t charsWritten = client->print(httpRequest);
 
