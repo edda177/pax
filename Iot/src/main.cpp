@@ -4,13 +4,15 @@
 #include <Arduino.h>
 
 int ledPin = 3;
-MeasurementState roomState(2, 5000);
+MeasurementState roomState(2, 50*1000);
 
 WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
 
 PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, &network);
+time_t postman_wait_time = 30 * 1000;
+time_t last_postman_update = 0;
 
 void setup()
 {
@@ -39,27 +41,27 @@ void setup()
     Serial.println( F("System: Initialization complete") );
     
     // Sending test message to server
-    postman.sendPost("1","101","12345000");
-
+    postman.sendPost("22", String(roomState.roomHasActivity()), "50");
+    postman.sendPost("1",String(true),"12345000");
+    last_postman_update = millis();
 }
 
 void loop()
 {
+    // read sensor data
     roomState.update();
-    
-    
-    if ( roomState.roomHasActivity() )
-    {
-        digitalWrite( ledPin, HIGH );
+
+    // send data to server
+    if (millis()-last_postman_update > postman_wait_time) {
+        
+        Serial.println("Sending data...");
+        network();
+        delay(10);
+        last_postman_update = millis();
+        postman.sendPost("22", String(roomState.roomHasActivity()), "50");
     }
-    else
-    {
-        digitalWrite( ledPin, LOW );
-    }
-    
-    
-    network();
+
+    // do network maintenance routine
     
 
-    delay( 10 );
 }
