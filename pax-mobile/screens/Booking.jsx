@@ -11,6 +11,7 @@ import {
 import { useTheme } from "../theme/ThemeContext";
 import ThemeToggleTabButton from "../components/ThemeToggleTabButton";
 import MapModal from "../components/MapModal";
+import FetchRoom from "../components/FetchRoom";
 
 const Booking = () => {
   const { theme, isDark } = useTheme();
@@ -37,6 +38,7 @@ const Booking = () => {
         <View style={styles.cardWrapper}>
           <View style={styles.card}>
             <Text style={styles.title}>Lediga rum:</Text>
+            <FetchRoom />
           </View>
 
           <Pressable style={styles.pressableButton} onPress={toggleModal}>
