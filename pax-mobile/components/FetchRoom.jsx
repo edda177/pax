@@ -10,8 +10,10 @@ import {
   Pressable,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
+import BookingModal from "../components/BookingModal";
 
 const FetchRoom = () => {
   const { theme } = useTheme();
@@ -22,6 +24,7 @@ const FetchRoom = () => {
   const [error, setError] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [bookingModalVisible, setBookingModalVisible] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
@@ -45,13 +48,20 @@ const FetchRoom = () => {
 
   const openRoomModal = (room) => {
     setSelectedRoom(room);
-    setImageError(false); // återställ om tidigare bild inte fungerade
+    setImageError(false);
     setModalVisible(true);
   };
 
   const closeModal = () => {
     setModalVisible(false);
     setSelectedRoom(null);
+  };
+
+  const handleBookingSuccess = (roomId) => {
+    setRooms((prev) => prev.filter((room) => room.id !== roomId));
+    setBookingModalVisible(false);
+    setSelectedRoom(null);
+    Alert.alert("Bokning lyckades", "Rummet är nu bokat.");
   };
 
   if (loading) {
@@ -81,7 +91,7 @@ const FetchRoom = () => {
         />
       )}
 
-      {/* Modal with detailed info */}
+      {/* Modal med detaljer */}
       <Modal
         visible={modalVisible}
         animationType="slide"
@@ -123,6 +133,17 @@ const FetchRoom = () => {
                   {selectedRoom.whiteboard ? "Ja" : "Nej"} | Projektor:{" "}
                   {selectedRoom.projector ? "Ja" : "Nej"}
                 </Text>
+
+                <Pressable
+                  onPress={() => {
+                    setBookingModalVisible(true);
+                    setModalVisible(false);
+                  }}
+                  style={styles.bookButton}
+                >
+                  <Text style={styles.bookButtonText}>Boka</Text>
+                </Pressable>
+
                 <Pressable onPress={closeModal} style={styles.closeButton}>
                   <Text style={styles.closeButtonText}>Stäng</Text>
                 </Pressable>
@@ -131,6 +152,14 @@ const FetchRoom = () => {
           </View>
         </View>
       </Modal>
+
+      <BookingModal
+        visible={bookingModalVisible}
+        onClose={() => setBookingModalVisible(false)}
+        room={selectedRoom}
+        onBookingSuccess={handleBookingSuccess}
+        theme={theme}
+      />
     </View>
   );
 };
@@ -205,6 +234,17 @@ const createStyles = (theme) =>
       alignItems: "center",
     },
     closeButtonText: {
+      color: "#fff",
+      fontWeight: "600",
+    },
+    bookButton: {
+      marginTop: 20,
+      backgroundColor: theme.textSecondary,
+      padding: 10,
+      borderRadius: 10,
+      alignItems: "center",
+    },
+    bookButtonText: {
       color: "#fff",
       fontWeight: "600",
     },
