@@ -10,7 +10,6 @@ const LogoScreen = () => {
   const scaleAnimated = useRef(new Animated.Value(0.5)).current;
   const opacityAnimated = useRef(new Animated.Value(0.2)).current;
 
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       //Funtion aniering
@@ -65,11 +64,11 @@ const createStyles = () =>
       justifyContent: "center",
       flexDirection: "column",
       color: "#f6f8c4",
-      fontSize: "1.3rem",
-      fontWeight: "100",
+      fontSize: 1.3,
+      fontWeight: 100,
       textAlign: "center",
       paddingTop: "10%",
       textTransform: "uppercase",
-      letterSpacing: "1.4rch",
+      letterSpacing: 1.4,
     },
   });
