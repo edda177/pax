@@ -1,6 +1,16 @@
-// components/FetchRoom.jsx
 import React, { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Modal,
+  Pressable,
+  ScrollView,
+  Image,
+} from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 
 const FetchRoom = () => {
@@ -10,6 +20,9 @@ const FetchRoom = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -30,6 +43,17 @@ const FetchRoom = () => {
     fetchRooms();
   }, []);
 
+  const openRoomModal = (room) => {
+    setSelectedRoom(room);
+    setImageError(false); // återställ om tidigare bild inte fungerade
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedRoom(null);
+  };
+
   if (loading) {
     return <ActivityIndicator size="large" color={theme.accent} />;
   }
@@ -39,48 +63,91 @@ const FetchRoom = () => {
   }
 
   return (
-    <View>
+    <View style={{ flex: 1, paddingBottom: 13 }}>
       {rooms.length === 0 ? (
         <Text style={styles.noRooms}>Inga lediga rum hittades.</Text>
       ) : (
-        rooms.map((room) => (
-          <View key={room.id} style={styles.roomCard}>
-            <Text style={styles.roomName}>{room.name}</Text>
-            <Text style={styles.roomDescription}>{room.description}</Text>
-            <Text style={styles.roomDetail}>Våning: {room.floor}</Text>
-            <Text style={styles.roomDetail}>Stolar: {room.chairs}</Text>
-            <Text style={styles.roomDetail}>
-              Luftkvalitet: {room.air_quality}
-            </Text>
-            <Text style={styles.roomDetail}>
-              Skärm: {room.screen ? "Ja" : "Nej"} | Whiteboard:{" "}
-              {room.whiteboard ? "Ja" : "Nej"} | Projektor:{" "}
-              {room.projector ? "Ja" : "Nej"}
-            </Text>
-          </View>
-        ))
+        <FlatList
+          data={rooms}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.roomItem}
+              onPress={() => openRoomModal(item)}
+            >
+              <Text style={styles.roomName}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
       )}
+
+      {/* Modal with detailed info */}
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            {selectedRoom && (
+              <ScrollView>
+                {selectedRoom.img && !imageError ? (
+                  <Image
+                    source={{ uri: selectedRoom.img }}
+                    style={styles.roomImage}
+                    resizeMode="cover"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <Text style={styles.imageErrorText}>
+                    Bilden kunde inte laddas.
+                  </Text>
+                )}
+
+                <Text style={styles.roomName}>{selectedRoom.name}</Text>
+                <Text style={styles.roomDescription}>
+                  {selectedRoom.description}
+                </Text>
+                <Text style={styles.roomDetail}>
+                  Våning: {selectedRoom.floor}
+                </Text>
+                <Text style={styles.roomDetail}>
+                  Stolar: {selectedRoom.chairs}
+                </Text>
+                <Text style={styles.roomDetail}>
+                  Luftkvalitet: {selectedRoom.air_quality}
+                </Text>
+                <Text style={styles.roomDetail}>
+                  Skärm: {selectedRoom.screen ? "Ja" : "Nej"} | Whiteboard:{" "}
+                  {selectedRoom.whiteboard ? "Ja" : "Nej"} | Projektor:{" "}
+                  {selectedRoom.projector ? "Ja" : "Nej"}
+                </Text>
+                <Pressable onPress={closeModal} style={styles.closeButton}>
+                  <Text style={styles.closeButtonText}>Stäng</Text>
+                </Pressable>
+              </ScrollView>
+            )}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 const createStyles = (theme) =>
   StyleSheet.create({
-    roomCard: {
+    roomItem: {
       backgroundColor: theme.card,
-      borderRadius: 16,
-      padding: 12,
-      marginVertical: 6,
-      shadowColor: "#000",
-      shadowOpacity: 0.1,
-      shadowOffset: { width: 0, height: 2 },
-      elevation: 2,
-      width: "100%",
+      paddingBottom: 2,
+      borderRadius: 10,
+      marginBottom: 8,
     },
     roomName: {
-      fontSize: 18,
-      fontWeight: "700",
+      fontSize: 16,
+      fontWeight: "650",
       color: theme.textPrimary,
+      marginTop: 10,
     },
     roomDescription: {
       fontSize: 14,
@@ -96,11 +163,50 @@ const createStyles = (theme) =>
       color: theme.textSecondary,
       fontStyle: "italic",
       textAlign: "center",
+      marginTop: 20,
     },
     error: {
       color: "red",
       fontSize: 16,
       textAlign: "center",
+      marginTop: 20,
+    },
+    modalBackground: {
+      flex: 1,
+      backgroundColor: "rgba(0,0,0,0.5)",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modalContent: {
+      backgroundColor: theme.background,
+      padding: 20,
+      borderRadius: 20,
+      width: "85%",
+      maxHeight: "80%",
+    },
+    roomImage: {
+      width: "100%",
+      height: 180,
+      borderRadius: 10,
+      marginBottom: 10,
+    },
+    imageErrorText: {
+      fontSize: 14,
+      fontStyle: "italic",
+      color: theme.textSecondary,
+      marginBottom: 10,
+      textAlign: "center",
+    },
+    closeButton: {
+      marginTop: 20,
+      backgroundColor: theme.textSecondary,
+      padding: 10,
+      borderRadius: 10,
+      alignItems: "center",
+    },
+    closeButtonText: {
+      color: "#fff",
+      fontWeight: "600",
     },
   });
 
