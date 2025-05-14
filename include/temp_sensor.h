@@ -8,23 +8,26 @@
  * Values read will be formatted into json string and sent via Ether/WiFi.
  */
 class TempSensor
-{  
+{
 public:
+    //! Constructor for temp sensor.
+    TempSensor(uint8_t pin);
+
     /**
-    * @brief Initialize sensor
-    */
+     * @brief Initialize sensor
+     */
     void begin();
 
     /**
-    * @brief Get the Temperature object
-    * @return float value of temperature (%)
-    */
+     * @brief Get the Temperature object
+     * @return float value of temperature (%)
+     */
     float get_temperature();
 
     /**
-    * @details We have not talked about using humidity values yet
-    * @return float value of humidity (%)
-    */
+     * @details We have not talked about using humidity values yet
+     * @return float value of humidity (%)
+     */
     float get_humidity();
 
     /**
@@ -33,15 +36,12 @@ public:
      */
     unsigned long current_time();
 
-    //! Constructor for temp sensor.
-    TempSensor(uint8_t pin) {}
-
 private:
     /**
-     * @brief Populate byte array 
+     * @brief Populate byte array
      */
     void store_sensor();
-    
+
     /**
      * @brief Method will store data in byte array
      * @return Arduino define byte array
@@ -58,6 +58,7 @@ private:
 
 /*
 Example Usage:
+#include "temp_sensor.h"
     TempSensor DHT11(PIN_NUMBER);
 
     void setup()
