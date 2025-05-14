@@ -3,37 +3,23 @@ import React from 'react'
 import { useTheme } from '../theme/ThemeContext'
 
 
-const FormComponent = () => {
+const FormComponent = ({ userName, setUsername, password, setPassword }) => {
     const { theme } = useTheme ();
     const styles = createStyles (theme);
   return (
     <View>
      <Text style={styles.label}>Användarnamn:</Text>
       <TextInput style={styles.input}
-      onChangeText={(text) => {
-       setName(text);
-       setError("");
-     }}
-       accessibilityLabel='Användarnamn'
-       accessibilityHint='Fält där du kan skriva in ditt användarnamn'
-       keyboardType='default'
-       //   keyboardType för epost - "email-address"
-       returnKeyType='done'
-       // returnKey... utforska gärna andra alternativ
+      value= {userName}
+      onChangeText={setUsername}
+      placeholder='Användarnamn'
        />
        <Text style={styles.label}>Lösenord:</Text>
         <TextInput
       style={styles.input}
-      onChangeText={(text) => {
-       setName(text);
-       setError("");
-     }}
-       accessibilityLabel='Lösenord'
-       accessibilityHint='Fält där du kan skriva in ditt lösenord'
-       keyboardType='default'
-       //   keyboardType för epost - "email-address"
-       returnKeyType='done'
-       // returnKey... utforska gärna andra alternativ
+      value={password}
+      onChangeText={setPassword}
+      secureTextEntry
        />
     </View>
   )

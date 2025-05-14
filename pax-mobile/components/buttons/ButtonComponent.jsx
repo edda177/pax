@@ -2,13 +2,16 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useTheme } from '../../theme/ThemeContext'
 
-const ButtonComponent = () => {
+
+const ButtonComponent = ({ title, onPress, style }) => {
         const { theme } = useTheme ();
         const styles = createStyles (theme);
+
   return (
     <Pressable
+    onPress={onPress}
     style={({ pressed }) => [styles.button, pressed && styles.pressed]}> 
-     <Text style={styles.buttonText}>Knapp</Text>
+     <Text style={styles.buttonText}>{title}</Text>
     </Pressable>
   )
 }
