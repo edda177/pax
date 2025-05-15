@@ -65,11 +65,11 @@ const createStyles = () =>
       justifyContent: "center",
       flexDirection: "column",
       color: "#f6f8c4",
-      fontSize: "1.3rem",
+      fontSize: 1.3,
       fontWeight: "100",
       textAlign: "center",
       paddingTop: "10%",
       textTransform: "uppercase",
-      letterSpacing: "1.4rch",
+      letterSpacing: 0.8,
     },
   });

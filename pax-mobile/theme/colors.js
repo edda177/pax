@@ -51,7 +51,7 @@ export const darkTheme = {
   accent: '#E3FAC8',
 
   // Layout och bakgrunder
-  background: '#10302B',
+  background: '#061a17',
   card: '#24524B',
   headerBackground: '#264247',
   tabBackground: '#24524B',
@@ -83,3 +83,6 @@ export const darkTheme = {
 // middle-green		#097564
 // dark-green	    #24524B
 // darker-green		#10302B
+
+//black-green      #061a17
+//lighter-yellow   #f6f8c4
