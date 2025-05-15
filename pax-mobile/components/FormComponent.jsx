@@ -12,7 +12,6 @@ const FormComponent = ({ userName, setUsername, password, setPassword }) => {
       <TextInput style={styles.input}
       value= {userName}
       onChangeText={setUsername}
-      placeholder='Användarnamn'
        />
        <Text style={styles.label}>Lösenord:</Text>
         <TextInput
@@ -51,14 +50,14 @@ const createStyles = (theme) =>
           },
           input: {
             padding: 20,
-            width: 300,
+            width: 350,
             backgroundColor: theme.card,
             borderRadius: 10,
             margin: 10,
           },
           button: {
             margin: 10,
-            padding: 20,
+            padding: 10,
             backgroundColor: theme.card,
             borderRadius: 20,
             width: 200,
@@ -68,9 +67,6 @@ const createStyles = (theme) =>
             borderColor: theme.accent,
             borderWidth: 2,
             fontFamily: 'NunitoSans'
-          },
-          pressed: {
-            color:'red',
           },
           buttonText: {
             color: theme.textPrimary,

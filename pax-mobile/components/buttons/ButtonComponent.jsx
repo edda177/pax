@@ -34,7 +34,7 @@ const createStyles = (theme) =>
         fontFamily: 'NunitoSans'
       },
       pressed: {
-        color:'red',
+        opacity: 0.5,
       },
       buttonText: {
         color: theme.textPrimary,

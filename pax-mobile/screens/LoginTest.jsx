@@ -17,7 +17,6 @@ const LoginTest = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // ✅ Fetchar användare när skärmen laddas
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -43,7 +42,7 @@ const LoginTest = () => {
 
     if (user) {
       console.log('Inloggning lyckades:', user);
-      navigation.navigate('HomeScreen'); // ändra till din riktiga skärmrubrik
+      navigation.navigate('HomeScreen'); 
     } else {
       setError('Fel användarnamn eller lösenord.');
     }
@@ -54,19 +53,17 @@ const LoginTest = () => {
       <View style={styles.container}>
         <ThemeToggleTabButton />
         <LogoComponent style={styles.logo} />
-        {/* 👇 Du behöver skicka in setUsername/setPassword till formuläret */}
         <FormComponent
           username={username}
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
         />
+         {error ? <Text style={styles.error}>{error}</Text> : null}
         <ButtonComponent
           title="Logga in"
           onPress={handleLogin}
-          style={styles.button}
-        />
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+          style={({ pressed }) => [styles.button, pressed && styles.pressed]}/> 
       </View>
     </ScrollView>
   );
@@ -111,5 +108,11 @@ const createStyles = (theme) =>
         marginLeft: 50,
       },
       pressed: {
+        opacity: 0.2,
       },
+      error: {
+        color: theme.textPrimary,
+        fontSize: 20,
+        marginLeft: 10,
+      }
     })
