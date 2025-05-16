@@ -40,7 +40,7 @@ app.use("/bookings", bookingRoutes);
 app.use(errorHandler);
 
 // Swagger route
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/setup", async (_req: Request, res: Response) => {
   console.log("setup starting");

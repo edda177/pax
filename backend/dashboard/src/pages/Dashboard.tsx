@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
   const [editingRoom, setEditingRoom] = useState<Room | null>(null);
 
   const API_BASE_URL = "http://localhost:13000";
-  
+
   // // Mock room data
   // const [rooms, setRooms] = useState<Room[]>([
   //   {
@@ -141,7 +141,7 @@ const Dashboard: React.FC = () => {
         </div>
       )}
       <CreateRoomModal
-         isOpen={isModalOpen}
+        isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
           setEditingRoom(null);
