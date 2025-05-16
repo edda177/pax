@@ -2,11 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import pool from "./db";
 import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger/swagger";
+import swaggerSpec from "./swagger/export-swagger"
 import cors from "cors";
 import limiter from "./middlewares/rateLimiter";
 import { Request, Response } from "express";
 import errorHandler from "./middlewares/errorHandler";
+import bcrypt from "bcryptjs";
 
 console.log("Index.ts is running");
 
@@ -31,6 +32,8 @@ app.use(
 import userRoutes from "./routes/users";
 import roomRoutes from "./routes/rooms";
 import bookingRoutes from "./routes/bookings";
+import authRoutes from "./routes/authRoutes";
+app.use("/auth", authRoutes)
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
 app.use("/bookings", bookingRoutes);
@@ -64,13 +67,23 @@ app.get("/setup", async (_req: Request, res: Response) => {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        firstname VARCHAR(100) NOT NULL,
-        lastname VARCHAR(100) NOT NULL,
-        email VARCHAR(150) UNIQUE NOT NULL,
+        username VARCHAR(100) NOT NULL,
         password TEXT NOT NULL,
         role VARCHAR(50) DEFAULT 'user'
       )
     `);
+
+    const Admin = await pool.query("SELECT * FROM users WHERE username = $1", ['admin123']);
+    if (Admin.rows.length === 0) {
+      const hashedPassword = await bcrypt.hash("pass123", 10); // salt 10 rounds
+      await pool.query(
+        "INSERT INTO users (username, password, role) VALUES ($1, $2, $3)",
+        ["admin123", hashedPassword, "admin"]
+      );
+      console.log("✅ Admin user 'admin123' created");
+    } else {
+
+    }
 
     console.log("Table setup completed.");
     res.status(200).send("Setup completed");

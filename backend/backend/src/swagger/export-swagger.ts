@@ -42,3 +42,6 @@ for (const file of files) {
 const outputPath = path.join(__dirname, "../../swagger-export.json");
 fs.writeFileSync(outputPath, JSON.stringify(combined, null, 2));
 console.log("✅ Exported Swagger JSON to", outputPath);
+
+// Lägg till default export
+export default combined;

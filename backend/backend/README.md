@@ -25,7 +25,15 @@ Base URL: `http://localhost:{PORT}` (default port: 13000)
 
 ## Authentication
 
-No authentication required yet.
+The app uses JSON web tokens to authenticate users
+
+Passwords are hashed using bcryptjs using 10 salt rounds before storing them in the PostgreSQL database.
+
+After successful registration or login a JWT token is issued with the users id, username and role.
+
+The token is signed with a secret key (JWT_secret) and has 1 hour expiration time
+
+
 
 ---
 
