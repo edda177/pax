@@ -1,8 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import pool from "./db";
-import swaggerUi from "swagger-ui-express";
-import swaggerSpec from "./swagger/swagger";
+
 import cors from "cors";
 import limiter from "./middlewares/rateLimiter";
 import { Request, Response } from "express";
@@ -37,7 +36,7 @@ app.use("/bookings", bookingRoutes);
 app.use(errorHandler);
 
 // Swagger route
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/setup", async (_req: Request, res: Response) => {
   console.log("setup starting");
