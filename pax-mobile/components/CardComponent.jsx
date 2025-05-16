@@ -10,7 +10,7 @@ const CardComponent = ({ title, description }) => {
     return (
             <View style={styles.card}>
                 <Text style={styles.title}>Välkommen Namn!</Text>
-                <Text style={styles.description}> Ditt bokade rum är ledigt om ca. 3 min. Ditt rum är "PAX1"på våning 4. Ha en bra dag! </Text>
+                <Text style={styles.description}> Ditt bokade rum är... blabla </Text>
             </View>
     )
 }
@@ -45,14 +45,3 @@ const createStyles = (theme) =>
           },
     })
 
-// const styles = StyleSheet.create({
-//     card: {
-//         borderRadius: 12,
-//         padding: 20, 
-//         width: 260,
-//         height: 160, 
-//         marginBottom: 14,
-//         marginHorizontal: 14
-
-//     }
-// })

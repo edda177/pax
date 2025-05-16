@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   logo: {
-    width: '100vh',
-    height: 330,
+    width: 250,
+    height: 250,
   },
 
 })

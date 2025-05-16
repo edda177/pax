@@ -65,7 +65,7 @@ const LoginTest = () => {
           onPress={handleLogin}
           style={({ pressed }) => [styles.button, pressed && styles.pressed]}/> 
       </View>
-    </ScrollView>
+      </ScrollView>
   );
 };
 
@@ -79,9 +79,8 @@ const createStyles = (theme) =>
         paddingBottom: 0,
       },
       logo: {
-        marginTop: 80,
+        marginTop: 50,
         alignSelf: 'center',
-
       },
       label: {
         fontSize: 20,
