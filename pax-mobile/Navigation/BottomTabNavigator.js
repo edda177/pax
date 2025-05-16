@@ -4,13 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/HomeScreen';
 import Booking from '../screens/Booking';
-import Map from '../screens/Map';
 import BookingButton from '../components/BookingButton';
 import { useTheme } from '../theme/ThemeContext';
 import Login from '../screens/Login';
-import LogoScreen from '../screens/LogoScreen';
-import LoginTest from '../screens/LoginTest';
-// import Rooms from '../screens/Rooms';
+import LoadingScreen from '../screens/LoadingScreen';
+import Rooms from '../screens/Rooms';
+import Contact from '../screens/Contact';
+import MyBookings from '../screens/MyBookings';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +29,11 @@ export default function BottomTabNavigator() {
                     let iconName;
 
                     if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
-                    else if (route.name === 'Map') iconName = focused ? 'map' : 'map-outline';
+                    else if (route.name === 'MyBookings') iconName = focused ? 'person-circle' : 'person-circle-outline';
+                    else if (route.name === 'Contact') iconName = focused ? 'phone-portrait' : 'phone-portrait-outline';
+                    else if (route.name === 'LoadingScreen') iconName = focused ? 'square' : 'square-outline';
+                    else if (route.name === 'Login') iconName = focused ? 'log-in' : 'log-in-outline';
+                    else if (route.name === 'Rooms') iconName = focused ? 'map' : 'map-outline';
                     else if (route.name === 'Booking') return null;
 
                     return (
@@ -39,7 +44,6 @@ export default function BottomTabNavigator() {
                                 padding: 10,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                fontFamily: "Nunito",
                             }}
                         >
                             <Icon name={iconName} size={size} color={color} />
@@ -57,8 +61,10 @@ export default function BottomTabNavigator() {
                 },
             })}
         >
-            <Tab.Screen name="LogoScreen" component={LogoScreen} />
             <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="MyBookings" component={MyBookings} />
+            <Tab.Screen name="Login" component={Login} />
+
             <Tab.Screen
                 name="Booking"
                 component={Booking}
@@ -66,8 +72,9 @@ export default function BottomTabNavigator() {
                     tabBarButton: (props) => <BookingButton {...props} />,
                 }}
             />
-            <Tab.Screen name="Map" component={Map} />
-            <Tab.Screen name="Login" component={LoginTest} />
+            <Tab.Screen name="LoadingScreen" component={LoadingScreen} />
+            <Tab.Screen name="Rooms" component={Rooms} />
+            <Tab.Screen name="Contact" component={Contact} />
 
         </Tab.Navigator>
     );
