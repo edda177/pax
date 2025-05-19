@@ -3,11 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
+  ScrollView,
   StatusBar,
   Platform,
   Pressable,
+  Image,
 } from "react-native";
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "../theme/ThemeContext";
 import CardComponent from "../components/CardComponent";
@@ -17,12 +19,14 @@ const HomeScreen = () => {
   const styles = createStyles(theme);
 
   return (
+    <SafeAreaProvider>
+      <ScrollView>
     <SafeAreaView style={styles.safeArea}>
+              <View style={styles.header}>
       <StatusBar
         barStyle={isDark ? "light-content" : "dark-content"}
         backgroundColor={theme.headerBackground}
       />
-      <View style={styles.container}>
         <Pressable
           onPress={toggleTheme}
           accessible={true}
@@ -38,9 +42,23 @@ const HomeScreen = () => {
             color={theme.iconSwitchmode}
           />
         </Pressable>
+              <Image
+      source={require("../assets/logo/pax_logo-text-10.png")}
+      style={styles.logo}
+      resizeMode="cover"
+    />
+          </View>
+                <View style={styles.container}>
         <CardComponent style={styles.CardComponentContainer} />
+              <Image
+      source={require("../assets/illustrationer/illustrationer_pax-27.svg")}
+      style={styles.image}
+      resizeMode="cover"
+    />
       </View>
     </SafeAreaView>
+    </ScrollView>
+    </SafeAreaProvider>
   );
 };
 
@@ -49,22 +67,39 @@ const createStyles = (theme) =>
     safeArea: {
       flex: 1,
       backgroundColor: theme.background,
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      paddingBottom: 0,
+      minHeight: "100vh",
+      paddingBottom: 2,
+    },
+    header: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
     },
     container: {
       flex: 1,
       backgroundColor: theme.background,
       justifyContent: "flex-start",
       alignItems: "center",
-      paddingBottom: 0,
-      paddingTop: 100,
+      marginTop: "10vh",
+      minHeight: "90vh",
+    },
+    logo: {
+      top: 5,
+      marginTop: "4vh",
+      width: "40vw",
+      height: "8vh",
+      padding: 10,
     },
     text: {
       fontSize: 18,
       color: theme.text,
-      marginBottom: 16,
     },
+      image: {
+    width: "90vw",
+    height: "30vh",
+    opacity: 0.75,
+  },
     toggleButton: {
       position: "absolute",
       top: 20,
@@ -75,8 +110,10 @@ const createStyles = (theme) =>
       padding: 5,
     },
     CardComponentContainer: {
-      top: 80,
+      marginTop: "20%",
+      bottom: 5,
       alignSelf: "center",
+      width: "50vw",
     },
   });
 

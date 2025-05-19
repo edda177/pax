@@ -1,7 +1,10 @@
 # Kusten Är Klar KÄK - Grupp 2 Extended
+# Kusten Är Klar KÄK - Grupp 2 Extended
 
 ## FWMX24
+## FWMX24
 
+## Medlemmar
 ## Medlemmar
 
 **FJSX24:** Alice Eriksson, Phithai Lai, Dennis Granheimer, Rhiannon Brönnimann
@@ -9,9 +12,11 @@
 **FMWX24:** Hannah Bärlin, Hanna Kindholm, Tova Hansen  
 
 ## Rum info
+## Rum info
 
 rum-1: 5 m2
 rum-2: 5 m2
+rum-3: 5 m2
 rum-3: 5 m2
 rum-4: 20 m2
 rum-5: 20 m2
@@ -20,8 +25,10 @@ rum-7: 20 m2
 Kortsida: 90m
 Långsida: 170m
 
+
 rum 1: 4,7 m2
 rum 2: 4,7 m2
+rum 3: 4,7 m2
 rum 3: 4,7 m2
 rum 4: 18,6 m2
 rum 5: 19,3 m2
@@ -30,21 +37,30 @@ rum 7: 20,0 m2
 Kortsida: 90m
 Långsida: 170m
 
+
 Projektplan:
+<https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md>
 <https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md>
 
 Förslag/idéer endpoints:
 
 ## Rooms
 
+## Rooms
+
 - Hämta alla rum
 - Bokningsstatus
+- Bokningsstatus
 - Id
+- Data bokat rum:
+
 - Data bokat rum:
 
 1. Tid/längd bokat (från kl 00.00 - till kl 00.00)
 2. Tid kvar på bokning
 3. Luftkvalité - bra/underkänd (notis?)
+
+- Data obokat rum
 
 - Data obokat rum
 
@@ -74,6 +90,7 @@ Hur visa data?
 - (Temperatur? Finns sensorer?)
 
 ## Features
+## Features
 
 - Aktiva/populära tider
 
@@ -90,6 +107,7 @@ Hur visa data?
 - Lägen inloggad - inte inloggad
 
 Filtrering rum:
+
 
 - Antal platser
 - För antal personer
@@ -111,5 +129,17 @@ middle-green  #097564
 dark-green         #24524B
 darker-green  #10302B
 
-lighter-yellow     #f6f8c4
-black-green        #061a17
+pax-white   #FCFFF5
+bright-creme  #FFFEE9
+light-yellow  #FFFDCB
+bright-green  #E3FAC8
+the-greener  #B5DA87
+the-green      #7DBA6A
+middle-green  #097564
+dark-green         #24524B
+darker-green  #10302B
+
+the-green2      #84ca6f
+the-greener2     #cef69c
+light-yellow2     #f6f8c4
+darker-green2        #061a17

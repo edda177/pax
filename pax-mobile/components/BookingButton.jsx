@@ -1,19 +1,23 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTheme } from '../theme/ThemeContext'
 
 export default function BookingButton({ onPress }) {
+        const { theme } = useTheme();
+        const styles = createStyles(theme);   
     return (
         <TouchableOpacity style={styles.container} onPress={onPress} activeOpacity={0.8}>
             <View style={styles.button}>
-                <Text style={styles.text}>BOKA</Text>
+                <Text style={styles.text}>PAXA</Text>
             </View>
         </TouchableOpacity>
     );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (theme) =>
+    StyleSheet.create({
     container: {
-        top: -30,
+        top: -18,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -21,18 +25,23 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 35,
-        backgroundColor: '#7DBA6A',
+        backgroundColor: '#cef69c',
         justifyContent: 'center',
         alignItems: 'center',
-        boxShadowColor: '#000',
-        boxShadowOpacity: 0.3,
-        boxShadowOffset: { width: 0, height: 5 },
-        boxShadowRadius: 5,
-        elevation: 5,
+        shadowColor: '#FFFDCB',
+        shadowOffset: { width: 1, height: 1 },
+        shadowRadius: 10,
+        position: "absolute",
+        zIndex: 100,
     },
     text: {
-        fontWeight: 'bold',
-        color: '#10302B',
-        fontSize: 14,
+        color: theme.textDark,
+        fontFamily: "Nunito",
+        fontWeight: '800',
+        fontSize: 16,
+        lineHeight: 16,
+        marginTop: 3,
+        letterSpacing: "0.06rem",
+        textAlign: "center",
     },
 });

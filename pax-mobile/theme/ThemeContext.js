@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { darkTheme, lightTheme } from "./colors";
 import { buildCustomTheme } from "./customTheme";
 import { useFonts} from 'expo-font';
-import { Text, View} from 'react-native'
+import { Text } from 'react-native'
 
 const ThemeContext = createContext();
 
@@ -20,10 +20,11 @@ export const ThemeProvider = ({ children }) => {
 
   if (!fontsLoaded) {
     return (
-      <View>
+      <Text>
         {" "}
-        <Text>Laddar typsnitt..</Text>{" "}
-      </View>
+        <Text>Laddar...</Text>
+        {" "}
+      </Text>
     );
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 
 const Contact = () => {
@@ -8,8 +8,14 @@ const Contact = () => {
 
   return (
       <View style={styles.container}>
- <Text style={styles.text}>
-    Contact us: +46(0) 771-729 729 (0771-PAX PAX)
+      <Image
+      source={require("../assets/illustrationer/illustrationer_pax-01.svg")}
+      style={styles.image}
+      resizeMode="cover"
+    />
+ <Text style={styles.textFet}>
+   Contact us:</Text>
+   <Text style={styles.text}>+46(0) 771-729 729 <br/> +46 (0) 771-PAX PAX
     </Text>
      </View>
   )
@@ -31,9 +37,24 @@ const createStyles = (theme) =>
   text: { 
     color: theme.textPrimary,
     fontSize: 18, 
-    fontWeight: "600", 
+    fontWeight: "400", 
     textAlign: "center",
     textTransform: "uppercase",
-    letterSpacing: 0.6
+    lineHeight: 30,
+    letterSpacing: 0.6,
+  },
+    textFet: { 
+    color: theme.textPrimary,
+    fontFamily: "Nunito",
+    fontSize: 18, 
+    fontWeight: "800", 
+    textAlign: "center",
+    textTransform: "uppercase",
+    lineHeight: 30,
+    letterSpacing: 0.6,
+  },
+  image: {
+    width: "90vw",
+    height: "35vh",
   },
 });
