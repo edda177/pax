@@ -9,14 +9,16 @@
 #define SECRET_PASS "your_password"
 
 #define SERVER "google.com"
-#define PORT 8080
-#define ENDPOINT "/api/v1/room-state"
+#define SERVER_PORT 8080
+#define ENDPOINT "/pax-api/rooms/"
+#define ROOM_ID "0"
 
 #endif
 
-
+int pirPin = 2;
 int ledPin = 3;
-MeasurementState roomState(2, 60*1000); // pass temperature pin as 3rd argument
+int tempPin = 6;
+MeasurementState roomState(pirPin, 60*1000, tempPin); // pass temperature pin as 3rd argument
 
 
 //! If your server URL is an IP address, define SERVER_IS_IP in arduino_secrets.h
@@ -33,7 +35,7 @@ WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
 
-PostMan postman(SERVER, ENDPOINT, PORT, &network);
+PostMan postman(SERVER, ENDPOINT, SERVER_PORT, &network);
 time_t postman_wait_time = 30 * 1000;
 time_t last_postman_update = 0;
 
@@ -41,10 +43,11 @@ void setup()
 {
     constexpr uint32_t serial_baud_rate = 115200;
     Serial.begin( serial_baud_rate );
+    while (!Serial) {
+        delay( 50 );
+    }
+
     Wire.begin();
-    
-    // Let Serial start
-    delay( 50 );
     
 
     Serial.println( F("System: Initializing room state") );
