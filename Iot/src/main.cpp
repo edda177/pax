@@ -63,9 +63,8 @@ void setup()
     
     Serial.println( F("System: Initialization complete") );
     
-    // Sending test message to server
-    postman.sendPost("22", String(roomState.roomHasActivity()), "50");
-    postman.sendPost("1",String(true),"12345000");
+    // Sending initial message to server
+    postman.sendPost("22", String(!roomState.roomHasActivity()), "50");
     last_postman_update = millis();
 }
 
@@ -81,7 +80,7 @@ void loop()
         network();
         delay(10);
         last_postman_update = millis();
-        postman.sendPost("22", String(roomState.roomHasActivity()), "50");
+        postman.sendPost("22", String(!roomState.roomHasActivity()), "50");
     }
 
     if (millis() > 1000000) {

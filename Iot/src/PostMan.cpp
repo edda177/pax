@@ -90,7 +90,7 @@ bool PostMan::sendPost(const String &temperature, const String &occupancyStatus,
 String PostMan::createHTTPHeaderWithJSON(const String &json)
 {
     String httpRequest = "";
-    httpRequest += "POST " + String(endpoint) + " HTTP/1.1\r\n";
+    httpRequest += "PUT " + String(endpoint) + " HTTP/1.1\r\n";
     httpRequest += "Host: " + String(server) + "\r\n";
     httpRequest += "Content-Type: application/json\r\n";
     httpRequest += "Content-Length: " + String(json.length()) + "\r\n";
