@@ -37,7 +37,12 @@ private:
      * 
      * @return unsigned long 
      */
+    Adafruit_SGP30 m_sgp;
+    float m_temperature { 22.0f };
+    float m_humidity { 50.0f };
+    float m_air_quality { 50.0f };
     unsigned long getCurrentTime();
+    void readAirQuality();
 public:
     /**
      * @brief Constructor
@@ -60,6 +65,8 @@ public:
      * @brief Function to check current room status
      */
     bool roomHasActivity();
+    String getAirQuality();
+    String getTemperature();
 };
 
 

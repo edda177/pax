@@ -41,6 +41,7 @@ void setup()
 {
     constexpr uint32_t serial_baud_rate = 115200;
     Serial.begin( serial_baud_rate );
+    Wire.begin();
     
     // Let Serial start
     delay( 50 );

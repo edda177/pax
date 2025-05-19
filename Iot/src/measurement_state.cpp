@@ -11,6 +11,9 @@ unsigned long MeasurementState::getCurrentTime(){
 void MeasurementState::init(){
     pinMode(m_pirPin, INPUT);
 
+    if(! m_sgp.begin()) {
+        Serial.println("SGP30 sensor not initialized");
+    };
 }
 
 void MeasurementState::update(){
@@ -27,3 +30,26 @@ bool MeasurementState::roomHasActivity(){
         return false;
       }    
 }
+
+void MeasurementState::readAirQuality()
+{
+    m_sgp.setHumidity(0);
+    // try to read new data from Air Quality Sensor
+    if (!m_sgp.IAQmeasure()) {
+        Serial.println("Air Quality Sensor reading failed");
+    }
+    // if successful update cached Air Quality value
+    else {
+        m_air_quality = m_sgp.eCO2;
+    }
+}
+
+ String MeasurementState::getAirQuality()
+ {
+    return String(m_air_quality);
+ }
+    
+ String MeasurementState::getTemperature()
+ {
+    return String(m_temperature);
+ }
