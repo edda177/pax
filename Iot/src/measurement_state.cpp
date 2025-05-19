@@ -52,7 +52,9 @@ void MeasurementState::update_all(){
     readAirQuality();
     }
     // Read Temperature Sensor
-    m_temperature = m_temp_sensor.get_temperature();
+    if (m_temp_sensor_initialized) {
+        m_temperature = m_temp_sensor.get_temperature();
+    }
 }
 
 
