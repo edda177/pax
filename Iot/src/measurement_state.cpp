@@ -67,6 +67,11 @@ bool MeasurementState::roomHasActivity(){
       }    
 }
 
+String MeasurementState::roomIsAvailable()
+{
+    return String(!roomHasActivity());
+}
+
 void MeasurementState::readAirQuality()
 {
     m_sgp.setHumidity(0);

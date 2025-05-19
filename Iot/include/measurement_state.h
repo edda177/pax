@@ -2,8 +2,8 @@
  * @file MeasurementState.h
  * @author Erik Dahl (erik@iunderlandet.se)
  * @brief 
- * @version 0.1
- * @date 2025-04-07
+ * @version 0.2
+ * @date 2025-05-19
  * 
  */
 #ifndef PAX_MEASUREMENT_STATE_CLASS
@@ -37,16 +37,57 @@ private:
      * 
      * @return unsigned long 
      */
-    Adafruit_SGP30 m_sgp;
-    float m_temperature { 22.0f };
-    float m_humidity { 50.0f };
-    float m_air_quality { 50.0f };
-    bool m_sgp_initialized { false };
-    TempSensor m_temp_sensor;
-    bool m_temp_sensor_initialized {};
-    uint16_t m_iaq_baseline_eco2;
-    uint16_t m_iaq_baseline_tvoc;
     unsigned long getCurrentTime();
+    /**
+     * @brief Internal SGP30 sensor object
+     * 
+     */
+    Adafruit_SGP30 m_sgp;
+    /**
+     * @brief The latest cached Air Quality reading from SGP30
+     * defaults to 50%
+     * 
+     */
+    float m_air_quality { 50.0f };
+    /**
+     * @brief Internal variable indicating if SGP30 is properly initalized
+     * 
+     */
+    bool m_sgp_initialized { false };
+    /**
+     * @brief Internal Temperature Sensor object
+     * 
+     */
+    TempSensor m_temp_sensor;
+    /**
+     * @brief The latest cached Temperature reading
+     * 
+     */
+    float m_temperature { 22.0f };
+    /**
+     * @brief The latest cached Humidity reading
+     * 
+     */
+    float m_humidity { 50.0f };
+    /**
+     * @brief Internal variable indicating if Temperature Sensor is properly initalized
+     * 
+     */
+    bool m_temp_sensor_initialized {};
+    /**
+     * @brief Calibration varible for SGP30 sensor
+     * 
+     */
+    uint16_t m_iaq_baseline_eco2;
+        /**
+     * @brief Calibration varible for SGP30 sensor
+     * 
+     */
+    uint16_t m_iaq_baseline_tvoc;
+    /**
+     * @brief Read SGP30 values and update internal variables
+     * 
+     */
     void readAirQuality();
 public:
     /**
@@ -77,7 +118,23 @@ public:
      * @brief Function to check current room status
      */
     bool roomHasActivity();
+    /**
+     * @brief Function returns room availability in a printable format
+     * 
+     * @return String boolean, either true or false
+     */
+    String roomIsAvailable();
+    /**
+     * @brief Function returns Air Quality in a printable format 
+     * 
+     * @return String Values 0-100, representing percentage 
+     */
     String getAirQuality();
+    /**
+     * @brief Funciton returns Temperature in a printable format
+     * 
+     * @return String temperature in °C
+     */
     String getTemperature();
 };
 
