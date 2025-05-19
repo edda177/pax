@@ -15,12 +15,6 @@
 
 #endif
 
-int pir_pin = 2;
-int led_pin = 3;
-int temp_pin = 6;
-MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument
-
-
 //! If your server URL is an IP address, define SERVER_IS_IP in arduino_secrets.h
 #ifdef SERVER_IS_IP
 IPAddress server_ip(SERVER);
@@ -30,18 +24,20 @@ static String server_ip_str = server_ip.toString();
 static String server_ip_str = SERVER;
 #endif
 
-
+int pir_pin = 2;
+int led_pin = 3;
+int temp_pin = 6;
+MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument
 WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
-
 PostMan postman(SERVER, ENDPOINT, SERVER_PORT, &network);
 time_t postman_wait_time = 30 * 1000;
 time_t last_postman_update = 0;
+constexpr uint32_t serial_baud_rate = 115200;
 
 void setup()
 {
-    constexpr uint32_t serial_baud_rate = 115200;
     Serial.begin( serial_baud_rate );
     while (!Serial) {
         delay( 50 );
@@ -49,7 +45,6 @@ void setup()
 
     Wire.begin();
     
-
     Serial.println( F("System: Initializing room state") );
     room_state.begin();
     
@@ -57,7 +52,6 @@ void setup()
     Serial.println( F("System: Initializing network") );
     network.begin();
     
-
     Serial.println( F("System: Configuring I/O pins") );
     pinMode( led_pin, OUTPUT );
     digitalWrite( led_pin, LOW );
