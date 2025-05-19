@@ -3,14 +3,36 @@
 #include "PostMan.h"
 #include <Arduino.h>
 
+#ifndef SERVER
+//! This is what your ardjuino secrets should look like
+#define SECRET_SSID "your_ssid"
+#define SECRET_PASS "your_password"
+
+#define SERVER "google.com"
+#define PORT 8080
+#define ENDPOINT "/api/v1/room-state"
+
+#endif
+
+
 int ledPin = 3;
 MeasurementState roomState(2, 50*1000);
+
+
+//! If your server URL is an IP address, define SERVER_IS_IP in arduino_secrets.h
+#ifdef SERVER_IS_IP
+IPAddress server_ip(SERVER);
+static String server_ip_str = server_ip.toString();
+#else
+static String server_ip_str = SERVER;
+#endif
+
 
 WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
 
-PostMan postman(SERVER_URL, SERVER_ENDPOINT, SERVER_PORT, &network);
+PostMan postman(SERVER, ENDPOINT, PORT, &network);
 time_t postman_wait_time = 30 * 1000;
 time_t last_postman_update = 0;
 
@@ -61,7 +83,9 @@ void loop()
         postman.sendPost("22", String(roomState.roomHasActivity()), "50");
     }
 
-    // do network maintenance routine
+    if (millis() > 1000000) {
+        network();
+    }
     
 
 }
