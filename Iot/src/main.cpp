@@ -15,10 +15,10 @@
 
 #endif
 
-int pirPin = 2;
-int ledPin = 3;
-int tempPin = 6;
-MeasurementState room_state(pirPin, 60*1000, tempPin); // pass temperature pin as 3rd argument
+int pir_pin = 2;
+int led_pin = 3;
+int temp_pin = 6;
+MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument
 
 
 //! If your server URL is an IP address, define SERVER_IS_IP in arduino_secrets.h
@@ -59,8 +59,8 @@ void setup()
     
 
     Serial.println( F("System: Configuring I/O pins") );
-    pinMode( ledPin, OUTPUT );
-    digitalWrite( ledPin, LOW );
+    pinMode( led_pin, OUTPUT );
+    digitalWrite( led_pin, LOW );
     
 
     delay( 100 );
