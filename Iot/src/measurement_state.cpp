@@ -18,7 +18,7 @@ unsigned long MeasurementState::getCurrentTime(){
     return millis();
 }
 
-void MeasurementState::init(){
+void MeasurementState::begin(){
     pinMode(m_pirPin, INPUT);
 
     if(! m_sgp.begin()) {

@@ -61,7 +61,7 @@ public:
      * @brief Run in setup to set correct pinMode
      * 
      */
-    void init();
+    void begin();
     /**
      * @brief Read PIR sensor value for room activity and update private variables
      * 

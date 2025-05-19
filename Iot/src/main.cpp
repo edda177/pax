@@ -48,7 +48,7 @@ void setup()
     
 
     Serial.println( F("System: Initializing room state") );
-    roomState.init();
+    roomState.begin();
     
 
     Serial.println( F("System: Initializing network") );
