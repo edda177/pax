@@ -82,10 +82,10 @@ ___
 - V. 14: Arbetsmöte. Arbetet i Boiler Room-grupperna börjar
 - V. 15: Fullstack: Få upp endpoints till ett API med mockad data.
 - V. 16: Implementering av kärnfunktioner.
-- V. 17: MVP.
+- V. 17: 
 - V. 18: Fullstack: Integrerad databas och ersatt mockad data.
 - V. 19:
-- V. 20:
+- V. 20: MVP.
 - V. 21:
 - V. 22: Testning, förbättring och optimering. Fullstack: Implementerat säkerhet med JWT.
 - V. 23: Projektavslut (demo, uppvisning, retro).
