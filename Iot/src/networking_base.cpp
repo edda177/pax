@@ -132,7 +132,7 @@ bool NetworkingBase::connect_wifi()
 bool NetworkingBase::connect_wifi_to_server() 
 {
     Serial.println(F("Network: Connecting WiFi client to server..."));
-    if (wifi_ptr->connect(SERVER.ip, SERVER.port)) 
+    if (wifi_ptr->connect(SERVER, PORT)) 
     {
         Serial.println(F("Network: WiFi client connected to server."));
         return true;

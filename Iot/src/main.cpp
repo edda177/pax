@@ -23,6 +23,7 @@ MeasurementState roomState(2, 50*1000);
 #ifdef SERVER_IS_IP
 IPAddress server_ip(SERVER);
 static String server_ip_str = server_ip.toString();
+#define SERVER server_ip_str.c_str()
 #else
 static String server_ip_str = SERVER;
 #endif
