@@ -10,6 +10,7 @@
 #define PAX_MEASUREMENT_STATE_CLASS
 
 #include <Arduino.h>
+#include <Adafruit_SGP30.h>
 
 /**
  * @brief Class to handle sensor measurements over time
