@@ -11,11 +11,11 @@
 
 #include <Arduino.h>
 #include <Adafruit_SGP30.h>
+#include "temp_sensor.h"
 
 /**
- * @brief Class to handle sensor measurements over time
+ * @brief Class to handle sensor measurements over time for Arduino UNO R4
  * 
- * It it written for an Arduino UNO R4
  * Sensors implemented: PIR Sensor
  */
 class MeasurementState {
@@ -42,6 +42,8 @@ private:
     float m_humidity { 50.0f };
     float m_air_quality { 50.0f };
     bool m_sgp_initialized { false };
+    TempSensor m_temp_sensor;
+    bool m_temp_sensor_initialized {};
     uint16_t m_iaq_baseline_eco2;
     uint16_t m_iaq_baseline_tvoc;
     unsigned long getCurrentTime();
@@ -52,18 +54,25 @@ public:
      * 
      * @param pirPin 
      * @param holdDuration in milliseconds
+     * @param temp_sensor_pin if not passed getTemperature will give error message
      */
-    MeasurementState(uint8_t pirPin, unsigned long holdDuration = 5 * 1 * 1000);
+    MeasurementState(uint8_t pirPin, unsigned long holdDuration = 5 * 1 * 1000, uint8_t temp_sensor_pin = 0);
     /**
      * @brief Run in setup to set correct pinMode
      * 
      */
     void init();
     /**
-     * @brief Read sensor value and update private variables
+     * @brief Read PIR sensor value for room activity and update private variables
      * 
      */
-    void update();
+    void update_pir();
+    /**
+     * @brief Read PIR sensor value for room activity and temperature and co2 sensors
+     * and update private variables
+     * 
+     */
+    void update_all();
     /**
      * @brief Function to check current room status
      */

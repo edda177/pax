@@ -1,8 +1,18 @@
 #include "measurement_state.h"
 
 
-MeasurementState::MeasurementState(uint8_t pirPin, unsigned long holdDuration)
-    : m_pirPin { pirPin }, m_holdDuration { holdDuration } {}
+MeasurementState::MeasurementState(uint8_t pirPin, unsigned long holdDuration, uint8_t temp_sensor_pin)
+    : m_pirPin { pirPin }, m_holdDuration { holdDuration }, m_temp_sensor { temp_sensor_pin }
+    {
+        if (temp_sensor_pin == 0) 
+        {
+            m_temp_sensor_initialized = false;
+        } else 
+        {
+            m_temp_sensor.begin();
+            m_temp_sensor_initialized = true;
+        }
+    }
 
 unsigned long MeasurementState::getCurrentTime(){
     return millis();
@@ -26,15 +36,26 @@ void MeasurementState::init(){
     }
 }
 
-void MeasurementState::update(){
+void MeasurementState::update_pir()
+{
+    // update room status
     PinStatus currentPinReading = digitalRead(m_pirPin);
     if (currentPinReading) {
         m_lastActivationTime = getCurrentTime();
       }
+}
+void MeasurementState::update_all(){
+    // Read PIR Sensor
+    update_pir();
+    // read Air Quality Sensor
     if (m_sgp_initialized) {
     readAirQuality();
     }
+    // Read Temperature Sensor
+    m_temperature = m_temp_sensor.get_temperature();
 }
+
+
 
 bool MeasurementState::roomHasActivity(){
     if (getCurrentTime() - m_lastActivationTime <= m_holdDuration) {
@@ -67,5 +88,8 @@ void MeasurementState::readAirQuality()
     
  String MeasurementState::getTemperature()
  {
+    if (!m_temp_sensor_initialized) {
+        return F("Sensor error");
+    }
     return String(m_temperature);
  }

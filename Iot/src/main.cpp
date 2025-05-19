@@ -16,7 +16,7 @@
 
 
 int ledPin = 3;
-MeasurementState roomState(2, 50*1000);
+MeasurementState roomState(2, 60*1000); // pass temperature pin as 3rd argument
 
 
 //! If your server URL is an IP address, define SERVER_IS_IP in arduino_secrets.h
@@ -72,7 +72,7 @@ void setup()
 void loop()
 {
     // read sensor data
-    roomState.update();
+    roomState.update_all();
 
     // send data to server
     if (millis()-last_postman_update > postman_wait_time) {
@@ -81,7 +81,7 @@ void loop()
         network();
         delay(10);
         last_postman_update = millis();
-        postman.sendPost("22", String(!roomState.roomHasActivity()), "50");
+        postman.sendPost(roomState.getTemperature(), String(!roomState.roomHasActivity()), roomState.getAirQuality());
     }
 
     if (millis() > 1000000) {
