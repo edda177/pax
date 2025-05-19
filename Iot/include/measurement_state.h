@@ -41,6 +41,9 @@ private:
     float m_temperature { 22.0f };
     float m_humidity { 50.0f };
     float m_air_quality { 50.0f };
+    bool m_sgp_initialized { false };
+    uint16_t m_iaq_baseline_eco2;
+    uint16_t m_iaq_baseline_tvoc;
     unsigned long getCurrentTime();
     void readAirQuality();
 public:
