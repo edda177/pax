@@ -54,6 +54,7 @@ void MeasurementState::update_all(){
     // Read Temperature Sensor
     if (m_temp_sensor_initialized) {
         m_temperature = m_temp_sensor.get_temperature();
+        m_humidity = m_temp_sensor.get_humidity();
     }
 }
 
