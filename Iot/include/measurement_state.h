@@ -10,6 +10,7 @@
 #define PAX_MEASUREMENT_STATE_CLASS
 
 #include <Arduino.h>
+#include <Adafruit_SGP30.h>
 
 /**
  * @brief Class to handle sensor measurements over time
@@ -36,7 +37,15 @@ private:
      * 
      * @return unsigned long 
      */
+    Adafruit_SGP30 m_sgp;
+    float m_temperature { 22.0f };
+    float m_humidity { 50.0f };
+    float m_air_quality { 50.0f };
+    bool m_sgp_initialized { false };
+    uint16_t m_iaq_baseline_eco2;
+    uint16_t m_iaq_baseline_tvoc;
     unsigned long getCurrentTime();
+    void readAirQuality();
 public:
     /**
      * @brief Constructor
@@ -59,6 +68,8 @@ public:
      * @brief Function to check current room status
      */
     bool roomHasActivity();
+    String getAirQuality();
+    String getTemperature();
 };
 
 
