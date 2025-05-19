@@ -23,21 +23,21 @@ private:
     /**
      * @brief The Arduino Pin where the PIR Sensor is connected
      */
-    uint8_t m_pirPin;
+    uint8_t m_pir_pin;
     /**
      * @brief Time in milliseconds the class will hold last positive reading
      */
-    unsigned long m_holdDuration;
+    unsigned long m_hold_duration;
     /**
      * @brief The last time a positive reading was made
      */
-    unsigned long m_lastActivationTime;
+    unsigned long m_last_activation_time;
     /**
      * @brief A wrapper around Arduino function millis()
      * 
      * @return unsigned long 
      */
-    unsigned long getCurrentTime();
+    unsigned long get_current_time();
     /**
      * @brief Internal SGP30 sensor object
      * 
@@ -88,16 +88,16 @@ private:
      * @brief Read SGP30 values and update internal variables
      * 
      */
-    void readAirQuality();
+    void read_air_quality();
 public:
     /**
      * @brief Constructor
      * 
-     * @param pirPin 
-     * @param holdDuration in milliseconds
+     * @param pir_pin 
+     * @param hold_duration in milliseconds
      * @param temp_sensor_pin if not passed getTemperature will give error message
      */
-    MeasurementState(uint8_t pirPin, unsigned long holdDuration = 5 * 1 * 1000, uint8_t temp_sensor_pin = 0);
+    MeasurementState(uint8_t pir_pin, unsigned long hold_duration = 5 * 1 * 1000, uint8_t temp_sensor_pin = 0);
     /**
      * @brief Run in setup to set correct pinMode
      * 
@@ -117,25 +117,25 @@ public:
     /**
      * @brief Function to check current room status
      */
-    bool roomHasActivity();
+    bool room_has_activity();
     /**
      * @brief Function returns room availability in a printable format
      * 
      * @return String boolean, either true or false
      */
-    String roomIsAvailable();
+    String room_is_available();
     /**
      * @brief Function returns Air Quality in a printable format 
      * 
      * @return String Values 0-100, representing percentage 
      */
-    String getAirQuality();
+    String get_air_quality();
     /**
      * @brief Funciton returns Temperature in a printable format
      * 
      * @return String temperature in °C
      */
-    String getTemperature();
+    String get_temperature();
 };
 
 

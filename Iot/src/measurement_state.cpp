@@ -1,8 +1,8 @@
 #include "measurement_state.h"
 
 
-MeasurementState::MeasurementState(uint8_t pirPin, unsigned long holdDuration, uint8_t temp_sensor_pin)
-    : m_pirPin { pirPin }, m_holdDuration { holdDuration }, m_temp_sensor { temp_sensor_pin }
+MeasurementState::MeasurementState(uint8_t pir_pin, unsigned long hold_duration, uint8_t temp_sensor_pin)
+    : m_pir_pin { pir_pin }, m_hold_duration { hold_duration }, m_temp_sensor { temp_sensor_pin }
     {
         if (temp_sensor_pin == 0) 
         {
@@ -14,12 +14,12 @@ MeasurementState::MeasurementState(uint8_t pirPin, unsigned long holdDuration, u
         }
     }
 
-unsigned long MeasurementState::getCurrentTime(){
+unsigned long MeasurementState::get_current_time(){
     return millis();
 }
 
 void MeasurementState::begin(){
-    pinMode(m_pirPin, INPUT);
+    pinMode(m_pir_pin, INPUT);
 
     if(! m_sgp.begin()) {
         Serial.println(F("SGP30 sensor not initialized"));
@@ -39,9 +39,9 @@ void MeasurementState::begin(){
 void MeasurementState::update_pir()
 {
     // update room status
-    PinStatus currentPinReading = digitalRead(m_pirPin);
+    PinStatus currentPinReading = digitalRead(m_pir_pin);
     if (currentPinReading) {
-        m_lastActivationTime = getCurrentTime();
+        m_last_activation_time = get_current_time();
       }
 }
 void MeasurementState::update_all(){
@@ -49,7 +49,7 @@ void MeasurementState::update_all(){
     update_pir();
     // read Air Quality Sensor
     if (m_sgp_initialized) {
-    readAirQuality();
+    read_air_quality();
     }
     // Read Temperature Sensor
     if (m_temp_sensor_initialized) {
@@ -60,20 +60,20 @@ void MeasurementState::update_all(){
 
 
 
-bool MeasurementState::roomHasActivity(){
-    if (getCurrentTime() - m_lastActivationTime <= m_holdDuration) {
+bool MeasurementState::room_has_activity(){
+    if (get_current_time() - m_last_activation_time <= m_hold_duration) {
         return true;
       } else {
         return false;
       }    
 }
 
-String MeasurementState::roomIsAvailable()
+String MeasurementState::room_is_available()
 {
-    return String(!roomHasActivity());
+    return String(!room_has_activity());
 }
 
-void MeasurementState::readAirQuality()
+void MeasurementState::read_air_quality()
 {
     m_sgp.setHumidity(0);
     // try to read new data from Air Quality Sensor
@@ -86,7 +86,7 @@ void MeasurementState::readAirQuality()
     }
 }
 
- String MeasurementState::getAirQuality()
+ String MeasurementState::get_air_quality()
  {
     if (!m_sgp_initialized) {
         return F("Sensor error");
@@ -94,7 +94,7 @@ void MeasurementState::readAirQuality()
     return String(m_air_quality);
  }
     
- String MeasurementState::getTemperature()
+ String MeasurementState::get_temperature()
  {
     if (!m_temp_sensor_initialized) {
         return F("Sensor error");

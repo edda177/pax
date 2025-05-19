@@ -18,7 +18,7 @@
 int pirPin = 2;
 int ledPin = 3;
 int tempPin = 6;
-MeasurementState roomState(pirPin, 60*1000, tempPin); // pass temperature pin as 3rd argument
+MeasurementState room_state(pirPin, 60*1000, tempPin); // pass temperature pin as 3rd argument
 
 
 //! If your server URL is an IP address, define SERVER_IS_IP in arduino_secrets.h
@@ -51,7 +51,7 @@ void setup()
     
 
     Serial.println( F("System: Initializing room state") );
-    roomState.begin();
+    room_state.begin();
     
 
     Serial.println( F("System: Initializing network") );
@@ -68,14 +68,14 @@ void setup()
     Serial.println( F("System: Initialization complete") );
     
     // Sending initial message to server
-    postman.sendPost(roomState.getTemperature(), roomState.roomIsAvailable(), roomState.getAirQuality());
+    postman.sendPost(room_state.get_temperature(), room_state.room_is_available(), room_state.get_air_quality());
     last_postman_update = millis();
 }
 
 void loop()
 {
     // read sensor data
-    roomState.update_all();
+    room_state.update_all();
 
     // send data to server
     if (millis()-last_postman_update > postman_wait_time) {
@@ -84,7 +84,7 @@ void loop()
         network();
         delay(10);
         last_postman_update = millis();
-        postman.sendPost(roomState.getTemperature(), roomState.roomIsAvailable(), roomState.getAirQuality());
+        postman.sendPost(room_state.get_temperature(), room_state.room_is_available(), room_state.get_air_quality());
     }
 
     if (millis() > 1000000) {
