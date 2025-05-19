@@ -1,0 +1,16 @@
+# Ignore files without extension
+*
+!/**/
+!*.*
+
+# Ignore VS Code config folder
+.vscode/
+
+# Ignore .exe
+*.exe
+
+# Ignore pio files
+.pio
+
+# Ignore sensitive files
+arduino_secrets.h
