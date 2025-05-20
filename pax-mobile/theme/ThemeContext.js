@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { darkTheme, lightTheme } from "./colors";
 import { buildCustomTheme } from "./customTheme";
-import { useFonts} from 'expo-font';
+import { useFonts } from 'expo-font';
 import { Text } from 'react-native'
 
 const ThemeContext = createContext();
@@ -15,7 +15,7 @@ export const ThemeProvider = ({ children }) => {
   const [fontsLoaded] = useFonts({
     "BadScript": require("../assets/fonts/BadScript-Regular.ttf"),
     "NunitoSans": require('../assets/fonts/NunitoSans.ttf'),
-    "Nunito": require('../assets/fonts/Nunito-VariableFont_wght.ttf'),
+    "Nunito": require('../assets/fonts/Nunito.ttf'),
   });
 
   if (!fontsLoaded) {
