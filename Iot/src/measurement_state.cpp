@@ -76,7 +76,10 @@ bool MeasurementState::room_has_activity(){
 
 String MeasurementState::room_is_available()
 {
-    return String(!room_has_activity());
+    if (room_has_activity()) {
+        return "false";
+    } else
+    return "true";
 }
 
 void MeasurementState::read_air_quality()
