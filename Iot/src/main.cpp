@@ -27,7 +27,7 @@ static String server_ip_str = SERVER;
 int pir_pin = 2;
 int led_pin = 3;
 int temp_pin = 6; 
-MeasurementState room_state(pir_pin, 60*1000); // pass temperature pin as 3rd argument to use sensor
+MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument to use sensor
 WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;
@@ -43,6 +43,7 @@ void setup()
         delay( 50 );
     }
 
+    delay(500); // extra delay to give Serial connection time
     Wire.begin();
     
     Serial.println( F("System: Initializing room state") );
