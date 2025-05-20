@@ -1,16 +1,16 @@
 #include "../include/PostMan.h"
 
-PostMan::PostMan(const char *server, const char *endpoint, uint16_t port, NetworkingBase* connection)
-    : server{server}, endpoint{endpoint}, port{port}, m_connection { connection } {}
+PostMan::PostMan(const ServerInfo &server_info, NetworkingBase* connection)
+    : m_server_info{server_info}, m_connection { connection } {}
 
 /**
- * @brief Create the JSON payload that passes sensor data and fetches the current date and time.
- * @param temperature
- * @param occupancyStatus
- * @param airQuality
- * @return String
+ * @brief Create the JSON payload for room state data
+ * @param temperature Current room temperature
+ * @param occupancyStatus Current room occupancy status
+ * @param airQuality Current room air quality
+ * @return String JSON payload
  */
-String PostMan::createJSON(const String &temperature, const String &occupancyStatus, const String &airQuality)
+String PostMan::createRoomStateJSON(const String &temperature, const String &occupancyStatus, const String &airQuality)
 {
     String json = "{\n";
     // json += "  \"temperature\": \"" + temperature + "\",\n";     // removed until backend has updated API to include temperature
@@ -21,80 +21,108 @@ String PostMan::createJSON(const String &temperature, const String &occupancySta
 }
 
 /**
- * @brief Establish a connection and send the HTTP POST request with the JSON payload constructed from the parameters.
- * @param temperature
- * @param occupancyStatus
- * @param airQuality
- * @return true = succesful transmission to server endpoint
- * @return false = failure to send to server endpoint
+ * @brief Send room state update to server
+ * @param temperature Current room temperature
+ * @param occupancyStatus Current room occupancy status
+ * @param airQuality Current room air quality
+ * @return true if successful, false otherwise
  */
-bool PostMan::sendPost(const String &temperature, const String &occupancyStatus, const String &airQuality)
+bool PostMan::sendRoomState(const String &temperature, const String &occupancyStatus, const String &airQuality)
 {
-    String json = createJSON(temperature, occupancyStatus, airQuality);
-
-    if ( m_connection->ready_for_traffic() ) 
-    {
-        
-        Client* client = m_connection->current_client();
-        // Construct the HTTP POST request header and JSON message.
-        String httpRequest = createHTTPHeaderWithJSON(json);
-
-        // If not connected connect to Server
-        if (!client->connected()) 
-        {
-            if (!m_connection->connect_wifi_to_server())
-            {
-                Serial.println("Unable to connect to server");
-            }
-        }
-
-        // Send the request.
-        uint16_t charsWritten = client->print(httpRequest);
-
-        // Wait for a response (with a timeout of 5 seconds).
-        unsigned long timeout = millis();
-        Serial.print("Client connected: ");
-        Serial.println(client->connected());
-        while (client->available() == 0)
-        {
-            if (millis() - timeout > 5000) {  // 5000 ms timeout
-                Serial.println("Timeout: No response from server.");
-                break;  // Exit the loop
-            }
-        }
-
-        // Read the server response.
-        String response = "";
-        while (client->available())
-        {
-            response += static_cast<char>(client->read());
-        }
-        // Log server response
-        if (response != "") {
-            Serial.println("Server response: ");
-            Serial.println(response);
-        }
-        return true;
-    }
-    else
-    {        
-        return false;
-    }
+    String json = createRoomStateJSON(temperature, occupancyStatus, airQuality);
+    String httpRequest = createHTTPHeader(json, "PUT", String(m_server_info.room_state_endpoint.data()));
+    return sendRequest(httpRequest);
 }
 
 /**
- * @brief Create HTTP POST request header for the given JSON payload.
- * @param jsonPayload The JSON data to be sent.
- * @return String - The full HTTP POST request header.
+ * @brief Send UUID to server to get room ID
+ * @param uuid Device UUID
+ * @return true if successful, false otherwise
  */
-String PostMan::createHTTPHeaderWithJSON(const String &json)
+bool PostMan::sendUuid(const std::string_view uuid)
+{
+    String json = "{\n  \"uuid\": \"" + String(uuid.data()) + "\"\n}";
+    String httpRequest = createHTTPHeader(json, "POST", String(m_server_info.config_endpoint.data()));
+    return sendRequest(httpRequest);
+}
+
+/**
+ * @brief Get room ID from server
+ * @param room_id Reference to store the room ID
+ * @return true if successful, false otherwise
+ */
+bool PostMan::getRoomId(uint32_t &room_id)
+{
+    String endpoint = String(m_server_info.config_endpoint.data()) + "/" + String(m_server_info.uuid.data());
+    String httpRequest = createHTTPHeader("", "GET", endpoint);
+    return sendRequest(httpRequest);
+}
+
+/**
+ * @brief Create HTTP header with JSON payload
+ * @param jsonPayload The JSON data to be sent
+ * @param method HTTP method (PUT, GET, etc.)
+ * @param endpoint Target endpoint
+ * @return String The full HTTP request header
+ */
+String PostMan::createHTTPHeader(const String &jsonPayload, const String &method, const String &endpoint)
 {
     String httpRequest = "";
-    httpRequest += "PUT " + String(endpoint) + " HTTP/1.1\r\n";
-    httpRequest += "Host: " + String(server) + "\r\n";
+    httpRequest += method + " " + endpoint + " HTTP/1.1\r\n";
+    httpRequest += "Host: " + String(m_server_info.server_base_url.data()) + "\r\n";
     httpRequest += "Content-Type: application/json\r\n";
-    httpRequest += "Content-Length: " + String(json.length()) + "\r\n";
+    httpRequest += "Content-Length: " + String(jsonPayload.length()) + "\r\n";
     httpRequest += "Connection: close\r\n\r\n";
-    httpRequest += json;
+    httpRequest += jsonPayload;
     return httpRequest;
+}
+
+/**
+ * @brief Send HTTP request and handle response
+ * @param request The HTTP request to send
+ * @return true if successful, false otherwise
+ */
+bool PostMan::sendRequest(const String &request)
+{
+    if (!m_connection->ready_for_traffic()) {
+        return false;
+    }
+
+    Client* client = m_connection->current_client();
+
+    // If not connected connect to Server
+    if (!client->connected()) {
+        if (!m_connection->connect_wifi_to_server()) {
+            Serial.println("Unable to connect to server");
+            return false;
+        }
+    }
+
+    // Send the request
+    uint16_t charsWritten = client->print(request);
+
+    // Wait for a response (with a timeout of 5 seconds)
+    unsigned long timeout = millis();
+    Serial.print("Client connected: ");
+    Serial.println(client->connected());
+    while (client->available() == 0) {
+        if (millis() - timeout > 5000) {  // 5000 ms timeout
+            Serial.println("Timeout: No response from server.");
+            return false;
+        }
+    }
+
+    // Read the server response
+    String response = "";
+    while (client->available()) {
+        response += static_cast<char>(client->read());
+    }
+
+    // Log server response
+    if (response != "") {
+        Serial.println("Server response: ");
+        Serial.println(response);
+    }
+
+    return true;
 }
