@@ -7,8 +7,8 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import DatePicker from "react-datepicker"; // För datumväljare på webben
-import "react-datepicker/dist/react-datepicker.css"; // Importera stil för datumväljaren
+import DatePicker from "react-datepicker"; 
+import "react-datepicker/dist/react-datepicker.css"; 
 import { TextInput } from "react-native";
 
 const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {

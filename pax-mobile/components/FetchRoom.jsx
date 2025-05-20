@@ -80,6 +80,12 @@ const FetchRoom = () => {
         <FlatList
           data={rooms}
           keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            paddingHorizontal: 10,
+          }}
+          contentContainerStyle={{ paddingTop: 10 }}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.roomItem}
@@ -91,7 +97,6 @@ const FetchRoom = () => {
         />
       )}
 
-      {/* Modal med detaljer */}
       <Modal
         visible={modalVisible}
         animationType="slide"
@@ -168,15 +173,17 @@ const createStyles = (theme) =>
   StyleSheet.create({
     roomItem: {
       backgroundColor: theme.card,
-      paddingBottom: 2,
       borderRadius: 10,
-      marginBottom: 8,
+      marginBottom: 10,
+      flex: 1,
+      marginHorizontal: 5,
     },
     roomName: {
       fontSize: 16,
       fontWeight: "650",
       color: theme.textPrimary,
-      marginTop: 10,
+      marginTop: 5,
+      marginBottom: 2,
     },
     roomDescription: {
       fontSize: 14,
