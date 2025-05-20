@@ -26,8 +26,8 @@ static String server_ip_str = SERVER;
 
 int pir_pin = 2;
 int led_pin = 3;
-int temp_pin = 6;
-MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument
+int temp_pin = 6; 
+MeasurementState room_state(pir_pin, 60*1000); // pass temperature pin as 3rd argument to use sensor
 WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network (&wifi, &ether) ;

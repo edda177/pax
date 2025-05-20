@@ -70,10 +70,10 @@ private:
      */
     float m_humidity { 50.0f };
     /**
-     * @brief Internal variable indicating if Temperature Sensor is properly initalized
+     * @brief Internal variable indicating if a Temperature Sensor is used
      * 
      */
-    bool m_temp_sensor_initialized {};
+    bool m_temp_sensor_connected {};
     /**
      * @brief Calibration varible for SGP30 sensor
      * 

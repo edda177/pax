@@ -6,11 +6,10 @@ MeasurementState::MeasurementState(uint8_t pir_pin, unsigned long hold_duration,
     {
         if (temp_sensor_pin == 0) 
         {
-            m_temp_sensor_initialized = false;
+            m_temp_sensor_connected = false;
         } else 
         {
-            m_temp_sensor.begin();
-            m_temp_sensor_initialized = true;
+            m_temp_sensor_connected = true;
         }
     }
 
@@ -19,8 +18,10 @@ unsigned long MeasurementState::get_current_time(){
 }
 
 void MeasurementState::begin(){
+    // initialize PIR sensor
     pinMode(m_pir_pin, INPUT);
 
+    // initialize SGP30
     if(! m_sgp.begin()) {
         Serial.println(F("SGP30 sensor not initialized"));
     }
@@ -33,6 +34,11 @@ void MeasurementState::begin(){
         else {
             Serial.println(F("SGP30 sensor baseline values not set"));
         }
+    }
+    // Initialize DTH11 Temperature Sensor.
+    // No return value is given from begin()
+    if (m_temp_sensor_connected) {
+        m_temp_sensor.begin();
     }
 }
 
@@ -52,7 +58,7 @@ void MeasurementState::update_all(){
     read_air_quality();
     }
     // Read Temperature Sensor
-    if (m_temp_sensor_initialized) {
+    if (m_temp_sensor_connected) {
         m_temperature = m_temp_sensor.get_temperature();
         m_humidity = m_temp_sensor.get_humidity();
     }
@@ -96,7 +102,7 @@ void MeasurementState::read_air_quality()
     
  String MeasurementState::get_temperature()
  {
-    if (!m_temp_sensor_initialized) {
+    if (!m_temp_sensor_connected) {
         return F("Sensor error");
     }
     return String(m_temperature);
