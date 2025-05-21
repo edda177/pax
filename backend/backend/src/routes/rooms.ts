@@ -15,28 +15,15 @@ interface Room {
   chairs: number;
   whiteboard: boolean;
   projector: boolean;
+  temperature: number;
+  activity: boolean;
+  time: string;
+  img: string;
 }
 
 type CreateRoomInput = Omit<Room, "id">;
 
-/**
- * @swagger
- * /rooms:
- *   get:
- *     summary: Get all rooms
- *     tags: [Rooms]
- *     responses:
- *       200:
- *         description: A list of rooms
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Room'
- *       500:
- *         description: Internal server error
- */
+// GET all rooms
 router.get(
   "/",
   asyncHandler(async (_req: Request, res: Response) => {
@@ -45,31 +32,7 @@ router.get(
   })
 );
 
-/**
- * @swagger
- * /rooms/{id}:
- *   get:
- *     summary: Get a room by ID
- *     tags: [Rooms]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: Room ID
- *     responses:
- *       200:
- *         description: Room found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Room'
- *       404:
- *         description: Room not found
- *       500:
- *         description: Internal server error
- */
+// GET room by ID
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
@@ -87,28 +50,7 @@ router.get(
   })
 );
 
-/**
- * @swagger
- * /rooms:
- *   post:
- *     summary: Create a new room
- *     tags: [Rooms]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateRoomInput'
- *     responses:
- *       201:
- *         description: Room created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Room'
- *       500:
- *         description: Error creating room
- */
+// POST create new room
 router.post(
   "/",
   asyncHandler(async (req: Request, res: Response) => {
@@ -122,13 +64,17 @@ router.post(
       chairs,
       whiteboard,
       projector,
+      temperature,
+      activity,
+      time,
+      img,
     } = req.body as CreateRoomInput;
 
     const result = await pool.query(
       `INSERT INTO rooms 
-    (name, description, available, air_quality, screen, floor, chairs, whiteboard, projector)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-    RETURNING *`,
+      (name, description, available, air_quality, screen, floor, chairs, whiteboard, projector, temperature, activity, time, img)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      RETURNING *`,
       [
         name,
         description,
@@ -139,6 +85,10 @@ router.post(
         chairs,
         whiteboard,
         projector,
+        temperature,
+        activity,
+        time,
+        img,
       ]
     );
 
@@ -146,41 +96,15 @@ router.post(
   })
 );
 
-/**
- * @swagger
- * /rooms/{id}:
- *   put:
- *     summary: Update a room
- *     tags: [Rooms]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: Room ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateRoomInput'
- *     responses:
- *       200:
- *         description: Room updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Room'
- *       404:
- *         description: Room not found
- *       500:
- *         description: Internal server error
- */
+// PUT update room
 router.put(
   "/:id",
   asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid room ID" });
+    }
+
     const {
       name,
       description,
@@ -191,21 +115,29 @@ router.put(
       chairs,
       whiteboard,
       projector,
+      temperature,
+      activity,
+      time,
+      img,
     } = req.body as CreateRoomInput;
 
     const result = await pool.query(
       `UPDATE rooms SET 
-    name = $1,
-    description = $2,
-    available = $3,
-    air_quality = $4,
-    screen = $5,
-    floor = $6,
-    chairs = $7,
-    whiteboard = $8,
-    projector = $9
-    WHERE id = $10
-    RETURNING *`,
+        name = $1,
+        description = $2,
+        available = $3,
+        air_quality = $4,
+        screen = $5,
+        floor = $6,
+        chairs = $7,
+        whiteboard = $8,
+        projector = $9,
+        temperature = $10,
+        activity = $11,
+        time = $12,
+        img = $13
+        WHERE id = $14
+        RETURNING *`,
       [
         name,
         description,
@@ -216,6 +148,10 @@ router.put(
         chairs,
         whiteboard,
         projector,
+        temperature,
+        activity,
+        time,
+        img,
         id,
       ]
     );
@@ -228,40 +164,14 @@ router.put(
   })
 );
 
-/**
- * @swagger
- * /rooms/{id}:
- *   delete:
- *     summary: Delete a room
- *     tags: [Rooms]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: Room ID
- *     responses:
- *       200:
- *         description: Room deleted successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 room:
- *                   $ref: '#/components/schemas/Room'
- *       404:
- *         description: Room not found
- *       500:
- *         description: Internal server error
- */
+// DELETE room
 router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid room ID" });
+    }
 
     const result = await pool.query(
       "DELETE FROM rooms WHERE id = $1 RETURNING *",
