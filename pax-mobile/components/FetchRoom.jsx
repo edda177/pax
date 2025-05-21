@@ -13,9 +13,11 @@ import {
   Alert,
 } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
-import BookingModal from "../components/BookingModal";
+import BookingModal from "./BookingModal";
+import FavoriteButton from "../components/favoriteButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const FetchRoom = () => {
+const FetchRoom = ({ favorites, setFavorites, setAllRooms }) => {
   const { theme } = useTheme();
   const styles = createStyles(theme);
 
@@ -36,6 +38,7 @@ const FetchRoom = () => {
         const data = await response.json();
         const availableRooms = (data || []).filter((room) => room.available);
         setRooms(availableRooms);
+        setAllRooms(data || []); // 👈 Skickar alla rum till Booking.js
       } catch (err) {
         setError("Något gick fel vid hämtning av rum.");
       } finally {
@@ -46,10 +49,26 @@ const FetchRoom = () => {
     fetchRooms();
   }, []);
 
+  const toggleFavorite = async (roomId) => {
+    const updated = {
+      ...favorites,
+      [roomId]: !favorites[roomId],
+    };
+    setFavorites(updated);
+    try {
+      await AsyncStorage.setItem("favorites", JSON.stringify(updated));
+    } catch (e) {
+      console.error("Kunde inte uppdatera favoriter", e);
+    }
+  };
+
   const openRoomModal = (room) => {
-    setSelectedRoom(room);
-    setImageError(false);
-    setModalVisible(true);
+    setSelectedRoom(null); // Tvinga omrendering
+    setTimeout(() => {
+      setSelectedRoom(room);
+      setImageError(false);
+      setModalVisible(true);
+    }, 10);
   };
 
   const closeModal = () => {
@@ -139,6 +158,11 @@ const FetchRoom = () => {
                   {selectedRoom.projector ? "Ja" : "Nej"}
                 </Text>
 
+                <FavoriteButton
+                  isFavorite={favorites[selectedRoom.id]}
+                  onToggle={() => toggleFavorite(selectedRoom.id)}
+                />
+
                 <Pressable
                   onPress={() => {
                     setBookingModalVisible(true);
@@ -180,7 +204,7 @@ const createStyles = (theme) =>
     },
     roomName: {
       fontSize: 16,
-      fontWeight: "650",
+      fontWeight: "350",
       color: theme.textPrimary,
       marginTop: 5,
       marginBottom: 2,
