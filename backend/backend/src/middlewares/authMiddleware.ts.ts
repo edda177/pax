@@ -9,12 +9,13 @@ const authenticateToken = (
     req: AuthenticatedRequest,
     res: Response,
     next: NextFunction
-) => {
+): void => { // explicit return type
     const token = req.header('Authorization')?.replace('Bearer ', '');
     console.log('Token från header:', token);
 
     if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
+        res.status(401).json({ message: 'No token provided' });
+        return; // return void
     }
 
     try {
@@ -22,7 +23,8 @@ const authenticateToken = (
 
         // Kontrollera att det är ett objekt och har id/username/role
         if (typeof decoded !== 'object' || decoded === null || !('id' in decoded)) {
-            return res.status(403).json({ message: 'Invalid token structure' });
+            res.status(403).json({ message: 'Invalid token structure' });
+            return;
         }
 
         req.user = decoded as JwtPayload & { role?: string };
@@ -31,7 +33,8 @@ const authenticateToken = (
         next();
     } catch (err) {
         console.error('Token verification error:', err);
-        return res.status(403).json({ message: 'Invalid token' });
+        res.status(403).json({ message: 'Invalid token' });
+        return;
     }
 };
 
