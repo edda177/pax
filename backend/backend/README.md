@@ -13,9 +13,10 @@
 ## How to start server
 
 1. Download and install docker desktop
-2. In folder pax run command docker build -t my-node-app .
+2. In terminal enter cd pax/backend/backend and run command: docker build -t my-node-app .
 3. run docker-compose up
-4. Enjoy the api
+4. type this in url http://localhost:13000/setup (sets up DB table)
+5. Enjoy the api
 
 # API Documentation
 
