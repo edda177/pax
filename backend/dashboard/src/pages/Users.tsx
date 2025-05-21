@@ -9,6 +9,7 @@ import {
 import { User } from "../types/user";
 import Button from "@/components/Button";
 import { useEffect, useState } from "react";
+
 const Users: React.FC = () => {
   const API_BASE_URL = "http://localhost:13000";
   const [users, setUsers] = useState<User[]>([]);
