@@ -22,15 +22,15 @@ const allowedRoles = ["admin", "user", "moderator"];
 router.post('/register', async (req: Request, res: Response) => {
     const { username, password, role }: { username: string; password: string; role?: string } = req.body;
 
-    // Validera rollen
+    // Validate role
     if (role && !allowedRoles.includes(role)) {
-        return res.status(400).json({ message: "Ogiltig roll. Tillåtna roller är: admin, user, moderator." });
+        return res.status(400).json({ message: "Invalid role. Allowed roles are: admin, user, moderator." });
     }
 
     try {
         const existingUser = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
         if (existingUser.rows.length > 0) {
-            return res.status(409).json({ message: 'Användarnamnet är redan taget' });
+            return res.status(409).json({ message: 'Username is already taken' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -49,13 +49,13 @@ router.post('/register', async (req: Request, res: Response) => {
         );
 
         res.status(201).json({
-            message: 'Användare registrerad',
+            message: 'User registered successfully',
             token,
             user: newUser,
         });
     } catch (err: any) {
         console.error('Registration error:', err);
-        res.status(500).json({ message: 'Registrering misslyckades', error: err.message });
+        res.status(500).json({ message: 'Registration failed', error: err.message });
     }
 });
 
@@ -68,12 +68,12 @@ router.post('/login', async (req: Request, res: Response) => {
         const dbUser: DbUser | undefined = result.rows[0];
 
         if (!dbUser) {
-            return res.status(401).json({ message: 'Felaktiga inloggningsuppgifter' });
+            return res.status(401).json({ message: 'Invalid login credentials' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, dbUser.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Felaktiga inloggningsuppgifter' });
+            return res.status(401).json({ message: 'Invalid login credentials' });
         }
 
         const user: User = {
@@ -89,13 +89,13 @@ router.post('/login', async (req: Request, res: Response) => {
         );
 
         res.json({
-            message: 'Inloggning lyckades',
+            message: 'Login successful',
             token,
             role: user.role,
         });
     } catch (err: any) {
         console.error('Login error:', err);
-        res.status(500).json({ message: 'Inloggning misslyckades', error: err.message });
+        res.status(500).json({ message: 'Login failed', error: err.message });
     }
 });
 

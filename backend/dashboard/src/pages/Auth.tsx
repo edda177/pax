@@ -24,13 +24,25 @@ const Auth: React.FC = () => {
         throw new Error(data.message || "Login failed");
       }
 
+      // Spara token och role i localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
-      navigate("/dashboard");
+
+      // Navigera baserat på rollen
+      if (data.role === "admin") {
+        navigate("/dashboard");
+      } else if (data.role === "user") {
+        navigate("/userdashboard");
+      } else if (data.role === "moderator") {
+        navigate("/moderatorpage");
+      } else {
+        navigate("/login");
+      }
     } catch (err: any) {
       setError(err.message);
     }
   };
+
 
   return (
     <main className="flex items-center justify-center min-h-screen bg-[#10302B] p-6">
