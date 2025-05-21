@@ -6,11 +6,13 @@ import { useTheme } from '../theme/ThemeContext';
 import ThemeToggleTabButton from '../components/ThemeToggleTabButton';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../context/UserContext';
+import { useAuth } from '../context/AuthContext';
 
-const LoginTest = () => {
+const LoginTest = ({ navigation }) => {
   const { theme } = useTheme();
   const styles = createStyles(theme);
-  const navigation = useNavigation();
+  const { login } = useAuth();
 
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState('');
@@ -35,21 +37,28 @@ const LoginTest = () => {
   }, []);
 
   const handleLogin = async () => {
-    setError('');
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
+    if (!username || !password) {
+      setError('Fyll i användarnamn och lösenord.');
+      return; 
+    }
 
-    if (user) {
-      console.log('Inloggning lyckades:', user);
-      navigation.navigate('HomeScreen'); 
-    } else {
-      setError('Fel användarnamn eller lösenord.');
+    try {
+      const result = await loginWithApi(username, password);
+
+      if (!result || !result.access_token) {
+        setError('Felaktiga inloggningsuppgifter');
+        return;
+      }
+      await login(result.access_token);
+      navigation.navigate("LoadingScreen");
+    } catch (error) {
+      console.error ('Login error', error);
+      setError ('Något gick fel vid inloggning')
     }
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollcontainer}>
       <View style={styles.container}>
         <ThemeToggleTabButton />
         <LogoComponent style={styles.logo} />
@@ -73,6 +82,10 @@ export default LoginTest;
 
 const createStyles = (theme) => 
     StyleSheet.create({
+      scrollcontainer: {
+        flexGrow: 1,
+        backgroundColor: theme.background,
+      },
       container: {
         flex: 1,
         backgroundColor: theme.background,
@@ -104,7 +117,6 @@ const createStyles = (theme) =>
         width: 100,
         textAlign: 'right',
         alignSelf: 'flex-end',
-        marginLeft: 50,
       },
       pressed: {
         opacity: 0.2,

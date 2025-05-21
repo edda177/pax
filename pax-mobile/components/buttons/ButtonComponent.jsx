@@ -25,11 +25,11 @@ const createStyles = (theme) =>
         margin: 10,
         padding: 20,
         backgroundColor: theme.card,
-        borderRadius: 20,
+        borderRadius: 30,
         width: 200,
         textAlign: 'right',
         alignSelf: 'flex-end',
-        marginRight: 10,
+        marginRight: 20,
         borderColor: theme.accent,
         borderWidth: 2,
         fontFamily: 'NunitoSans'
