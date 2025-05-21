@@ -38,7 +38,7 @@ const FetchRoom = ({ favorites, setFavorites, setAllRooms }) => {
         const data = await response.json();
         const availableRooms = (data || []).filter((room) => room.available);
         setRooms(availableRooms);
-        setAllRooms(data || []); // 👈 Skickar alla rum till Booking.js
+        setAllRooms(data || []);
       } catch (err) {
         setError("Något gick fel vid hämtning av rum.");
       } finally {
@@ -63,7 +63,7 @@ const FetchRoom = ({ favorites, setFavorites, setAllRooms }) => {
   };
 
   const openRoomModal = (room) => {
-    setSelectedRoom(null); // Tvinga omrendering
+    setSelectedRoom(null);
     setTimeout(() => {
       setSelectedRoom(room);
       setImageError(false);
