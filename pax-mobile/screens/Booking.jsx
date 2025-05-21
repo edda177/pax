@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -7,20 +7,59 @@ import {
   Platform,
   Text,
   Pressable,
+  FlatList,
+  Modal,
+  ScrollView,
+  Image,
 } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 import ThemeToggleTabButton from "../components/ThemeToggleTabButton";
 import MapModal from "../components/MapModal";
 import FetchRoom from "../components/FetchRoom";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import BookingModal from "../components/BookingModal"; // om du har en separat modal komponent för bokning
 
 const Booking = () => {
   const { theme, isDark } = useTheme();
   const styles = createStyles(theme);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [favorites, setFavorites] = useState({});
+  const [allRooms, setAllRooms] = useState([]);
+
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [bookingModalVisible, setBookingModalVisible] = useState(false);
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
+  };
+
+  useEffect(() => {
+    const loadFavorites = async () => {
+      try {
+        const stored = await AsyncStorage.getItem("favorites");
+        setFavorites(JSON.parse(stored) || {});
+      } catch (e) {
+        console.error("Kunde inte läsa favoriter", e);
+      }
+    };
+
+    loadFavorites();
+  }, []);
+
+  const favoriteRoomList = allRooms.filter((room) => favorites[room.id]);
+
+  // Funktion för att öppna modal när rum klickas (både i FetchRoom och Favoriter)
+  const openRoomModal = (room) => {
+    setSelectedRoom(room);
+    setBookingModalVisible(true);
+  };
+
+  // När bokningen lyckas kan du hantera rummet borttaget etc.
+  const handleBookingSuccess = (roomId) => {
+    setAllRooms((prev) => prev.filter((room) => room.id !== roomId));
+    setBookingModalVisible(false);
+    setSelectedRoom(null);
   };
 
   return (
@@ -38,7 +77,12 @@ const Booking = () => {
         <View style={styles.cardWrapper}>
           <View style={styles.card}>
             <Text style={styles.title}>Lediga rum:</Text>
-            <FetchRoom />
+            <FetchRoom
+              favorites={favorites}
+              setFavorites={setFavorites}
+              setAllRooms={setAllRooms}
+              onRoomPress={openRoomModal} // Skicka klick-handler som prop
+            />
           </View>
 
           <Pressable style={styles.pressableButton} onPress={toggleModal}>
@@ -47,6 +91,29 @@ const Booking = () => {
 
           <View style={styles.card2}>
             <Text style={styles.title}>Favoritrum:</Text>
+            {favoriteRoomList.length === 0 ? (
+              <Text style={{ color: theme.textSecondary, marginTop: 10 }}>
+                Inga favoriter ännu.
+              </Text>
+            ) : (
+              <FlatList
+                data={favoriteRoomList}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <Pressable onPress={() => openRoomModal(item)}>
+                    <Text
+                      style={{
+                        color: theme.textPrimary,
+                        fontSize: 16,
+                        marginTop: 8,
+                      }}
+                    >
+                      ★ {item.name}
+                    </Text>
+                  </Pressable>
+                )}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -56,6 +123,14 @@ const Booking = () => {
         onClose={toggleModal}
         mapImage={require("../assets/maps/karta_pax-04.png")}
         imageDescription="Namnlista kommer snart"
+      />
+
+      <BookingModal
+        visible={bookingModalVisible}
+        onClose={() => setBookingModalVisible(false)}
+        room={selectedRoom}
+        onBookingSuccess={handleBookingSuccess}
+        theme={theme}
       />
     </SafeAreaView>
   );
