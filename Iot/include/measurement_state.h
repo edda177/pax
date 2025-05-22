@@ -115,15 +115,11 @@ public:
      */
     void update_all();
     /**
-     * @brief Function to check current room status
-     */
-    bool room_has_activity();
-    /**
-     * @brief Function returns room availability in a printable format
+     * @brief Function to show current room status in a printable format
      * 
-     * @return String boolean, either true or false
+     * @return String boolean, "true" or "false"
      */
-    String room_is_available();
+    String room_has_activity();
     /**
      * @brief Function returns Air Quality in a printable format 
      * 

@@ -13,7 +13,7 @@ PostMan::PostMan(const ServerInfo &server_info, NetworkingBase* connection)
 String PostMan::createRoomStateJSON(const String &temperature, const String &occupancyStatus, const String &airQuality)
 {
     String json = "{\n";
-    // json += "  \"temperature\": \"" + temperature + "\",\n";     // removed until backend has updated API to include temperature
+    json += "  \"temperature\": \"" + temperature + "\",\n";    
     json += "  \"available\": \"" + occupancyStatus + "\",\n";
     json += "  \"air_quality\": \"" + airQuality + "\",\n";
     json += "}";

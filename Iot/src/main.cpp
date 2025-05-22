@@ -33,7 +33,7 @@ bool has_room_id = false;
 int pir_pin = 2;
 int led_pin = 3;
 int temp_pin = 6; 
-MeasurementState room_state(pir_pin, 60*1000); // pass temperature pin as 3rd argument to use sensor
+MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument to use sensor
 WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network(&wifi, &ether);
@@ -98,6 +98,7 @@ void setup()
         delay( 50 );
     }
 
+    delay(500); // extra delay to give Serial connection time
     Wire.begin();
     
     Serial.println( F("System: Initializing room state") );
@@ -116,12 +117,14 @@ void setup()
     
     Serial.println( F("System: Initialization complete") );
     
+  
     // Try to get room ID on startup
     if (try_get_room_id()) {
-        // Send initial state if we have a room ID
-        postman.sendRoomState(
+        // Update room state and send initial state if we have a room ID
+      room_state.update_all();
+      postman.sendRoomState(
             room_state.get_temperature(),
-            room_state.room_is_available(),
+            room_state.room_has_activity(),
             room_state.get_air_quality()
         );
     }
@@ -149,7 +152,7 @@ void loop()
         last_postman_update = millis();
         postman.sendRoomState(
             room_state.get_temperature(),
-            room_state.room_is_available(),
+            room_state.room_has_activity(),
             room_state.get_air_quality()
         );
     }

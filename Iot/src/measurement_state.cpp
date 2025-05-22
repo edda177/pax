@@ -66,21 +66,14 @@ void MeasurementState::update_all(){
 
 
 
-bool MeasurementState::room_has_activity(){
+String MeasurementState::room_has_activity(){
     if (get_current_time() - m_last_activation_time <= m_hold_duration) {
-        return true;
+        return "true";
       } else {
-        return false;
+        return "false";
       }    
 }
 
-String MeasurementState::room_is_available()
-{
-    if (room_has_activity()) {
-        return "false";
-    } else
-    return "true";
-}
 
 void MeasurementState::read_air_quality()
 {
@@ -91,7 +84,11 @@ void MeasurementState::read_air_quality()
     }
     // if successful update cached Air Quality value
     else {
-        m_air_quality = m_sgp.eCO2;
+        // convert ppm reading to Air Quality in percent using exponential scaling
+        // 400 ppm gives 100% air quality, 1000 ppm 55% and 2000 ppm 22%
+        // It's possible to improve accuracy of conversion by incorporating humidity readings from DHT11
+        float air_quality = 100 * exp(-0.001 * (m_sgp.eCO2 - 400));
+        m_air_quality = constrain(air_quality, 0, 100);
     }
 }
 
