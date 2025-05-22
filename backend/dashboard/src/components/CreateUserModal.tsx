@@ -53,7 +53,7 @@ const CreateUserModal: FC<CreateUserModalProps> = ({ isOpen, onClose, onCreate, 
 
     const handleSubmit = () => {
         const user: User = {
-            id: userToEdit?.id ?? Date.now(),
+            id: userToEdit?.id ?? Date.now(), // reuse ID if editing
             ...form,
         };
         if (userToEdit && onEdit) {
