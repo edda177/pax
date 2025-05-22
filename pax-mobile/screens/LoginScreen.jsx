@@ -8,6 +8,7 @@ import ButtonComponent from '../components/buttons/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../context/UserContext';
 import { useAuth } from '../context/AuthContext';
+import { loginWithApi } from '../services/api';
 
 const LoginTest = ({ navigation }) => {
   const { theme } = useTheme();
@@ -23,7 +24,7 @@ const LoginTest = ({ navigation }) => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          'https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/users'
+          'https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new#/Auth/post_auth_login'
         );
         const data = await response.json();
         setUsers(data);

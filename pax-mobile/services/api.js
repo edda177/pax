@@ -1,11 +1,13 @@
-const BASE_URL = "https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/users";
+const BASE_URL = "https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new#/Auth/post_auth_login";
 
 export const loginWithApi = async (userName, password) => {
     try {
-        const response = await fetch(`${BASE_URL}/auth/login`, {
+        const response = await fetch(`${BASE_URL}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userName, password })
+            body: JSON.stringify({ 
+                userName: 'testuser',
+                password: 'testpass', })
         });
 
         if (!response.ok) throw new Error("Inloggningen misslyckades");
@@ -19,10 +21,10 @@ export const loginWithApi = async (userName, password) => {
 
 export const fetchUserProfile = async (token) => {
     try {
-        const response = await fetch(`${BASE_URL}/auth/profile`, {
+        const response = await fetch(`${BASE_URL}`, {
             method: "GET",
             headers: {
-                // Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         });
 
