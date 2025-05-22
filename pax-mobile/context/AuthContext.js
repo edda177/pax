@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
             const storedToken = await getFromStorage("userToken");
             if (storedToken) {
                 setToken(storedToken)
-                // Nästa fetch - dvs hämta användarens profil (data)
                 const profile = await fetchUserProfile(storedToken);
                 if (profile) {
                     saveUserData(profile)
@@ -25,18 +24,6 @@ export const AuthProvider = ({ children }) => {
         };
         loadToken();
     }, []);
-
-    // När appen startar - kolla om token finns
-    // useEffect(() => {
-    //     const loadToken = async () => {
-    //         const storedToken = await getFromStorage("userToken")
-    //         if (storedToken) {
-    //             setToken(storedToken);
-    //         }
-    //         setIsLoading(false);
-    //     };
-    //     loadToken();
-    // }, []);
 
     const login = async (newToken) => {
         console.log("Access token", newToken);
@@ -49,23 +36,11 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // const login = async (fakeToken) => {
-    //     await saveToStorage("userToken", fakeToken);
-    //     setToken(fakeToken);
-    //     console.log(fakeToken);
-    // };
-
     const logout = async () => {
         await deleteFromStorage("userToken");
         setToken(null);
         clearUser();
     }
-
-    // const logout = async () => {
-    //     await deleteFromStorage("userToken");
-    //     setToken(null);
-    // }
-
 
     return (
         <AuthContext.Provider value={{ token, login, logout, isLoading }}>

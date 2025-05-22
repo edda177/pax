@@ -10,16 +10,6 @@ export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // useEffect 
-    // useEffect(() => {
-    //     const load = async () => {
-    //         const storedUser = await AsyncStorage.getItem("userName");
-    //         if (storedUser) setUserName(storedUser);
-    //         setIsLoading(false);
-    //     };
-    //     load();
-    // }, []);
-
     useEffect(() => {
         const load = async () => {
             const storedUser = await AsyncStorage.getItem("userProfile");
@@ -29,24 +19,10 @@ export const UserProvider = ({ children }) => {
         load();
     }, []);
 
-    // funktion som spar userName
-    // const saveUserName = async (name) => {
-    //     setUserName(name);
-    //     await AsyncStorage.setItem("userName", name);
-    // };
-
     const saveUserData = async (userData) => {
         setUser(userData);
         await AsyncStorage.setItem("userProfile", JSON.stringify(userData));
     };
-
-
-    // funktion
-    //  som tar bort userName
-    // const clearUser = async () => {
-    //     setUserName("");
-    //     await AsyncStorage.removeItem("userName");
-    // }
 
     const clearUser = async () => {
         setUser(null);
