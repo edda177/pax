@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.39)",
+        backgroundColor: "rgba(0, 0, 0, 0.51)",
     },
     modalContent: {
-        backgroundColor: "rgba(222, 247, 194, 0.92)",
+        backgroundColor: "rgba(222, 247, 194, 0.99)",
         padding: 15,
         borderRadius: 10,
         alignItems: "center",
@@ -54,6 +54,9 @@ const styles = StyleSheet.create({
         maxWidth: "120%",
         height: 300,
         resizeMode: "contain",
+    },
+    imageDescription: {
+        color: "FFF",
     },
 });
 

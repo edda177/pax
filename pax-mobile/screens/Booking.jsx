@@ -121,8 +121,10 @@ const Booking = () => {
       <MapModal
         isVisible={isModalVisible}
         onClose={toggleModal}
-        mapImage={require("../assets/maps/karta_pax-04.png")}
-        imageDescription="Namnlista kommer snart"
+        mapImage={require("../assets/maps/karta-pax_med-nr.png")}
+        imageDescription={
+          "1: Rumsnamn  2: Rumsnamn  3: Rumsnamn 4: Rumsnamn\n5: Rumsnamn  6: Rumsnamn  7: Rumsnamn"
+        }
       />
 
       <BookingModal
