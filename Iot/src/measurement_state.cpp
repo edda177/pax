@@ -66,21 +66,14 @@ void MeasurementState::update_all(){
 
 
 
-bool MeasurementState::room_has_activity(){
+String MeasurementState::room_has_activity(){
     if (get_current_time() - m_last_activation_time <= m_hold_duration) {
-        return true;
+        return "true";
       } else {
-        return false;
+        return "false";
       }    
 }
 
-String MeasurementState::room_is_available()
-{
-    if (room_has_activity()) {
-        return "false";
-    } else
-    return "true";
-}
 
 void MeasurementState::read_air_quality()
 {

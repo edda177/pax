@@ -62,8 +62,9 @@ void setup()
     
     Serial.println( F("System: Initialization complete") );
     
-    // Sending initial message to server
-    postman.sendPost(room_state.get_temperature(), room_state.room_is_available(), room_state.get_air_quality());
+    // Update room state and send initial message to server
+    room_state.update_all();
+    postman.sendPost(room_state.get_temperature(), room_state.room_has_activity(), room_state.get_air_quality());
     last_postman_update = millis();
 }
 
@@ -79,7 +80,7 @@ void loop()
         network();
         delay(10);
         last_postman_update = millis();
-        postman.sendPost(room_state.get_temperature(), room_state.room_is_available(), room_state.get_air_quality());
+        postman.sendPost(room_state.get_temperature(), room_state.room_has_activity(), room_state.get_air_quality());
     }
 
     if (millis() > 1000000) {
