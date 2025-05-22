@@ -13,8 +13,8 @@ PostMan::PostMan(const char *server, const char *endpoint, uint16_t port, Networ
 String PostMan::createJSON(const String &temperature, const String &occupancyStatus, const String &airQuality)
 {
     String json = "{\n";
-    json += "  \"temperature\": \"" + temperature + "\",\n";
-    json += "  \"motion\": \"" + occupancyStatus + "\",\n";
+    json += "  \"temperature\": \"" + temperature + "\",\n";    
+    json += "  \"available\": \"" + occupancyStatus + "\",\n";
     json += "  \"air_quality\": \"" + airQuality + "\",\n";
     json += "}";
     return json;
