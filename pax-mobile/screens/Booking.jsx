@@ -158,7 +158,7 @@ const createStyles = (theme) =>
       zIndex: 1,
     },
     bookingtext: {
-      color: theme.textPrimary,
+      color: theme.card,
       fontFamily: "NunitoSans",
       fontSize: 30,
       fontWeight: "600",
@@ -190,7 +190,7 @@ const createStyles = (theme) =>
       elevation: 3,
     },
     title: {
-      color: theme.textSecondary,
+      color: theme.textPrimary,
       fontFamily: "NunitoSans",
       fontSize: 20,
       fontWeight: "500",
@@ -210,12 +210,10 @@ const createStyles = (theme) =>
       borderRadius: 20,
       textAlign: "right",
       marginRight: 10,
-      borderColor: theme.accent,
-      borderWidth: 2,
       elevation: 3,
     },
     pressableText: {
-      color: theme.textSecondary,
+      color: theme.textPrimary,
       fontFamily: "NunitoSans",
       fontSize: 18,
       fontWeight: "600",

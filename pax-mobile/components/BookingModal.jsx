@@ -206,7 +206,7 @@ const createStyles = (theme) =>
       color: theme.textPrimary,
     },
     button: {
-      backgroundColor: theme.textSecondary,
+      backgroundColor: theme.buttonColor,
       padding: 12,
       borderRadius: 8,
       alignItems: "center",
