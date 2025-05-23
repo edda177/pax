@@ -14,7 +14,7 @@ String PostMan::createRoomStateJSON(const String &temperature, const String &occ
 {
     String json = "{\n";
     json += "  \"temperature\": \"" + temperature + "\",\n";    
-    json += "  \"available\": \"" + occupancyStatus + "\",\n";
+    json += "  \"activity\": " + occupancyStatus + ",\n";
     json += "  \"air_quality\": \"" + airQuality + "\",\n";
     json += "}";
     return json;
