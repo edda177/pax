@@ -1,18 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 
 const RoomCard = () => {
-  const [bookedRoom, setBookedRoom] = useState(null);
+  const [bookedRoom, setBookedRoom] = useState({ name: "Rum Nunito" });
+  const [pauseTime, setPauseTime] = useState(0);
+  const timerRef = useRef(null);
   const { theme } = useTheme();
 
-  const pauseBooking = () => {
-    console.log("Bokningen är pausad");
+  const startPauseTimer = () => {
+    if (pauseTime === 0) {
+      setPauseTime(15 * 60);
+    }
   };
+
+  useEffect(() => {
+    if (pauseTime > 0) {
+      timerRef.current = setInterval(() => {
+        setPauseTime((prev) => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(timerRef.current);
+  }, [pauseTime]);
 
   const cancelBooking = () => {
     setBookedRoom(null);
-    console.log("Bokningen är avbokad");
+    setPauseTime(0);
+  };
+
+  const formatTime = (secs) => {
+    const min = Math.floor(secs / 60);
+    const sec = secs % 60;
+    return `${min}:${sec.toString().padStart(2, "0")}`;
   };
 
   const styles = StyleSheet.create({
@@ -25,9 +51,9 @@ const RoomCard = () => {
       alignItems: "center",
     },
     title: {
-      fontSize: 18,
-      fontWeight: "600",
-      marginBottom: 10,
+      fontSize: 20,
+      fontWeight: "800",
+      marginBottom: 6,
       textAlign: "center",
       color: theme.textPrimary,
       fontFamily: "NunitoSans",
@@ -35,14 +61,25 @@ const RoomCard = () => {
     roomName: {
       fontSize: 16,
       fontWeight: "500",
-      marginBottom: 20,
+      marginBottom: 10,
       color: theme.text,
       fontFamily: "NunitoSans",
+      color: theme.textPrimary,
+      fontStyle: "italic",
+    },
+    pauseText: {
+      fontSize: 26,
+      color: theme.text,
+      marginBottom: 10,
+      fontWeight: "300",
+      textAlign: "center",
+      fontFamily: "NunitoSans",
+      color: theme.textPrimary,
     },
     buttonRow: {
       flexDirection: "row",
       justifyContent: "space-between",
-      width: 320, // justera efter behov så det passar skärmen
+      width: 320,
       marginTop: 10,
     },
     button: {
@@ -52,11 +89,9 @@ const RoomCard = () => {
       marginHorizontal: 5,
       borderRadius: 8,
       alignItems: "center",
-      fontFamily: "NunitoSans",
     },
     cancelButton: {
       backgroundColor: "red",
-      marginHorizontal: 5,
     },
     buttonText: {
       color: "#fff",
@@ -69,14 +104,17 @@ const RoomCard = () => {
     <View style={styles.card}>
       {bookedRoom ? (
         <>
-          <Text style={styles.title}>Ditt rum är bokat</Text>
+          <Text style={styles.title}>Ditt bokade rum är: </Text>
           <Text style={styles.roomName}>{bookedRoom.name}</Text>
-
+          {pauseTime > 0 && (
+            <Text style={styles.pauseText}>
+              Ditt rum är pausat i: {formatTime(pauseTime)}
+            </Text>
+          )}
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.button} onPress={pauseBooking}>
+            <TouchableOpacity style={styles.button} onPress={startPauseTimer}>
               <Text style={styles.buttonText}>Pausa bokning</Text>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
               onPress={cancelBooking}
@@ -87,19 +125,7 @@ const RoomCard = () => {
         </>
       ) : (
         <>
-          <Text style={styles.title}>Du har inte bokat ett rum</Text>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.button} onPress={pauseBooking}>
-              <Text style={styles.buttonText}>Pausa bokning</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.button, styles.cancelButton]}
-              onPress={cancelBooking}
-            >
-              <Text style={styles.buttonText}>Avboka</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.title}>Du har inget bokat rum</Text>
         </>
       )}
     </View>
