@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import pool from "../db";
 import asyncHandler from "../middlewares/asyncHandler";
+import bcrypt from 'bcrypt';
 
 const router: Router = express.Router();
 
@@ -71,6 +72,28 @@ router.post(
     }
   })
 );
+
+
+// router.post('/api/users', async (req, res) => {
+//   const { name, surname, email, password, role } = req.body;
+
+//   // ✅ Hash the password
+//   const hashedPassword = await bcrypt.hash(password, 10);
+
+//   // ✅ Save to database with hashed password
+//   const newUser = await db.user.create({
+//     data: {
+//       name,
+//       surname,
+//       email,
+//       password: hashedPassword,
+//       role,
+//     },
+//   });
+
+//   res.status(201).json({ id: newUser.id });
+// });
+
 
 /**
  * @swagger
