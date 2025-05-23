@@ -61,7 +61,7 @@ router.post(
       const result = await pool.query(
         `INSERT INTO users (name, surname, email, password, role)
        VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, name, surname, email, role`,
+       RETURNING id, name, surname, email, password, role`,
         [name, surname, email, password, role || "user"]
       );
       res.status(201).json(result.rows[0]);
@@ -95,7 +95,7 @@ router.get(
   asyncHandler(async (_req: Request, res: Response) => {
     try {
       const result = await pool.query(
-        "SELECT id, name, surname, email, password, role FROM users"
+        "SELECT id, name, surname, email, role FROM users"
       );
       res.json(result.rows);
     } catch (err) {
@@ -136,7 +136,7 @@ router.get(
 
     try {
       const result = await pool.query(
-        "SELECT id, name, surname, email, password, role FROM users WHERE id = $1",
+        "SELECT id, name, surname, email, role FROM users WHERE id = $1",
         [id]
       );
 
@@ -189,7 +189,7 @@ router.put(
         `UPDATE users 
        SET name = $1, surname = $2, email = $3, role = $4
        WHERE id = $5 
-       RETURNING id, firstname, lastname, email, role`,
+       RETURNING id, name, surname, email, role`,
         [name, surname, email, role, id]
       );
 
