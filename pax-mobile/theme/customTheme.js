@@ -12,7 +12,8 @@ export const buildCustomTheme = (baseTheme, isDark) => ({
       primary: baseTheme.primary,
       secondary: baseTheme.secondary,
       accent: baseTheme.accent,
-      tabBar: baseTheme.tabBackground
+      tabBar: baseTheme.tabBackground,
+      buttonColor: baseTheme.buttonColor,
     },
     fonts: {
       regular: { fontFamily: "NunitoSans, Sans-serif", fontWeight: "normal" },
