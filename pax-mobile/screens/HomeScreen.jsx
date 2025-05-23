@@ -16,12 +16,14 @@ import { useTheme } from "../theme/ThemeContext";
 import CardComponent from "../components/CardComponent";
 import RoomCard from "../components/RoomCard";
 import WelcomeCard from "../components/WelcomeCard";
+import { useUser } from "../context/UserContext";
 
 const { width, height } = Dimensions.get("window");
 
 const HomeScreen = () => {
   const { theme, isDark, toggleTheme } = useTheme();
   const styles = createStyles(theme);
+  const {user} = useUser();
 
   return (
     <SafeAreaProvider>
@@ -53,7 +55,6 @@ const HomeScreen = () => {
               resizeMode="contain"
             />
           </View>
-
           <WelcomeCard />
           <RoomCard />
           <View style={styles.container}>

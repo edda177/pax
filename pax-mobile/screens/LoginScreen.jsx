@@ -16,7 +16,7 @@ const LoginTest = ({ navigation }) => {
   const { login } = useAuth();
 
   const [users, setUsers] = useState([]);
-  const [userName, setUsername] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -24,13 +24,13 @@ const LoginTest = ({ navigation }) => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          'https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new#/Auth/post_auth_login'
+          'https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new'
         );
         const data = await response.json();
         setUsers(data);
       } catch (error) {
         console.error('Fel vid hämtning av användare:', error);
-        setError('Kunde inte hämta användare');
+        // setError('Kunde inte hämta användare');
       }
     };
 
@@ -38,19 +38,19 @@ const LoginTest = ({ navigation }) => {
   }, []);
 
   const handleLogin = async () => {
-    if (!userName || !password) {
+    if (!username || !password) {
       setError('Fyll i användarnamn och lösenord.');
       return; 
     }
 
     try {
-      const result = await loginWithApi(userName, password);
+      const result = await loginWithApi(username, password);
 
-      if (!result || !result.access_token) {
+      if (!result || !result.token) {
         setError('Felaktiga inloggningsuppgifter');
         return;
       }
-      await login(result.access_token);
+      await login(result.token);
       navigation.navigate("LoadingScreen");
     } catch (error) {
       console.error ('Login error', error);
@@ -64,7 +64,7 @@ const LoginTest = ({ navigation }) => {
         <ThemeToggleTabButton />
         <LogoComponent style={styles.logo} />
         <FormComponent
-          username={userName}
+          username={username}
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}

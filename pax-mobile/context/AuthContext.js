@@ -26,11 +26,12 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = async (newToken) => {
-        console.log("Access token", newToken);
+        console.log("Token", newToken);
         await saveToStorage("userToken", newToken);
         setToken(newToken);
 
         const profile = await fetchUserProfile(newToken);
+        console.log(profile.user.username)
         if (profile) {
             saveUserData(profile);
         }
