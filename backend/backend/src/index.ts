@@ -65,36 +65,38 @@ app.get("/setup", async (_req: Request, res: Response) => {
     `);
 
     // Skapa tabell för users
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        username VARCHAR(100) NOT NULL,
-        password TEXT NOT NULL,
-        role VARCHAR(50) DEFAULT 'user'
-      )
-    `);
+ await pool.query(`
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    name VARCHAR(100),
+    surname VARCHAR(100),
+    role VARCHAR(50) DEFAULT 'user'
+  )
+`);
 
     // Skapa admin om den inte finns
-    const adminUser = await pool.query("SELECT * FROM users WHERE username = $1", ['admin123']);
-    if (adminUser.rows.length === 0) {
-      const hashedPassword = await bcrypt.hash("pass123", 10);
-      await pool.query(
-        "INSERT INTO users (username, password, role) VALUES ($1, $2, $3)",
-        ["admin123", hashedPassword, "admin"]
-      );
-      console.log("✅ Admin user 'admin123' created");
-    }
+    // const adminUser = await pool.query("SELECT * FROM users WHERE email = $1", ['admin123']);
+    // if (adminUser.rows.length === 0) {
+    //   const hashedPassword = await bcrypt.hash("pass123", 10);
+    //   await pool.query(
+    //     "INSERT INTO users (email, password, role) VALUES ($1, $2, $3)",
+    //     ["admin123", hashedPassword, "admin"]
+    //   );
+    //   console.log("✅ Admin user 'admin123' created");
+    // }
 
-    // Skapa vanlig user om den inte finns
-    const normalUser = await pool.query("SELECT * FROM users WHERE username = $1", ['user123']);
-    if (normalUser.rows.length === 0) {
-      const hashedPassword = await bcrypt.hash("pass123", 10);
-      await pool.query(
-        "INSERT INTO users (username, password, role) VALUES ($1, $2, $3)",
-        ["user123", hashedPassword, "user"]
-      );
-      console.log("✅ User 'user123' created");
-    }
+    // // Skapa vanlig user om den inte finns
+    // const normalUser = await pool.query("SELECT * FROM users WHERE email = $1", ['user123']);
+    // if (normalUser.rows.length === 0) {
+    //   const hashedPassword = await bcrypt.hash("pass123", 10);
+    //   await pool.query(
+    //     "INSERT INTO users (email, password, role) VALUES ($1, $2, $3)",
+    //     ["user123", hashedPassword, "user"]
+    //   );
+    //   console.log("✅ User 'user123' created");
+    // }
 
     console.log("Table setup completed.");
     res.status(200).send("Setup completed");
