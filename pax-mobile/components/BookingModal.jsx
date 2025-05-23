@@ -6,10 +6,10 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
+  TextInput,
 } from "react-native";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { TextInput } from "react-native";
 
 const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
   const styles = createStyles(theme);
@@ -36,7 +36,9 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
       const data = await res.json();
       const filtered = data.filter(
         (b) =>
-          b.room_id === room.id && b.date === date.toISOString().split("T")[0]
+          b.room_id === room.id &&
+          new Date(b.start_time).toISOString().split("T")[0] ===
+            date.toISOString().split("T")[0]
       );
       setBookings(filtered);
     } catch (err) {
@@ -44,11 +46,8 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
     }
   };
 
-  const timeOverlaps = (start1, end1, start2, end2) => {
-    return start1 < end2 && start2 < end1;
-  };
-
   const handleBooking = async () => {
+    setError(null);
     if (!name || !date || !startTime || !endTime) {
       setError("Alla fält måste fyllas i.");
       return;
@@ -57,38 +56,42 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
     const [startHour, startMinute] = startTime.split(":").map(Number);
     const [endHour, endMinute] = endTime.split(":").map(Number);
 
-    const requestedStart = startHour * 60 + startMinute;
-    const requestedEnd = endHour * 60 + endMinute;
+    const requestedStart = new Date(date);
+    requestedStart.setHours(startHour, startMinute, 0, 0);
+
+    const requestedEnd = new Date(date);
+    requestedEnd.setHours(endHour, endMinute, 0, 0);
+
+    if (requestedStart >= requestedEnd) {
+      setError("Starttid måste vara före sluttid.");
+      return;
+    }
 
     for (let b of bookings) {
-      const [bStartStr, bEndStr] = b.time.split("-");
-      const [bStartH, bStartM] = bStartStr.split(":").map(Number);
-      const [bEndH, bEndM] = bEndStr.split(":").map(Number);
-
-      const bStart = bStartH * 60 + bStartM;
-      const bEnd = bEndH * 60 + bEndM;
-
-      if (timeOverlaps(requestedStart, requestedEnd, bStart, bEnd)) {
+      const bStart = new Date(b.start_time);
+      const bEnd = new Date(b.end_time);
+      if (requestedStart < bEnd && bStart < requestedEnd) {
         setError("Tiden är redan bokad. Välj en annan.");
         return;
       }
     }
 
     try {
-      const res = await fetch(
-        `https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/rooms/${room.id}/book`,
+      const response = await fetch(
+        "https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/bookings",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name,
-            date: date.toISOString().split("T")[0],
-            time: `${startTime}-${endTime}`,
+            room_id: room.id,
+            user_id: 1, // Dummy-användare, anpassa om du har auth
+            start_time: requestedStart.toISOString(),
+            end_time: requestedEnd.toISOString(),
           }),
         }
       );
 
-      if (!res.ok) throw new Error();
+      if (!response.ok) throw new Error("Fel vid bokning");
 
       setSuccess(true);
       onBookingSuccess(room.id);
@@ -99,6 +102,7 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
         onClose();
       }, 2000);
     } catch (err) {
+      console.error(err);
       setError("Det gick inte att boka rummet.");
     }
   };
@@ -124,10 +128,10 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
               onChange={(val) => setDate(val)}
               dateFormat="yyyy-MM-dd"
               todayButton="Idag"
-              className="date-picker" // Tillämpar din stil
+              className="date-picker"
             />
 
-            <Text style={styles.label}>Starttid:</Text>
+            <Text style={styles.label}>Starttid (hh:mm):</Text>
             <TextInput
               style={styles.input}
               value={startTime}
@@ -137,7 +141,7 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
               placeholderTextColor={theme.textSecondary}
             />
 
-            <Text style={styles.label}>Sluttid:</Text>
+            <Text style={styles.label}>Sluttid (hh:mm):</Text>
             <TextInput
               style={styles.input}
               value={endTime}
