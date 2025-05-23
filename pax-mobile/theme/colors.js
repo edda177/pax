@@ -5,8 +5,8 @@ export const lightTheme = {
   accent: '#E3FAC8',
 
   // Layout och bakgrunder
-  background: '#FCFFF5',
-  card: '#E3FAC8',
+  background: '#E3FAC8',
+  card: '#9faf8c',
   headerBackground: '#f8c0b3',
   tabBackground: '#24524B',
 
@@ -71,7 +71,7 @@ export const darkTheme = {
 // pax-white		  	#FCFFF5
 // bright-creme		#FFFEE9
 // light-yellow		#FFFDCB
-// bright-green		#E3FAC8
+// bright-green		  #E3FAC8
 // the-greener	  	#B5DA87
 // the-green	    	#7DBA6A
 // middle-green		#097564

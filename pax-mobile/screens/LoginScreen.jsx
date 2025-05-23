@@ -16,7 +16,7 @@ const LoginTest = ({ navigation }) => {
   const { login } = useAuth();
 
   const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState('');
+  const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -38,13 +38,13 @@ const LoginTest = ({ navigation }) => {
   }, []);
 
   const handleLogin = async () => {
-    if (!username || !password) {
+    if (!userName || !password) {
       setError('Fyll i användarnamn och lösenord.');
       return; 
     }
 
     try {
-      const result = await loginWithApi(username, password);
+      const result = await loginWithApi(userName, password);
 
       if (!result || !result.access_token) {
         setError('Felaktiga inloggningsuppgifter');
@@ -64,7 +64,7 @@ const LoginTest = ({ navigation }) => {
         <ThemeToggleTabButton />
         <LogoComponent style={styles.logo} />
         <FormComponent
-          username={username}
+          username={userName}
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}

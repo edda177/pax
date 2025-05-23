@@ -4,10 +4,12 @@ export const loginWithApi = async (userName, password) => {
     try {
         const response = await fetch(`${BASE_URL}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", 
+                'Accept' : 'application/json',
+            },
             body: JSON.stringify({ 
-                userName: 'testuser',
-                password: 'testpass', })
+                userName,
+                password })
         });
 
         if (!response.ok) throw new Error("Inloggningen misslyckades");
