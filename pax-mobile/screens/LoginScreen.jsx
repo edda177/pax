@@ -8,6 +8,7 @@ import ButtonComponent from '../components/buttons/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../context/UserContext';
 import { useAuth } from '../context/AuthContext';
+import { loginWithApi } from '../services/api';
 
 const LoginTest = ({ navigation }) => {
   const { theme } = useTheme();
@@ -15,7 +16,7 @@ const LoginTest = ({ navigation }) => {
   const { login } = useAuth();
 
   const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState('');
+  const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -23,7 +24,7 @@ const LoginTest = ({ navigation }) => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          'https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/users'
+          'https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new#/Auth/post_auth_login'
         );
         const data = await response.json();
         setUsers(data);
@@ -37,13 +38,13 @@ const LoginTest = ({ navigation }) => {
   }, []);
 
   const handleLogin = async () => {
-    if (!username || !password) {
+    if (!userName || !password) {
       setError('Fyll i användarnamn och lösenord.');
       return; 
     }
 
     try {
-      const result = await loginWithApi(username, password);
+      const result = await loginWithApi(userName, password);
 
       if (!result || !result.access_token) {
         setError('Felaktiga inloggningsuppgifter');
@@ -63,7 +64,7 @@ const LoginTest = ({ navigation }) => {
         <ThemeToggleTabButton />
         <LogoComponent style={styles.logo} />
         <FormComponent
-          username={username}
+          username={userName}
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}

@@ -55,7 +55,8 @@ const createStyles = (theme) =>
             fontFamily: 'NunitoSans',
           },
           input: {
-            padding: 20,
+            fontSize: 20,
+            padding: 10,
             width: 350,
             backgroundColor: theme.card,
             borderRadius: 10,
@@ -63,7 +64,7 @@ const createStyles = (theme) =>
           },
           button: {
             margin: 10,
-            padding: 10,
+            padding: 5,
             backgroundColor: theme.card,
             borderRadius: 20,
             width: 200,

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { saveToStorage, getFromStorage, deleteFromStorage } from "../services/webCompatibleSecureStore"
 import { useUser } from './UserContext';
-
+import { fetchUserProfile } from '../services/api';
 
 const AuthContext = createContext();
 
