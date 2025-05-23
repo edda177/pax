@@ -39,6 +39,7 @@ const getStyles = (theme) =>
       backgroundColor: theme.card,
       elevation: 4,
       alignItems: "center",
+      marginTop: 60,
     },
     title: {
       fontSize: 20,
