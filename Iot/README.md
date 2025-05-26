@@ -1,13 +1,12 @@
-# CC 2025 Kusten är Klar PAX Sensor
+# Chas Challenge 2025 Kusten är Klar PAX Sensor
 
 **SUVX24 Contributors:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin
 
 [Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)
-Sens
 
 ## Beskrivning
 
-En sammanställning av
+En sammanställning av våran IoT-kontrollenhet, dess funktionalitet och design.
 
 **SUVX24 Authors:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin
 
@@ -21,25 +20,18 @@ En sammanställning av
 ### Temp-sensor
 
 - **Pin**:
-- **Beskrivning**: DS18B20, används för temperaturmätning i rummet.
+- **Beskrivning**: DHT11, används för temperaturmätning i rummet.
 
 ### Luft-sensor
 
 - **Pin**:
 - **Beskrivning**: SPG30, MOX-gas sensor som mäter luftkvaliteten i rummet, mäter VOC och väte (H₂) vilket används för att beräkna eCO₂ värdet.
 
-### LED (Test, ta bort?)
-
-- **Pin**: 3
-- **Beskrivning**: Röd led, indikerar rörelse?
-
-
 #### To build the Arduino code you need to configure wifi
 
 Create the file `arduino_secrets.h` in the `/include` folder
 This file will not be tracked/uploaded by git/github
 Copy the content below and change SSID, password and URL and IPAddress to your values.
-Currently running on local server with IPAddress and port 8080
 
 ```
 #ifndef ARDUINO_SECRETS_H
@@ -59,27 +51,3 @@ const ServerConfig SERVER = { IPAddress(192, 0, 0, 0), SERVER_PORT};
 
 #endif
 ```
-
----
-
-## Komponenter
-
-### PIR-sensor
-
-- **Pin**: 2
-- **Beskrivning**: HC-SR501, används för att detektera rörelse i rummet.
-
-### Temp-sensor
-
-- **Pin**:
-- **Beskrivning**: DS18B20, används för temperaturmätning i rummet.
-
-### Luft-sensor
-
-- **Pin**:
-- **Beskrivning**: SPG30, MOX-gas sensor som mäter luftkvaliteten i rummet, mäter VOC och väte (H₂) vilket används för att beräkna eCO₂ värdet.
-
-### LED (Test, ta bort?)
-
-- **Pin**: 3
-- **Beskrivning**: Röd led, indikerar rörelse?
