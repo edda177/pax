@@ -3,7 +3,6 @@
 **SUVX24 Contributors:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin
 
 [Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)  
-En godkänd plan av skolans ledning som är grunden till projektet.
 
 ## Beskrivning
 
