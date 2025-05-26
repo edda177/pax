@@ -8,8 +8,8 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "c:/Bubba94C++/Group Projects/pax/include",
-                "c:/Bubba94C++/Group Projects/pax/src",
+                "c:/Bubba94C++/Group Projects/pax/Iot/include",
+                "c:/Bubba94C++/Group Projects/pax/IoT/src",
                 "C:/Users/johan/.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src",
                 "c:/Bubba94C++/Group Projects/pax/.pio/libdeps/uno_r4_wifi/Ethernet/src",
                 "C:/Users/johan/.platformio/packages/framework-arduinorenesas-uno/libraries/SPI",
@@ -44,8 +44,8 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "c:/Bubba94C++/Group Projects/pax/include",
-                    "c:/Bubba94C++/Group Projects/pax/src",
+                    "c:/Bubba94C++/Group Projects/pax/IoT/include",
+                    "c:/Bubba94C++/Group Projects/pax/IoT/src",
                     "C:/Users/johan/.platformio/packages/framework-arduinorenesas-uno/libraries/WiFiS3/src",
                     "c:/Bubba94C++/Group Projects/pax/.pio/libdeps/uno_r4_wifi/Ethernet/src",
                     "C:/Users/johan/.platformio/packages/framework-arduinorenesas-uno/libraries/SPI",
