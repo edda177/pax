@@ -20,9 +20,9 @@ const WelcomeCard = () => {
 
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Hej, user!</Text>
+      <Text style={styles.title}>Hej!</Text>
       <Text style={styles.subtitle}>
-        {`Idag är det ${currentDay}.\nHoppas du får en fin dag!`}
+        {`Idag är det ${currentDay}.\n\nHoppas du får en fin dag!`}
       </Text>
     </View>
   );
