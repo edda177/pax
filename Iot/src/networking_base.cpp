@@ -326,7 +326,13 @@ void NetworkingBase::begin()
     // Choose connection method based on configuration pin
     if (wifi_on())
     {
+        int attempts {0};
         connection_successful = connect_wifi();
+        while ( WiFi.status() != WL_CONNECTED && attempts < 10 )
+        {
+            attempts++;
+            delay(50);
+        }
     }
     else
     {
