@@ -18,7 +18,7 @@
 9. [Leveranser och Dokumentationskrav](#9-leveranser-och-dokumentationskrav)
 10. [Sammanfattning](#10-sammanfattning)
 
-# 1. Introduktion
+## 1. Introduktion
 
 ## 1.1 Syfte
 
@@ -44,7 +44,7 @@ PAX är ett automatiserat bokningssystem där varje mötesrum utrustas med senso
 
 **Frontend/Backend**: Klient- respektive serversidan av systemet.
 
-# 2. Övergripande Beskrivning
+## 2. Övergripande Beskrivning
 
 ## 2.1 Produktperspektiv
 
@@ -90,7 +90,7 @@ Kommunikation och datadelning mellan IoT-enheter, backend och frontend.
 
 Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
-# 3. Specifika Krav
+## 3. Specifika Krav
 
 ## 3.1 Funktionella Krav
 
@@ -114,9 +114,9 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - FK7: Ett robust API ska utvecklas för att hantera dataöverföring mellan IoT-enheterna, databasen och frontend-applikationen.
 
-* FK8: API:et ska erbjuda endpoints för autentisering, datainsamling, statusuppdateringar och notifieringar.
+- FK8: API:et ska erbjuda endpoints för autentisering, datainsamling, statusuppdateringar och notifieringar.
 
-* FK9: Systemet ska implementera JWT för att säkerställa säker åtkomst och hantering av känsliga data.
+- FK9: Systemet ska implementera JWT för att säkerställa säker åtkomst och hantering av känsliga data.
 
 ### 3.1.4 IoT-integration
 
@@ -160,7 +160,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - IFK9: Systemet ska erbjuda tydliga notifieringar samt felmeddelanden vid driftstörningar.
 
-# 4. Systemarkitektur och Designkrav
+## 4. Systemarkitektur och Designkrav
 
 ## 4.1 Teknisk Arkitektur
 
@@ -172,13 +172,13 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 ## 4.2 Systemintegration
 
-#### API-kommunikation:
+### API-kommunikation
 
 Backend och IoT-komponenter samverkar via definierade API-endpoints.
 
 Frontend gör kontinuerliga anrop mot API:et för att hämta aktuell bokningsstatus samt sensor- och händelsedata.
 
-#### Databasintegration:
+### Databasintegration
 
 Data från IoT och användarinteraktioner loggas och lagras kontinuerligt.
 
@@ -186,23 +186,23 @@ Säkerhetsåtgärder såsom kryptering och roller implementeras för att skydda 
 
 ## 4.3 Interaktions- och Gränssnittskrav
 
-#### Mobilapplikation:
+### Mobilapplikation
 
 Skalbar design med stöd för olika enheter (t.ex. mobiler och iPads).
 
 Intuitiva visuella komponenter som tydligt markerar rumstillstånd (bokad, ledig, upptagen).
 
-#### Dashboard för administratörer:
+#### Dashboard för administratörer
 
 Ger översikt över all sensor-/bokningsdata.
 
 Möjlighet att manuellt justera bokningar vid behov.
 
-#### IoT-enheter:
+#### IoT-enheter
 
 Enkel installations- och konfigurationsprocess med medföljande dokumentation som beskriver installation, felsökning och underhåll.
 
-# 5. Projektorganisation och Utvecklingsmetodik
+## 5. Projektorganisation och Utvecklingsmetodik
 
 ## 5.1 Teamstruktur och Ansvarsområden
 
@@ -224,7 +224,7 @@ Varje team ansvarar för sin respektive dokumentation och rapporterar regelbunde
 
 **Mötesstruktur**: Regelbundna standups (minst en representant från varje team per möte), gemensamma arbetsmöten samt utvärderingsmöten (retrospektiv) under projektets gång.
 
-# 6. Testning och Kvalitetssäkring
+## 6. Testning och Kvalitetssäkring
 
 ## 6.1 Teststrategi
 
@@ -244,7 +244,7 @@ Varje team ansvarar för sin respektive dokumentation och rapporterar regelbunde
 
 **Agila metoder**: Implementering av sprintar, standups och retrospektiv för att snabbt upptäcka och lösa problem samt hantera förändringar i projektplanen.
 
-# 7. Riskanalys och Problemhantering
+## 7. Riskanalys och Problemhantering
 
 ## 7.1 Identifierade Risker
 
@@ -264,7 +264,7 @@ Varje team ansvarar för sin respektive dokumentation och rapporterar regelbunde
 
 **Förändringshantering**: Vid behov av större ändringar, ska dessa synkroniseras och godkännas av beställaren enligt överenskommen process.
 
-# 8. Tidsplan och Milstolpar
+## 8. Tidsplan och Milstolpar
 
 ## 8.1 Huvudfaser
 
@@ -292,11 +292,11 @@ Vecka 23: Projektavslut med demo, utvärdering samt retrospektiv.
 
 Vid oförutsedda förseningar sker en omfördelning av resurser och en revidering av tidsplanen i enlighet med agila metoder. Större ändringar stäms av med gruppen innan de implementeras.
 
-# 9. Leveranser och Dokumentationskrav
+## 9. Leveranser och Dokumentationskrav
 
 ## 9.1 Systemleveranser
 
-#### Backend:
+### Backend
 
 API för datainsamling, hantering samt notifieringar.
 
@@ -304,7 +304,7 @@ Integration med JWT för säker autentisering och rollhantering.
 
 PostgreSQL-databas för lagring och analys av bokningsdata.
 
-#### Frontend:
+### Frontend
 
 Mobilapplikation byggd med React Native med ett WCAG-anpassat gränssnitt.
 
@@ -312,7 +312,7 @@ Ipad-layout för utomhusbokning.
 
 Integration med backend-API:er för att visualisera aktuell data.
 
-#### IoT:
+### IoT
 
 Prototyp av kontrollenhet med Arduino och de angivna sensorerna.
 
@@ -326,7 +326,7 @@ Varje team ansvarar för att löpande uppdatera sin respektive dokumentation (RE
 
 Dokumentation ska vara tydligt strukturerad och tillgänglig för alla projektmedlemmar via gemensamma plattformar (GitHub, Slack).
 
-# 10. Sammanfattning
+## 10. Sammanfattning
 
 Detta SRS-dokument sammanfattar de krav, tekniska lösningar och projektmetoder som ska tillämpas för att skapa det automatiserade bokningssystemet PAX. Genom att implementera automatiska bokningar baserade på realtidsdata från IoT-sensorer, ett användarvänligt gränssnitt och säkra backend-lösningar, syftar systemet till att effektivisera rumsutnyttjandet och möjliggöra kostnadsbesparingar för stora företag. Regelbunden kommunikation, tydliga teamroller och agila utvecklingsmetoder ligger till grund för projektets genomförande och framgång.
 
