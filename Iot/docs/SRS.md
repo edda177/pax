@@ -1,6 +1,6 @@
 # Inledning
 
-# Innehållsförteckning
+## Innehållsförteckning
 
 1. [Introduktion](#1-introduktion)
 
@@ -18,7 +18,7 @@
 9. [Leveranser och Dokumentationskrav](#9-leveranser-och-dokumentationskrav)
 10. [Sammanfattning](#10-sammanfattning)
 
-# 1. Introduktion
+## 1. Introduktion
 
 ## 1.1 Syfte
 
@@ -44,7 +44,7 @@ PAX är ett automatiserat bokningssystem där varje mötesrum utrustas med senso
 
 **Frontend/Backend**: Klient- respektive serversidan av systemet.
 
-# 2. Övergripande Beskrivning
+## 2. Övergripande Beskrivning
 
 ## 2.1 Produktperspektiv
 
@@ -68,7 +68,7 @@ PAX är en fristående lösning som ska integreras i större företags- och för
 
 **Sekundär målgrupp**: Leverantörer av anläggningar med flera delade rum, t.ex. kontorshotell eller bostadsrättsföreningar.
 
-### Projektteam: Bestående av tre subteam:
+### Projektteam bestående av tre subteam
 
 **Frontend (FMWX24)**: Ansvarar för app-utveckling med React Native, gränssnittsdesign (Tailwind CSS, Figma) samt datavisualisering.
 
@@ -80,7 +80,7 @@ PAX är en fristående lösning som ska integreras i större företags- och för
 
 **Tekniska antaganden**:
 
-Systemet kommer att kunna anslutas via trådbundna och trådlösa nätverk (Ethernet/WiFi) mellan IoT-enheterna och backend.
+Systemet kommer att kunna anslutas via trådbundna eller trådlösa nätverk (Ethernet/WiFi) mellan IoT-enheterna och backend.
 
 Användare har tillgång till en mobil enhet med appen installerad.
 
@@ -88,9 +88,7 @@ Användare har tillgång till en mobil enhet med appen installerad.
 
 Kommunikation och datadelning mellan IoT-enheter, backend och frontend.
 
-Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
-
-# 3. Specifika Krav
+## 3. Specifika Krav
 
 ## 3.1 Funktionella Krav
 
@@ -114,9 +112,9 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - FK7: Ett robust API ska utvecklas för att hantera dataöverföring mellan IoT-enheterna, databasen och frontend-applikationen.
 
-* FK8: API:et ska erbjuda endpoints för autentisering, datainsamling, statusuppdateringar och notifieringar.
+- FK8: API:et ska erbjuda endpoints för autentisering, datainsamling, statusuppdateringar och notifieringar.
 
-* FK9: Systemet ska implementera JWT för att säkerställa säker åtkomst och hantering av känsliga data.
+- FK9: Systemet ska implementera JWT för att säkerställa säker åtkomst och hantering av känsliga data.
 
 ### 3.1.4 IoT-integration
 
@@ -128,7 +126,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 ### 3.1.5 Databashantering
 
-- FK13: En PostgreSQL-databas ska implementeras för att lagra bokningsdata, sensorhändelser och användarinformation.
+- FK13: En databas ska implementeras för att lagra bokningsdata, sensorhändelser och användarinformation.
 
 - FK14: Backend-systemet ska möjliggöra datainsamling för att senare kunna genomföra analys och generera statistik.
 
@@ -152,7 +150,7 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - IFK6: Tydlig och uppdaterad dokumentation ska finnas för varje systemkomponent, vilket möjliggör underhåll och vidareutveckling.
 
-- IFK7: Versionshantering ska ske genom GitHub och arbeta med agila metoder med regelbundna standups och retrospektiv.
+- IFK7: Versionshantering ska ske genom GitHub och arbeta med agila metoder med regelbundna standups.
 
 ### 3.2.4 Användbarhet
 
@@ -160,25 +158,25 @@ Regelbundna uppdateringar och synkronisering mellan de olika teamens leveranser.
 
 - IFK9: Systemet ska erbjuda tydliga notifieringar samt felmeddelanden vid driftstörningar.
 
-# 4. Systemarkitektur och Designkrav
+## 4. Systemarkitektur och Designkrav
 
 ## 4.1 Teknisk Arkitektur
 
 **Frontend**: Utvecklas med React Native och Tailwind CSS med designstöd från Figma för att säkerställa ett enhetligt, responsivt gränssnitt.
 
-**Backend**: Byggs med Node.js och Express.js för att exponera ett RESTful API. Användning av PostgreSQL för lagring och hantering av databas.
+**Backend**: Byggs med Node.js och Express.js för att exponera ett RESTful API.
 
-**IoT**: Hårdvara baserad på Arduino med programmering i C++ och integrerade sensorer (PIR-sensor, mikrofon, luftkvalitetssensor). Anskaffad data kommuniceras till backend.
+**IoT**: Hårdvara baserad på Arduino med programmering i C++ och integrerade sensorer (PIR-sensor, luftkvalitetssensor, digital temperature/luftfuktighetssensor). Anskaffad data kommuniceras till backend och lagras inte lokalt.
 
 ## 4.2 Systemintegration
 
-#### API-kommunikation:
+### API-kommunikation
 
 Backend och IoT-komponenter samverkar via definierade API-endpoints.
 
 Frontend gör kontinuerliga anrop mot API:et för att hämta aktuell bokningsstatus samt sensor- och händelsedata.
 
-#### Databasintegration:
+### Databasintegration
 
 Data från IoT och användarinteraktioner loggas och lagras kontinuerligt.
 
@@ -186,23 +184,23 @@ Säkerhetsåtgärder såsom kryptering och roller implementeras för att skydda 
 
 ## 4.3 Interaktions- och Gränssnittskrav
 
-#### Mobilapplikation:
+### Mobilapplikation
 
 Skalbar design med stöd för olika enheter (t.ex. mobiler och iPads).
 
 Intuitiva visuella komponenter som tydligt markerar rumstillstånd (bokad, ledig, upptagen).
 
-#### Dashboard för administratörer:
+#### Dashboard för administratörer
 
 Ger översikt över all sensor-/bokningsdata.
 
 Möjlighet att manuellt justera bokningar vid behov.
 
-#### IoT-enheter:
+#### IoT-enheter
 
 Enkel installations- och konfigurationsprocess med medföljande dokumentation som beskriver installation, felsökning och underhåll.
 
-# 5. Projektorganisation och Utvecklingsmetodik
+## 5. Projektorganisation och Utvecklingsmetodik
 
 ## 5.1 Teamstruktur och Ansvarsområden
 
@@ -212,19 +210,19 @@ Enkel installations- och konfigurationsprocess med medföljande dokumentation so
 
 **Backend** (FJSX24): Utvecklar API:er, hanterar databashantering och säkerhet samt utför datainsamling och lagring.
 
-Varje team ansvarar för sin respektive dokumentation och rapporterar regelbundet vid gemensamma möten (t.ex. tisdagsmöten och standups). Teamledare för respektive subteam har det övergripande ansvaret för att synkronisera arbetet mellan grupperna.
+Varje team ansvarar för sin respektive dokumentation och rapporterar regelbundet vid gemensamma möten (t.ex. tisdagsmöten och standups).
 
 ## 5.2 Verktyg och Metodik
 
-**Kodhantering**: GitHub
+**Kodhantering**: GitHub.
 
-**Kommunikation**: Slack
+**Kommunikation**: Slack.
 
-**Sprintplanering**: GitHub Projects
+**Sprintplanering**: Vi jobbar utan det.
 
-**Mötesstruktur**: Regelbundna standups (minst en representant från varje team per möte), gemensamma arbetsmöten samt utvärderingsmöten (retrospektiv) under projektets gång.
+**Mötesstruktur**: Vi har haft möte varje Tisdag där framgångar och motgångar tas upp.
 
-# 6. Testning och Kvalitetssäkring
+## 6. Testning och Kvalitetssäkring
 
 ## 6.1 Teststrategi
 
@@ -238,13 +236,13 @@ Varje team ansvarar för sin respektive dokumentation och rapporterar regelbunde
 
 ## 6.2 Kvalitetssäkring
 
-**Dokumentation**: Uppdatering av README och API-dokumentation varje vecka, ansvar för denna tilldelas inom respektive team.
+**Dokumentation**: Uppdatering av README och API-dokumentation sker vid behov.
 
-**Versionshantering**: Strikt användning av Git för spårning av kodändringar och att undvika merge-konflikter.
+**Versionshantering**: Strikt användning av Git för spårning av kodändringar.
 
-**Agila metoder**: Implementering av sprintar, standups och retrospektiv för att snabbt upptäcka och lösa problem samt hantera förändringar i projektplanen.
+**Agila metoder**: Implementering av standups.
 
-# 7. Riskanalys och Problemhantering
+## 7. Riskanalys och Problemhantering
 
 ## 7.1 Identifierade Risker
 
@@ -258,13 +256,9 @@ Varje team ansvarar för sin respektive dokumentation och rapporterar regelbunde
 
 ## 7.2 Hanteringsplaner
 
-**Regelbundna möten**: Veckovisa avstämningar där alla team är med. Avcheckning på Fredagar med Backend/SUVX
+**Regelbundna möten**: Veckovisa avstämningar där alla team är med.
 
-**Problemlösning**: Direkt kommunikation inom teamet vid uppkomst av blockerande problem, med eskalering till övriga team om behovet uppstår.
-
-**Förändringshantering**: Vid behov av större ändringar, ska dessa synkroniseras och godkännas av beställaren enligt överenskommen process.
-
-# 8. Tidsplan och Milstolpar
+## 8. Tidsplan och Milstolpar
 
 ## 8.1 Huvudfaser
 
@@ -292,11 +286,11 @@ Vecka 23: Projektavslut med demo, utvärdering samt retrospektiv.
 
 Vid oförutsedda förseningar sker en omfördelning av resurser och en revidering av tidsplanen i enlighet med agila metoder. Större ändringar stäms av med gruppen innan de implementeras.
 
-# 9. Leveranser och Dokumentationskrav
+## 9. Leveranser och Dokumentationskrav
 
 ## 9.1 Systemleveranser
 
-#### Backend:
+### Backend
 
 API för datainsamling, hantering samt notifieringar.
 
@@ -304,7 +298,7 @@ Integration med JWT för säker autentisering och rollhantering.
 
 PostgreSQL-databas för lagring och analys av bokningsdata.
 
-#### Frontend:
+### Frontend
 
 Mobilapplikation byggd med React Native med ett WCAG-anpassat gränssnitt.
 
@@ -312,7 +306,7 @@ Ipad-layout för utomhusbokning.
 
 Integration med backend-API:er för att visualisera aktuell data.
 
-#### IoT:
+### IoT
 
 Prototyp av kontrollenhet med Arduino och de angivna sensorerna.
 
@@ -326,9 +320,9 @@ Varje team ansvarar för att löpande uppdatera sin respektive dokumentation (RE
 
 Dokumentation ska vara tydligt strukturerad och tillgänglig för alla projektmedlemmar via gemensamma plattformar (GitHub, Slack).
 
-# 10. Sammanfattning
+## 10. Sammanfattning
 
-Detta SRS-dokument sammanfattar de krav, tekniska lösningar och projektmetoder som ska tillämpas för att skapa det automatiserade bokningssystemet PAX. Genom att implementera automatiska bokningar baserade på realtidsdata från IoT-sensorer, ett användarvänligt gränssnitt och säkra backend-lösningar, syftar systemet till att effektivisera rumsutnyttjandet och möjliggöra kostnadsbesparingar för stora företag. Regelbunden kommunikation, tydliga teamroller och agila utvecklingsmetoder ligger till grund för projektets genomförande och framgång.
+Detta SRS-dokument sammanfattar de krav, tekniska lösningar och projektmetoder som ska tillämpas för att skapa det automatiserade bokningssystemet PAX. Genom att implementera automatiska bokningar baserade på realtidsdata från IoT-sensorer, ett användarvänligt gränssnitt och säkra backend-lösningar, syftar systemet till att effektivisera rumsutnyttjandet och möjliggöra kostnadsbesparingar för stora företag.
 
 ---
 

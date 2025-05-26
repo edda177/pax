@@ -1,56 +1,50 @@
-# Chas Challenge 2025
-## Projektgrupp 2 Extended
+# Chas Challenge 2025 "Kusten är Klar"
 
-### Gruppmedlemmar: 
-**SUVX24:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin  
-**FMWX24:** Hannah Bärlin, Hanna Kindholm, Tova Hansen  
-**FJSX24:** Alice Eriksson, Phithai Lai, Dennis Granheimer, Rhiannon Brönnimann  
+**SUVX24 Authors:** [Jennifer Gott](https://github.com/simbachu), [Sabina Stawbrink](https://github.com/binasime), [Oscar Asserlund](https://github.com/NewNamesAreHard), [Erik Dahl](https://github.com/erikdsp), [Johan Modin](https://github.com/bubba-94)  
 
-[Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)
+## Beskrivning
 
+PAX är ett bokningssystem bestående av olika sensorer och teknologier i en hel produkt som mäter aktivitet och olika miljödata i konferensrum, kopplade till en enhet.  
+Den insamlade datan hanteras av en IoT-komponent som kommunicerar med en backend via ett API, där data lagras i en databas.  
+Med PAX kan du på ett effektivt och automatiserat sätt, övervaka statusen på era olika lokaler.  
 
-#### To build the Arduino code you need to configure wifi
+### Komponenter
 
-Create the file `arduino_secrets.h` in the `/include` folder
-This file will not be tracked/uploaded by git/github
-Copy the content below and change SSID, password and URL and IPAddress to your values.
-Currently running on local server with IPAddress and port 8080
+| **Komponent**                     | **I/O Pin**           | **Beskrivning**                                     |
+| --------------------------------- | --------------------- | --------------------------------------------------- |
+| **Arduino Uno Rev4 Mini**         |                       | Microkontroller för inkoppling.                     |
+| **PIR-sensor HC-SR501**           | **2**                 | Används för att detektera rörelse i rummet.         |
+| **LED**                           | **3**                 | Används för att driva en LED.                       |
+| **Temp-sensor DS18B20**           | **6**                 | Används för temperaturmätning i rummet.             |
+| **Luftkvalitets-sensor SPG30**    | **SDA(A4) / SCL(A5)** | Används för att mäta luftkvaliteten i rummet.       |
+| **Internet Interface Config Pin** | **7**                 | Används för att indikera val av nätverks interface. |
 
-```
-#ifndef ARDUINO_SECRETS_H
-#define ARDUINO_SECRETS_H
+[Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)  
+[SRS](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/docs/documentation_updates/Iot/docs/SRS.md)  
 
-#define SECRET_SSID "wifi"
-#define SECRET_PASS "password"
-#define SERVER_URL "url"
+#### Platform IO
+
+Installera PlatformIO och öppna undermappen pax/Iot med PlatformIO.  
+PlatformIO kommer automatiskt installera de beroenden som är definierade i Platformio.ini.  
+Skapa en .h fil kallad **`arduino_secrets.h`** i **`/include`** mappen.  
+Kopiera mallen under för att konfigurera din egna uppkoppling (SSID, Password, URL) mellan sensor och wifi.  
+
+``` cpp
+
+#ifndef ARDUINO_SECRETS_H // Header guard 
+#define ARDUINO_SECRETS_H 
+
+#define SECRET_SSID "SSID" // Your WiFi SSID
+#define SECRET_PASS "PASSWORD" // Your WiFi password 
+#define SERVER_URL "url.domain"
 #define SERVER_ENDPOINT "/post"
-#define SERVER_PORT 8080
+#define SERVER_PORT 8080 
+
 struct ServerConfig {
     IPAddress ip;
     uint16_t port;
 };
 const ServerConfig SERVER = { IPAddress(192, 0, 0, 0), SERVER_PORT};
 
-
 #endif
 ```
-
----
-
-## Komponenter
-
-### PIR-sensor
-- **Pin**: 2
-- **Beskrivning**: HC-SR501, används för att detektera rörelse i rummet.
-
-### Temp-sensor
-- **Pin**: 
-- **Beskrivning**: DS18B20, används för temperaturmätning i rummet.
-
-### Luft-sensor
-- **Pin**: 
-- **Beskrivning**: SPG30, MOX-gas sensor som mäter luftkvaliteten i rummet, mäter VOC och väte (H₂) vilket används för att beräkna eCO₂ värdet.
-
-### LED (Test, ta bort?)
-- **Pin**: 3
-- **Beskrivning**: Röd led, indikerar rörelse?
