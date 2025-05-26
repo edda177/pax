@@ -27,7 +27,7 @@ static String server_ip_str = SERVER;
 #endif
 
 // Room ID storage
-uint32_t room_id = 0;  // 0 indicates no room ID assigned
+uint32_t room_id = UINT32_MAX;  // 0 indicates no room ID assigned
 bool has_room_id = false;
 
 int pir_pin = 2;
@@ -38,12 +38,18 @@ WiFiClient wifi;
 EthernetClient ether;
 NetworkingBase network(&wifi, &ether);
 
+static void update_room_id(String& room_id_string, uint32_t room_id)
+{
+    room_id_string = ROOM_STATE_ENDPOINT + room_id;
+}
+static String room_state_endpoint_composite;
+
 // Server configuration
 ServerInfo server_info = {
     .server_base_url = SERVER,
     .server_port = SERVER_PORT,
     .server_api_path = API_PATH,
-    .room_state_endpoint = ROOM_STATE_ENDPOINT,
+    .room_state_endpoint = room_state_endpoint_composite.c_str(),
     .config_endpoint = CONFIG_ENDPOINT,
     .uuid = DEFAULT_UUID,
     .room_id = 0
@@ -67,7 +73,7 @@ bool try_get_room_id() {
         return true;
     }
 
-    // First try sending UUID if we haven't before
+    //! First try sending UUID if we haven't before
     if (server_info.room_id == 0) {
         if (postman.sendUuid(server_info.uuid)) {
             Serial.println("UUID sent successfully");
@@ -77,12 +83,15 @@ bool try_get_room_id() {
         }
     }
 
-    // Then try to get room ID
+    //! Then try to get room ID
     if (postman.getRoomId(server_info.room_id)) {
         if (server_info.room_id != 0) {
             has_room_id = true;
             Serial.print("Got room ID: ");
             Serial.println(server_info.room_id);
+            //! Nice hack!! We update the endpoint with the room ID concatenated.
+            update_room_id(room_state_endpoint_composite, room_id);
+            server_info.room_state_endpoint = room_state_endpoint_composite.c_str();
             return true;
         }
     }
@@ -102,6 +111,9 @@ void setup()
     room_id = ROOM_OVERRIDE;
     has_room_id = true;
     #endif
+    //! We set the room state api endpoint by concatenating the room ID to it, e.g. /room/7
+    update_room_id(room_state_endpoint_composite, room_id);
+    server_info.room_state_endpoint = room_state_endpoint_composite.c_str(); //! This is because of how String works : (
 
     delay(500); // extra delay to give Serial connection time
     Wire.begin();

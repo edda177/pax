@@ -1,4 +1,5 @@
 #include "../include/PostMan.h"
+#include <ArduinoJson.h>
 
 PostMan::PostMan(const ServerInfo &server_info, NetworkingBase* connection)
     : m_server_info{server_info}, m_connection { connection } {}
@@ -55,7 +56,44 @@ bool PostMan::getRoomId(uint32_t &room_id)
 {
     String endpoint = String(m_server_info.config_endpoint.data()) + "/" + String(m_server_info.uuid.data());
     String httpRequest = createHTTPHeader("", "GET", endpoint);
-    return sendRequest(httpRequest);
+    
+    if (!sendRequest(httpRequest)) {
+        return false;
+    }
+
+    // Get the response from the last request
+    String response = "";
+    Client* client = m_connection->current_client();
+    while (client->available()) {
+        response += static_cast<char>(client->read());
+    }
+
+    // Find the JSON part of the response (after the HTTP headers)
+    int jsonStart = response.indexOf("\r\n\r\n");
+    if (jsonStart == -1) {
+        Serial.println("No JSON data found in response");
+        return false;
+    }
+    String jsonStr = response.substring(jsonStart + 4);
+
+    // Parse the JSON response
+    JsonDocument doc;
+    DeserializationError error = deserializeJson(doc, jsonStr);
+
+    if (error) {
+        Serial.print("JSON parsing failed: ");
+        Serial.println(error.c_str());
+        return false;
+    }
+
+    // Extract room_id from JSON
+    if (!doc.containsKey("room_id")) {
+        Serial.println("No room_id found in response");
+        return false;
+    }
+
+    room_id = doc["room_id"].as<uint32_t>();
+    return true;
 }
 
 /**
