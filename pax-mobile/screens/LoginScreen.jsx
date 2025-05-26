@@ -51,7 +51,7 @@ const LoginTest = ({ navigation }) => {
         return;
       }
       await login(result.token);
-      // navigation.navigate('HomeScreen')
+      navigation.navigate('Home')
     } catch (error) {
       console.error ('Login error', error);
       setError ('Något gick fel vid inloggning')

@@ -5,15 +5,15 @@ export const lightTheme = {
   accent: '#E3FAC8',
 
   // Layout och bakgrunder
-  background: '#BFCFBB',
-  card: '#344C3D',
+  background: '#344C3D',
+  card: '#BFCFBB',
   headerBackground: '#f8c0b3',
   tabBackground: '#24524B',
 
   // Text
   textLight: "#7DBA6A",
-  textPrimary: '#BFCFBB',
-  textSecondary: '#344C3D',  
+  textPrimary: '#344C3',
+  textSecondary: '#BFCFBB',  
 
   //Knapp icon
   iconSwitchmode: '#B5DA87',
