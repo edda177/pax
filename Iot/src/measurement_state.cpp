@@ -1,3 +1,8 @@
+/**
+ * @file measurement_state.cpp
+ * @brief Handles sensor measurements over time for Arduino UNO R4
+ * 
+ */
 #include "measurement_state.h"
 
 

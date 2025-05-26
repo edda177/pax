@@ -1,3 +1,8 @@
+/**
+ * @file temp_sensor.cpp
+ * @brief Handles DHT11 sensor readings
+ * 
+ */
 #include "../include/temp_sensor.h"
 
 TempSensor::TempSensor(uint8_t pin) : pin{pin} {}

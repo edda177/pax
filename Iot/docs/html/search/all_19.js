@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['säker_20kunskapsöverföring_3a_0',['Teamwork och säker kunskapsöverföring:',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md20',1,'']]],
+  ['säkerhet_1',['3.2.2 Säkerhet',['../md__s_r_s.html#autotoc_md57',1,'']]],
+  ['sammanfattning_2',['10. Sammanfattning',['../md__s_r_s.html#autotoc_md87',1,'']]],
+  ['sendroomstate_3',['sendRoomState',['../class_post_man.html#ad31060a21c8d92ab30f193d210df8f25',1,'PostMan']]],
+  ['senduuid_4',['sendUuid',['../class_post_man.html#ad7e10ec00c0550649b0728d700812a17',1,'PostMan']]],
+  ['sensor_5',['sensor',['../md__r_e_a_d_m_e.html#autotoc_md34',1,'Luft-sensor'],['../md__r_e_a_d_m_e.html#autotoc_md32',1,'PIR-sensor'],['../md__r_e_a_d_m_e.html#autotoc_md33',1,'Temp-sensor']]],
+  ['server_5fapi_5fpath_6',['server_api_path',['../struct_server_info.html#a37a44b68ba1b95bbc135e592fac2f4db',1,'ServerInfo']]],
+  ['server_5fbase_5furl_7',['server_base_url',['../struct_server_info.html#a96cae32bd6aeb72da2129088ae35ea36',1,'ServerInfo']]],
+  ['server_5fport_8',['server_port',['../struct_server_info.html#a5da4fdda8e0ace98a90205f9a64f848a',1,'ServerInfo']]],
+  ['serverinfo_9',['ServerInfo',['../struct_server_info.html',1,'']]],
+  ['setup_10',['setup',['../main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d',1,'main.cpp']]],
+  ['ska_20adressera_3a_11',['Problemet som lösningen ska adressera:',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md7',1,'']]],
+  ['skalbarhet_12',['3.2.1 Prestanda och Skalbarhet',['../md__s_r_s.html#autotoc_md56',1,'']]],
+  ['som_20lösningen_20ska_20adressera_3a_13',['Problemet som lösningen ska adressera:',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md7',1,'']]],
+  ['specifika_20krav_14',['3. Specifika Krav',['../md__s_r_s.html#autotoc_md48',1,'']]],
+  ['strong_15',['&lt;strong&gt;Teamsamarbete och kunskapöverföring:&lt;/strong&gt;',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md19',1,'']]],
+  ['strong_20teamsamarbete_20och_20kunskapöverföring_3a_20strong_16',['&lt;strong&gt;Teamsamarbete och kunskapöverföring:&lt;/strong&gt;',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md19',1,'']]],
+  ['subteam_3a_17',['Projektteam: Bestående av tre subteam:',['../md__s_r_s.html#autotoc_md46',1,'']]],
+  ['suvx24_3a_18',['SUVX24:',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md14',1,'']]],
+  ['syfte_19',['1.1 Syfte',['../md__s_r_s.html#autotoc_md39',1,'']]],
+  ['syfte_20och_20mål_3a_20',['Projektets syfte och mål:',['../md__p_r_o_j_e_k_t_p_l_a_n.html#autotoc_md6',1,'']]],
+  ['systemarkitektur_20och_20designkrav_21',['4. Systemarkitektur och Designkrav',['../md__s_r_s.html#autotoc_md60',1,'']]],
+  ['systemintegration_22',['4.2 Systemintegration',['../md__s_r_s.html#autotoc_md62',1,'']]],
+  ['systemleveranser_23',['9.1 Systemleveranser',['../md__s_r_s.html#autotoc_md82',1,'']]]
+];
