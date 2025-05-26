@@ -1,28 +1,4 @@
-// const BASE_URL = "https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new";
-
-// export const loginWithApi = async (username, password) => {
-//     try {
-//         const response = await fetch(`${BASE_URL}`, {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json", 
-//                 'Accept' : 'application/json',
-//             },
-//             body: JSON.stringify({ 
-//                 username: 'Anna',
-//                 password: 'hejsanhoppsan' })
-//         });
-
-//         if (!response.ok) throw new Error("Inloggningen misslyckades");
-
-//         return await response.json(); // Innehåller tokens
-//     } catch(error) {
-//         console.error("Login error", error);
-//         return null;
-//     }
-// };
-
-
-const BASE_URL = "https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new";
+const BASE_URL = "https://paxdb.vercel.app";
 
 export const fetchUserProfile = async (token) => {
     try {
@@ -42,12 +18,12 @@ export const fetchUserProfile = async (token) => {
     }
 }
 
-export const loginWithApi = async (username, password) => {
+export const loginWithApi = async (email, password) => {
     try {
         const response = await fetch(`${BASE_URL}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ email, password })
         });
         if (!response.ok) throw new Error("Inloggningen misslyckades");
         // return await response.json(); // Innehåller tokens

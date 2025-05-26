@@ -5,15 +5,15 @@ import { useTheme } from '../theme/ThemeContext'
 
 
 
-const FormComponent = ({ userName, setUsername, password, setPassword }) => {
+const FormComponent = ({ email, setEmail, password, setPassword }) => {
     const { theme } = useTheme ();
     const styles = createStyles (theme);
   return (
     <View>
-     <Text style={styles.label}>Användarnamn:</Text>
+     <Text style={styles.label}>Email:</Text>
       <TextInput style={styles.input}
-      value= {userName}
-      onChangeText={setUsername}
+      value= {email}
+      onChangeText={setEmail}
        />
        <Text style={styles.label}>Lösenord:</Text>
         <TextInput

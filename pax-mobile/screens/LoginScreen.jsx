@@ -10,13 +10,14 @@ import { useUser } from '../context/UserContext';
 import { useAuth } from '../context/AuthContext';
 import { loginWithApi } from '../services/api';
 
-const LoginTest = ({ navigation }) => {
+const LoginTest = ({ }) => {
   const { theme } = useTheme();
   const styles = createStyles(theme);
   const { login } = useAuth();
+  const navigation = useNavigation();
 
   const [users, setUsers] = useState([]);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -24,7 +25,7 @@ const LoginTest = ({ navigation }) => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          'https://app.swaggerhub.com/apis-docs/alicegmn/pax-api/dev-oas3-new'
+          'https://paxdb.vercel.app/'
         );
         const data = await response.json();
         setUsers(data);
@@ -38,20 +39,21 @@ const LoginTest = ({ navigation }) => {
   }, []);
 
   const handleLogin = async () => {
-    if (!username || !password) {
+    if (!email || !password) {
       setError('Fyll i användarnamn och lösenord.');
       return; 
     }
 
     try {
-      const result = await loginWithApi(username, password);
+      const result = await loginWithApi(email, password);
 
       if (!result || !result.token) {
         setError('Felaktiga inloggningsuppgifter');
         return;
       }
       await login(result.token);
-      navigation.navigate('Home')
+      navigation.navigate('Home');
+
     } catch (error) {
       console.error ('Login error', error);
       setError ('Något gick fel vid inloggning')
@@ -64,8 +66,8 @@ const LoginTest = ({ navigation }) => {
         <ThemeToggleTabButton />
         <LogoComponent style={styles.logo} />
         <FormComponent
-          username={username}
-          setUsername={setUsername}
+          email={email}
+          setEmail={setEmail}
           password={password}
           setPassword={setPassword}
         />
