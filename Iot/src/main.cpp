@@ -4,15 +4,15 @@
 #include <Arduino.h>
 
 #ifndef SERVER
-//! This is what your ardjuino secrets should look like
+//! This is what your arduino secrets should look like
 #define SECRET_SSID "your_ssid"
 #define SECRET_PASS "your_password"
 
 #define SERVER "google.com"
 #define SERVER_PORT 8080
-#define API_PATH "/pax-api"
-#define ROOM_STATE_ENDPOINT "/rooms/state"
-#define CONFIG_ENDPOINT "/config"
+#define API_PATH "" 
+#define ROOM_STATE_ENDPOINT "/room"
+#define CONFIG_ENDPOINT "/device-config"
 #define DEFAULT_UUID "00000000-0000-0000-0000-000000000000"  // Zero UUID for initial registration
 
 #endif
@@ -97,6 +97,11 @@ void setup()
     while (!Serial) {
         delay( 50 );
     }
+    //! Setting room ID to a specific number for testing
+    #ifdef ROOM_OVERRIDE
+    room_id = ROOM_OVERRIDE;
+    has_room_id = true;
+    #endif
 
     delay(500); // extra delay to give Serial connection time
     Wire.begin();
