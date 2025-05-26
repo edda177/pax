@@ -13,7 +13,7 @@ export const lightTheme = {
   // Text
   textLight: "#7DBA6A",
   textPrimary: '#BFCFBB',
-  textSecondary: '#344C3D',  
+  textSecondary: '#BFCFBB',  
 
   //Knapp icon
   iconSwitchmode: '#B5DA87',
