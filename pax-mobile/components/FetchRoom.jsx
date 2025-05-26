@@ -32,9 +32,7 @@ const FetchRoom = ({ favorites, setFavorites, setAllRooms }) => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await fetch(
-          "https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/rooms"
-        );
+        const response = await fetch("https://paxdb.vercel.app/rooms");
         const data = await response.json();
         const availableRooms = (data || []).filter((room) => room.available);
         setRooms(availableRooms);
