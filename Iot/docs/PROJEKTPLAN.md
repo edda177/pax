@@ -13,7 +13,6 @@ Uppbokade mötesrum på större företag och företagshotell, som står tomma. M
 Större bolag med många anställda som vill kunna boka rum för möte och konferens (stor efterfrågan, lågt utbud). Som nämnts ovan finns stor möjlighet till besparingar genom effektivisering av rumsbeläggningen. Det kan även vara möjligt att modifiera produkten för andra typer av anläggningar med rum som används av flera personer, till exempel kontorshotell eller lokaler i bostadsrättsföreningar.
 
 
-
 ### Teknologier för frontend, backend och IoT.  
 **Frontend:** React Native, Figma, Tailwind CSS  
 **Backend:** PostgreSQL, Node.js och Express.js   
