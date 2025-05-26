@@ -17,3 +17,6 @@ arduino_secrets.h
 
 # Track Doxyfile for doxygen configuration
 !Doxyfile
+
+# Ignore .DS_Store
+.DS_Store
