@@ -1,3 +1,8 @@
+/**
+ * @file networking_base.cpp
+ * @brief Handles connections to backend server over WiFi and Ethernet 
+ * 
+ */
 #include "networking_base.h"
 #include <SPI.h>
 

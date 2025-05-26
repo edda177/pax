@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Global variables, setup() and main() for pax IoT
+ * 
+ */
 #include "measurement_state.h"
 #include "networking_base.h"
 #include "PostMan.h"
