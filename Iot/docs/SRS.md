@@ -1,6 +1,6 @@
 # Inledning
 
-# Innehållsförteckning
+## Innehållsförteckning
 
 1. [Introduktion](#1-introduktion)
 
@@ -68,7 +68,7 @@ PAX är en fristående lösning som ska integreras i större företags- och för
 
 **Sekundär målgrupp**: Leverantörer av anläggningar med flera delade rum, t.ex. kontorshotell eller bostadsrättsföreningar.
 
-### Projektteam: Bestående av tre subteam:
+### Projektteam bestående av tre subteam
 
 **Frontend (FMWX24)**: Ansvarar för app-utveckling med React Native, gränssnittsdesign (Tailwind CSS, Figma) samt datavisualisering.
 

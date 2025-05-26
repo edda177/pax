@@ -13,10 +13,10 @@ TempSensor DHT11(2);
 
 void temp_sensor_example_setup()
 {
-    // Invoke store_sensor 
+    //! Invoke store_sensor 
     DHT11.begin();
 
-    // Use correct baud rate
+    //! Use correct baud rate
     Serial.begin(115200);
 }
  
