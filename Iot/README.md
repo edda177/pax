@@ -3,7 +3,7 @@
 **SUVX24 Contributors:** Jennifer Gott, Sabina Stawbrink, Oscar Asserlund, Erik Dahl, Johan Modin
 
 [Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)
-Sens
+En godkänd plan av skolans ledning som är grunden till projektet.
 
 ## Beskrivning
 
@@ -46,27 +46,3 @@ const ServerConfig SERVER = { IPAddress(192, 0, 0, 0), SERVER_PORT};
 
 #endif
 ```
-
----
-
-## Komponenter
-
-### PIR-sensor
-
-- **Pin**: 2
-- **Beskrivning**: HC-SR501, används för att detektera rörelse i rummet.
-
-### Temp-sensor
-
-- **Pin**:
-- **Beskrivning**: DS18B20, används för temperaturmätning i rummet.
-
-### Luft-sensor
-
-- **Pin**:
-- **Beskrivning**: SPG30, MOX-gas sensor som mäter luftkvaliteten i rummet, mäter VOC och väte (H₂) vilket används för att beräkna eCO₂ värdet.
-
-### LED (Test, ta bort?)
-
-- **Pin**: 3
-- **Beskrivning**: Röd led, indikerar rörelse?
