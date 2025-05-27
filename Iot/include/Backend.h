@@ -118,9 +118,9 @@ public:
     //! Send room state update to server
     //! @param temperature Current room temperature
     //! @param activity Current room activity status
-    //! @param air_quality Current room air quality
+    //! @param air_quality Current room air quality (integer)
     //! @return true if successful, false otherwise
-    bool send_update_room_state(float temperature, bool activity, float air_quality);
+    bool send_update_room_state(int temperature, bool activity, int air_quality);
 
     //! Get room configuration from server
     //! @return true if successful, false otherwise

@@ -9,6 +9,9 @@
 #include <Arduino.h>
 #include <WiFiS3.h>
 
+// Comment this line out to disable verbose state debug logging - OR define via build flags
+// #define MAIN_STATE_DEBUG
+
 /**
  * @file arduino_secrets.h
  * @brief Configuration for WiFi and server connection
@@ -73,6 +76,7 @@ SystemState current_state = SystemState::UNINITIALIZED;
 
 // Helper function to log state transitions
 void log_state_transition(SystemState from, SystemState to, const char* reason = nullptr) {
+#ifdef MAIN_STATE_DEBUG
     Serial.print("State transition: ");
     switch (from) {
         case SystemState::UNINITIALIZED: Serial.print("UNINITIALIZED"); break;
@@ -101,6 +105,7 @@ void log_state_transition(SystemState from, SystemState to, const char* reason =
         Serial.print(")");
     }
     Serial.println();
+#endif
 }
 
 // Helper function to update state
@@ -122,13 +127,16 @@ bool try_get_room_id() {
 
     if (backend.get_room_config()) {
         if (server_info.room_id != 0) {
+#ifdef MAIN_STATE_DEBUG
             Serial.print("Got room ID: ");
             Serial.println(server_info.room_id);
+#endif
             return true;
         }
     }
-    
+#ifdef MAIN_STATE_DEBUG
     Serial.println("Failed to get room ID");
+#endif
     return false;
 }
 
@@ -143,16 +151,18 @@ void setup() {
     //! Setting room ID to a specific number for testing
     #ifdef ROOM_OVERRIDE
     backend.update_room_id(ROOM_OVERRIDE);
-    update_state(SystemState::ROOM_CONFIGURED, "Room ID override set");
+    // update_state(SystemState::ROOM_CONFIGURED, "Room ID override set"); // This state update might be too early, let natural flow handle it or place after JWT_VALID
     #endif
 
     delay(500); // extra delay to give Serial connection time
     Wire.begin();
-    
+#ifdef MAIN_STATE_DEBUG
     Serial.println(F("System: Initializing room state"));
+#endif
     room_state.begin();
-    
+#ifdef MAIN_STATE_DEBUG
     Serial.println(F("System: Initializing WiFi"));
+#endif
     WiFi.begin(SECRET_SSID, SECRET_PASS);
     update_state(SystemState::WIFI_CONNECT_ATTEMPTED, "WiFi connection started");
     
@@ -161,56 +171,78 @@ void setup() {
     const unsigned long start_time = millis();
     while (WiFi.status() != WL_CONNECTED) {
         if (millis() - start_time > wifi_timeout) {
+#ifdef MAIN_STATE_DEBUG
             Serial.println("\nWiFi connection timeout");
+#endif
             update_state(SystemState::ERROR, "WiFi connection timeout");
             return;
         }
         delay(500);
+#ifdef MAIN_STATE_DEBUG
         Serial.print(".");
+#endif
     }
     
     // Verify connection is stable
     delay(1000); // Give connection time to stabilize
     if (WiFi.status() == WL_CONNECTED) {
+#ifdef MAIN_STATE_DEBUG
         Serial.println("\nConnected to WiFi");
         Serial.print("IP address: ");
         Serial.println(WiFi.localIP());
+#endif
         update_state(SystemState::WIFI_CONNECTED, "WiFi connected and verified");
     } else {
+#ifdef MAIN_STATE_DEBUG
         Serial.println("\nWiFi connection failed");
+#endif
         update_state(SystemState::ERROR, "WiFi connection failed");
         return;
     }
-    
+#ifdef MAIN_STATE_DEBUG
     Serial.println(F("System: Configuring I/O pins"));
+#endif
     pinMode(led_pin, OUTPUT);
     digitalWrite(led_pin, LOW);
     
     delay(100);
-    
+#ifdef MAIN_STATE_DEBUG
     Serial.println(F("System: Initialization complete"));
+#endif
     
     // Initialize backend and get JWT token
+#ifdef MAIN_STATE_DEBUG
     Serial.println(F("\nSystem: Initializing backend..."));
+#endif
     if (!backend.begin()) {
+#ifdef MAIN_STATE_DEBUG
         Serial.println(F("System: Warning - Failed to initialize backend"));
+#endif
         last_jwt_attempt = millis();
         update_state(SystemState::ERROR, "Backend initialization failed");
     } else {
+#ifdef MAIN_STATE_DEBUG
         Serial.println(F("System: Successfully initialized backend"));
+#endif
         update_state(SystemState::SERVER_CONNECTED, "Backend initialized");
         
         // Verify token validity
         if (!backend.verify_token_validity()) {
+#ifdef MAIN_STATE_DEBUG
             Serial.println(F("System: Warning - Token validation failed"));
+#endif
             if (!backend.login_jwt()) {
+#ifdef MAIN_STATE_DEBUG
                 Serial.println(F("System: Warning - Failed to get new JWT token"));
+#endif
                 update_state(SystemState::ERROR, "JWT token validation failed");
             } else {
                 update_state(SystemState::JWT_VALID, "New JWT token obtained");
             }
         } else {
+#ifdef MAIN_STATE_DEBUG
             Serial.println(F("System: Token validation successful"));
+#endif
             update_state(SystemState::JWT_VALID, "JWT token valid");
         }
     }
@@ -220,13 +252,16 @@ void setup() {
         update_state(SystemState::ROOM_CONFIGURED, "Room ID obtained");
         // Update room state and send initial state if we have a room ID
         room_state.update_all();
+#ifdef MAIN_STATE_DEBUG
+        Serial.println(F("System: Sending initial room state on startup."));
+#endif
         backend.send_update_room_state(
-            room_state.get_temperature_float(),
+            static_cast<int>(round(room_state.get_temperature_float())),
             room_state.room_has_activity_bool(),
-            room_state.get_air_quality_float()
+            static_cast<int>(round(room_state.get_air_quality_float()))
         );
     } else {
-        update_state(SystemState::JWT_VALID, "No room ID yet");
+        update_state(SystemState::JWT_VALID, "No room ID yet"); // Or SERVER_CONNECTED if JWT also failed but backend.begin() was ok
     }
     last_update = millis();
     last_room_id_attempt = millis();
@@ -245,18 +280,30 @@ void loop() {
     // Try to get JWT token if we don't have one and we're in a state that allows it
     if (!backend.has_token() && 
         (current_state >= SystemState::WIFI_CONNECTED) && 
-        (current_state < SystemState::JWT_VALID) && 
+        // (current_state < SystemState::JWT_VALID) && // Allow retrying if current state is ERROR from JWT fail
         (millis() - last_jwt_attempt > JWT_RETRY_TIME)) {
+#ifdef MAIN_STATE_DEBUG
         Serial.println("Attempting to get JWT token...");
+#endif
         if (backend.login_jwt()) {
+#ifdef MAIN_STATE_DEBUG
             Serial.println("Successfully obtained JWT token");
+#endif
             update_state(SystemState::JWT_VALID, "JWT token obtained");
             // After getting token, verify it
             if (backend.verify_token_validity()) {
+#ifdef MAIN_STATE_DEBUG
                 Serial.println("Token validation successful");
+#endif
+            } else {
+#ifdef MAIN_STATE_DEBUG
+                Serial.println("Token validation failed after obtaining new token in loop.");
+#endif
+                // It might go to ERROR state if verify_token_validity calls make_http_request which fails badly
+                // Or m_has_token might be false again from verify_token_validity
             }
         } else {
-            update_state(SystemState::ERROR, "Failed to get JWT token");
+            update_state(SystemState::ERROR, "Failed to get JWT token in loop");
         }
         last_jwt_attempt = millis();
     }
@@ -264,13 +311,18 @@ void loop() {
     // Try to get room ID if we don't have one and we have a valid JWT token
     if (!backend.has_room_id() && 
         (current_state >= SystemState::JWT_VALID) && 
-        (current_state < SystemState::ROOM_CONFIGURED) && 
+        // (current_state < SystemState::ROOM_CONFIGURED) && // Allow retrying if current state is ERROR from room_id fail
         (millis() - last_room_id_attempt > ROOM_ID_RETRY_TIME)) {
+#ifdef MAIN_STATE_DEBUG
         Serial.println("Attempting to get room ID...");
+#endif
         if (try_get_room_id()) {
-            update_state(SystemState::ROOM_CONFIGURED, "Room ID obtained");
+            update_state(SystemState::ROOM_CONFIGURED, "Room ID obtained in loop");
         } else {
-            update_state(SystemState::JWT_VALID, "Failed to get room ID");
+            // update_state(SystemState::JWT_VALID, "Failed to get room ID in loop"); // Stay JWT_VALID or could be ERROR
+#ifdef MAIN_STATE_DEBUG
+            Serial.println("Failed to get room ID in loop.");
+#endif
         }
         last_room_id_attempt = millis();
     }
@@ -279,20 +331,25 @@ void loop() {
     if (backend.has_room_id() && 
         (current_state == SystemState::ROOM_CONFIGURED) && 
         (millis() - last_update > UPDATE_WAIT_TIME)) {
+#ifdef MAIN_STATE_DEBUG
         Serial.println("Sending data...");
+#endif
         if (backend.ensure_connection()) {
             last_update = millis();
             if (backend.send_update_room_state(
-                room_state.get_temperature_float(),
+                static_cast<int>(round(room_state.get_temperature_float())),
                 room_state.room_has_activity_bool(),
-                room_state.get_air_quality_float()
+                static_cast<int>(round(room_state.get_air_quality_float()))
             )) {
-                update_state(SystemState::ROOM_CONFIGURED, "Data sent successfully");
+                // update_state(SystemState::ROOM_CONFIGURED, "Data sent successfully"); // Already in this state
+#ifdef MAIN_STATE_DEBUG
+                Serial.println("Data sent successfully.");
+#endif
             } else {
                 update_state(SystemState::ERROR, "Failed to send data");
             }
         } else {
-            update_state(SystemState::ERROR, "Lost server connection");
+            update_state(SystemState::ERROR, "Lost server connection before sending data");
         }
     }
 }
