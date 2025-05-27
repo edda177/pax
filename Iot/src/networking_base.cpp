@@ -13,46 +13,37 @@ NetworkingBase::NetworkingBase( WiFiClient* wifi_in, EthernetClient* ethernet_in
 
 }
 
-
-bool NetworkingBase::initialize_w5500()
+bool NetworkingBase::initialize_ethernet()
 {
-    Serial.println(F("Network: Initializing DFRobot W5500 shield..."));
+    Serial.println(F("Network: Initializing Arduino Ethernet Shield..."));
     
-    // Step 1: Configure pins
-    pinMode(W5500_RST_PIN, OUTPUT);
-    pinMode(W5500_CS_PIN, OUTPUT);
-    digitalWrite(W5500_CS_PIN, HIGH);
+    // Step 1: Configure CS pin
+    pinMode(ETHERNET_CS_PIN, OUTPUT);
+    digitalWrite(ETHERNET_CS_PIN, HIGH);
     
-    // Step 2: Hardware reset procedure (DFRobot specific)
-    Serial.println(F("Network: Performing hardware reset of W5500"));
-    digitalWrite(W5500_RST_PIN, LOW);   // Assert reset
-    delay(200);                         // Hold in reset
-    digitalWrite(W5500_RST_PIN, HIGH);  // Release reset
-    delay(200);                         // Give time to initialize
-    
-    // Step 3: Initialize SPI
+    // Step 2: Initialize SPI
     SPI.begin();
     
-    // Step 4: Initialize Ethernet library with CS pin
-    Ethernet.init(W5500_CS_PIN);
+    // Step 3: Initialize Ethernet library with CS pin
+    Ethernet.init(ETHERNET_CS_PIN);
     
-    // Step 5: Verification delay (let the chip fully initialize)
+    // Step 4: Verification delay (let the chip fully initialize)
     delay(1000);
     
-    // Check if we can detect the W5500
-    Serial.println(F("Network: Checking W5500 hardware status..."));
+    // Check if we can detect the Ethernet hardware
+    Serial.println(F("Network: Checking Ethernet hardware status..."));
     
     // Use Ethernet library's hardware status check
     EthernetHardwareStatus hw_status = Ethernet.hardwareStatus();
     
-    if (hw_status == EthernetHardwareStatus::EthernetW5500)
+    if (hw_status == EthernetHardwareStatus::EthernetW5100)
     {
-        Serial.println(F("Network: W5500 controller detected successfully"));
+        Serial.println(F("Network: W5100 controller detected successfully"));
         return true;
     }
-    else if (hw_status == EthernetHardwareStatus::EthernetW5100)
+    else if (hw_status == EthernetHardwareStatus::EthernetW5500)
     {
-        Serial.println(F("Network: WARNING - W5100 detected instead of expected W5500"));
+        Serial.println(F("Network: WARNING - W5500 detected instead of expected W5100"));
         // Continue anyway as the library can handle either
         return true;
     }
@@ -68,7 +59,6 @@ bool NetworkingBase::initialize_w5500()
         return true;
     }
 }
-
 
 bool NetworkingBase::is_valid_ip(const IPAddress& ip) const
 {
@@ -96,7 +86,6 @@ bool NetworkingBase::is_valid_ip(const IPAddress& ip) const
     return true;
 }
 
-
 bool NetworkingBase::connect_wifi()
 {
     Serial.print(F("Network: Using WiFi, connecting to SSID: "));
@@ -113,18 +102,49 @@ bool NetworkingBase::connect_wifi()
         if (millis() - start_time_ms > wifi_connect_timeout_ms)
         {
             Serial.println(F("Network: WiFi connection timeout"));
+            Serial.print(F("Network: Last WiFi status: "));
+            Serial.println(WiFi.status());
             return false;
         }
         delay(100);
         if (++connection_attempts % 10 == 0)
         {
+            Serial.print(F("Network: WiFi status: "));
+            Serial.print(WiFi.status());
+            Serial.print(F(" ("));
+            switch(WiFi.status()) {
+                case WL_IDLE_STATUS: Serial.print(F("IDLE")); break;
+                case WL_NO_SSID_AVAIL: Serial.print(F("NO SSID AVAIL")); break;
+                case WL_CONNECT_FAILED: Serial.print(F("CONNECT FAILED")); break;
+                case WL_CONNECTION_LOST: Serial.print(F("CONNECTION LOST")); break;
+                case WL_DISCONNECTED: Serial.print(F("DISCONNECTED")); break;
+                default: Serial.print(F("UNKNOWN")); break;
+            }
+            Serial.println(F(")"));
             Serial.print(F("."));  // Progress indicator every second
         }
     }
     Serial.println(); // End progress indicator line
     
+    // Add delay to ensure connection is fully established
+    delay(2000);  // Wait 2 seconds for DHCP and network setup
+    
     // Get and store IP address
     m_local_ip = WiFi.localIP();
+    
+    // Print connection details
+    Serial.println(F("Network: WiFi connection established"));
+    Serial.print(F("Network: IP Address: "));
+    Serial.println(m_local_ip);
+    Serial.print(F("Network: Subnet Mask: "));
+    Serial.println(WiFi.subnetMask());
+    Serial.print(F("Network: Gateway IP: "));
+    Serial.println(WiFi.gatewayIP());
+    Serial.print(F("Network: DNS Server: "));
+    Serial.println(WiFi.dnsIP());
+    Serial.print(F("Network: Signal Strength (RSSI): "));
+    Serial.print(WiFi.RSSI());
+    Serial.println(F(" dBm"));
     
     // Validate IP address
     if (!is_valid_ip(m_local_ip))
@@ -137,27 +157,39 @@ bool NetworkingBase::connect_wifi()
 bool NetworkingBase::connect_wifi_to_server() 
 {
     Serial.println(F("Network: Connecting WiFi client to server..."));
+    Serial.print(F("Network: Server: "));
+    Serial.print(SERVER);
+    Serial.print(F(":"));
+    Serial.println(SERVER_PORT);
+    
     if (wifi_ptr->connect(SERVER, SERVER_PORT)) 
     {
         Serial.println(F("Network: WiFi client connected to server."));
+        Serial.print(F("Network: Local IP: "));
+        Serial.println(m_local_ip);
+        Serial.print(F("Network: Remote Port: "));
+        Serial.println(SERVER_PORT);
         return true;
     }
     else
     {
         Serial.println(F("Network: Failed to connect WiFi client to server."));
+        Serial.print(F("Network: WiFi Status: "));
+        Serial.println(WiFi.status());
+        Serial.print(F("Network: Write Error: "));
+        Serial.println(wifi_ptr->getWriteError());
         return false;
     }
 }
 
-
 bool NetworkingBase::connect_ethernet()
 {
-    Serial.println(F("Network: Using Ethernet (DFRobot W5500)"));
+    Serial.println(F("Network: Using Ethernet (Arduino Ethernet Shield)"));
     
-    // Initialize the W5500 hardware using DFRobot's approach
-    if (!initialize_w5500())
+    // Initialize the Ethernet hardware
+    if (!initialize_ethernet())
     {
-        Serial.println(F("Network: W5500 initialization failed"));
+        Serial.println(F("Network: Ethernet initialization failed"));
         return false;
     }
     
@@ -247,22 +279,10 @@ bool NetworkingBase::connect_ethernet()
     // Validate IP address
     bool valid_ip = is_valid_ip(m_local_ip);
     
-    // DFRobot W5500 may have link status issues - handle them appropriately
-    if (!physical_link && valid_ip)
-    {
-        Serial.println(F("Network: WARNING - LinkStatus reports disconnected but IP is valid"));
-        Serial.println(F("Network: This is a known issue with some W5500 shields"));
-        Serial.println(F("Network: Proceeding with connection despite link status report"));
-        
-        // Override for our internal tracking - we'll assume it's connected if we got a valid IP
-        physical_link = true;
-    }
-    
     // Initialize link status tracking for operator()
     last_link_status = physical_link;
     
     // Connection is successful if we have a valid IP
-    // For DFRobot shields, we'll trust the IP over the link status
     bool connection_successful = valid_ip;
     
     if (connection_successful)
@@ -277,7 +297,6 @@ bool NetworkingBase::connect_ethernet()
     
     return connection_successful;
 }
-
 
 void NetworkingBase::handle_dhcp_maintenance(uint8_t maintain_result)
 {
@@ -360,12 +379,10 @@ void NetworkingBase::begin()
     }
 }
 
-
 bool NetworkingBase::wifi_on() const 
 {
     return wifi_pin_set;
 }
-
 
 bool NetworkingBase::ready_for_traffic() const
 {
@@ -383,7 +400,6 @@ bool NetworkingBase::ready_for_traffic() const
     }
 }
 
-
 Client * NetworkingBase::current_client() const
 {
     if ( wifi_pin_set )
@@ -400,7 +416,6 @@ Stream * NetworkingBase::out_stream() const
 {
     return current_client();
 }
-
 
 void NetworkingBase::operator()()
 {

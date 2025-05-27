@@ -3,7 +3,7 @@
 
 #include "arduino_secrets.h"
 #include <Arduino.h>
-#include <WiFi.h>
+#include <WiFiS3.h>
 #include <Ethernet.h>
 #include <SPI.h>
 #include <cstdint>  // For fixed-size types
@@ -12,9 +12,8 @@
 // Configuration pin as constexpr instead of #define
 constexpr uint8_t NETWORK_CONFIG_PIN = 7;
 
-// DFRobot W5500 Shield specific pins
-constexpr uint8_t W5500_CS_PIN = 10;   // DFRobot uses pin 10 for CS (Chip Select)
-constexpr uint8_t W5500_RST_PIN = 11;  // DFRobot uses pin 11 for RST (Reset)
+// Arduino Ethernet Shield specific pins
+constexpr uint8_t ETHERNET_CS_PIN = 10;   // Arduino Ethernet Shield uses pin 10 for CS (Chip Select)
 
 //! Network handling class
 //! @brief This class manages the network state and routes to the configured Client
@@ -56,9 +55,9 @@ private:
     bool last_configured_state = false;      // Previous connection state for change detection
     bool last_link_status = false;           // Previous Ethernet link status for cable detection
     
-    //! @brief Initializes the W5500 using DFRobot's recommended approach
+    //! @brief Initializes the Ethernet Shield
     //! @return true if initialization successful, false otherwise
-    bool initialize_w5500();
+    bool initialize_ethernet();
     
     //! @brief Validates if an IP address is valid (non-zero)
     //! @param ip The IP address to validate
