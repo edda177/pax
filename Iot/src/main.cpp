@@ -24,12 +24,12 @@
  * #define SERVER_URL "google.com"
  * #define SERVER_PORT 443  // Default HTTPS port
  * #define API_PATH "" 
- * #define ROOMS_BASE "/rooms"
- * #define CONFIG_ENDPOINT "/config"
- * #define JWT_ENDPOINT "/auth/login"
- * #define UUID "00000000-0000-0000-0000-000000000000"  // Zero UUID for initial registration
+ * 
  * #define JWT_USER "user"
  * #define JWT_PASS "password"
+ * 
+ * #define DEVICE_UUID "UUID2"  // UUID for initial registration
+ * #define ROOM_OVERRIDE 37     // Optional room ID override for testing
  * @endcode
  */
 
