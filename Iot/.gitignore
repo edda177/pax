@@ -11,6 +11,14 @@
 
 # Ignore pio files
 .pio
+.vscode
 
 # Ignore sensitive files
 arduino_secrets.h
+.env
+
+# Track Doxyfile for doxygen configuration
+!Doxyfile
+
+# Ignore .DS_Store
+.DS_Store
