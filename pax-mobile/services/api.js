@@ -1,23 +1,5 @@
 const BASE_URL = "https://paxdb.vercel.app";
 
-export const fetchUserProfile = async (token) => {
-    try {
-        const response = await fetch(`${BASE_URL}/protected-endpoint`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) throw new Error("Kunde inte hämta profil");
-
-        return await response.json();
-    } catch (error) {
-        console.log("Fetch user error", error);
-        return null;
-    }
-}
-
 export const loginWithApi = async (email, password) => {
     try {
         const response = await fetch(`${BASE_URL}/auth/login`, {

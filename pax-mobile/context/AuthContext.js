@@ -29,12 +29,6 @@ export const AuthProvider = ({ children }) => {
         console.log("Token", newToken);
         await saveToStorage("userToken", newToken);
         setToken(newToken);
-
-        const profile = await fetchUserProfile(newToken);
-        console.log(profile.user.username)
-        if (profile) {
-            saveUserData(profile);
-        }
     };
 
     const logout = async () => {

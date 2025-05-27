@@ -10,7 +10,9 @@ import { useTheme } from "../theme/ThemeContext";
 import LoginScreen from "../screens/LoginScreen";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { AntDesign } from "@expo/vector-icons";
+import { useAuth } from "../context/AuthContext";
 
+// const {token} = useAuth();
 const fakeToken = false;
 const Tab = createBottomTabNavigator();
 

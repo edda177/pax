@@ -10,33 +10,15 @@ import { useUser } from '../context/UserContext';
 import { useAuth } from '../context/AuthContext';
 import { loginWithApi } from '../services/api';
 
-const LoginTest = ({ }) => {
+const LoginScreen = ({ }) => {
   const { theme } = useTheme();
   const styles = createStyles(theme);
   const { login } = useAuth();
   const navigation = useNavigation();
 
-  const [users, setUsers] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(
-          'https://paxdb.vercel.app/'
-        );
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error('Fel vid hämtning av användare:', error);
-        // setError('Kunde inte hämta användare');
-      }
-    };
-
-    fetchUsers();
-  }, []);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -81,7 +63,7 @@ const LoginTest = ({ }) => {
   );
 };
 
-export default LoginTest;
+export default LoginScreen;
 
 const createStyles = (theme) => 
     StyleSheet.create({
