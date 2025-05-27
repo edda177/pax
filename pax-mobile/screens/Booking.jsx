@@ -121,7 +121,7 @@ const Booking = () => {
         onClose={toggleModal}
         mapImage={require("../assets/maps/karta-pax_med-nr.png")}
         imageDescription={
-          "1: Norra Berget  2: Avenyn  3: Slottsskogen 4: Liseberg\n5: Stenstaden  6: Möllevångstorget  7: Turning Torso"
+          "1: Norra Berget  2: Avenyn  3: Slottsskogen \n4: Liseberg 5: Stenstaden  6: Möllevångstorget  \n7: Turning Torso"
         }
       />
 

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTheme } from "../theme/ThemeContext";
 
 const RoomCard = () => {
-  const [bookedRoom, setBookedRoom] = useState({ name: "Rum Nunito" });
+  const [bookedRoom, setBookedRoom] = useState({ name: "Norra Berget" });
   const [pauseTime, setPauseTime] = useState(0);
   const timerRef = useRef(null);
   const { theme } = useTheme();
