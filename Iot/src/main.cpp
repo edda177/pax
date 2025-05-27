@@ -9,54 +9,65 @@
 #include <Arduino.h>
 #include <WiFiS3.h>
 
-#ifndef SERVER
-//! This is what your arduino secrets should look like
-#define SECRET_SSID "your_ssid"
-#define SECRET_PASS "your_password"
+/**
+ * @file arduino_secrets.h
+ * @brief Configuration for WiFi and server connection
+ * 
+ * This file should contain the following defines:
+ * @code
+ * #define SECRET_SSID "your_ssid"
+ * #define SECRET_PASS "your_password"
+ * 
+ * #define SERVER_URL "google.com"
+ * #define SERVER_PORT 443  // Default HTTPS port
+ * #define API_PATH "" 
+ * #define ROOMS_BASE "/rooms"
+ * #define CONFIG_ENDPOINT "/config"
+ * #define JWT_ENDPOINT "/auth/login"
+ * #define UUID "00000000-0000-0000-0000-000000000000"  // Zero UUID for initial registration
+ * #define JWT_USER "user"
+ * #define JWT_PASS "password"
+ * @endcode
+ */
 
-#define SERVER "google.com"
-#define SERVER_PORT 443  // Default HTTPS port
-#define API_PATH "" 
-#define ROOM_STATE_ENDPOINT "/rooms"
-#define CONFIG_ENDPOINT "/config"
-#define JWT_ENDPOINT "/auth/login"
-#define DEFAULT_UUID "00000000-0000-0000-0000-000000000000"  // Zero UUID for initial registration
-#define JWT_SECRET_USER "user"
-#define JWT_SECRET_PASS "password"
-#endif
+int pir_pin = 2;  //!< PIR sensor pin
+int led_pin = 3;  //!< LED indicator pin
+int temp_pin = 6; //!< Temperature sensor pin
+MeasurementState room_state(pir_pin, 60*1000, temp_pin); //!< Room state manager with PIR timeout and temperature sensor
 
-// Room ID storage
-uint32_t room_id = 0;  // 0 indicates no room ID assigned
-bool has_room_id = false;
+// Server configuration
+ServerInfo server_info(
+    SERVER_URL,          //!< Server base URL
+    SERVER_PORT,         //!< Server port
+    API_PATH,            //!< API base path
+    ROOMS_BASE,          //!< Base path for room updates
+    CONFIG_ENDPOINT,     //!< Endpoint for room configuration
+    JWT_ENDPOINT,        //!< Endpoint for JWT authentication
+    JWT_SECRET_USER,     //!< JWT username
+    JWT_SECRET_PASS,     //!< JWT password
+    UUID                 //!< Device UUID
+);
 
-int pir_pin = 2;
-int led_pin = 3;
-int temp_pin = 6; 
-MeasurementState room_state(pir_pin, 60*1000, temp_pin); // pass temperature pin as 3rd argument to use sensor
-
-// Server configuration, default constructor if SERVER is defined
-ServerInfo server_info; 
-
-Backend backend(server_info);
+Backend backend(server_info);  //!< Backend communication manager
 
 // Timing constants
-constexpr time_t UPDATE_WAIT_TIME = 30 * 1000;  // 30 seconds
-constexpr time_t ROOM_ID_RETRY_TIME = 10 * 60 * 1000;  // 10 minutes
-constexpr time_t JWT_RETRY_TIME = 5 * 60 * 1000;  // 5 minutes
-time_t last_update = 0;
-time_t last_room_id_attempt = 0;
-time_t last_jwt_attempt = 0;
-constexpr uint32_t serial_baud_rate = 115200;
+constexpr time_t UPDATE_WAIT_TIME = 30 * 1000;  //!< Time between room state updates (30 seconds)
+constexpr time_t ROOM_ID_RETRY_TIME = 10 * 60 * 1000;  //!< Time between room ID retry attempts (10 minutes)
+constexpr time_t JWT_RETRY_TIME = 5 * 60 * 1000;  //!< Time between JWT token retry attempts (5 minutes)
+time_t last_update = 0;  //!< Last successful room state update timestamp
+time_t last_room_id_attempt = 0;  //!< Last room ID request attempt timestamp
+time_t last_jwt_attempt = 0;  //!< Last JWT token request attempt timestamp
+constexpr uint32_t serial_baud_rate = 115200;  //!< Serial communication baud rate
 
 // System states
 enum class SystemState {
-    UNINITIALIZED,      // ServerInfo not fully constructed
-    INITIALIZED,        // Basic initialization complete
-    WIFI_CONNECTED,     // WiFi connected
-    SERVER_CONNECTED,   // Connected to server (HEAD request succeeds)
-    JWT_VALID,         // Has valid JWT token
-    ROOM_CONFIGURED,    // Has valid room ID
-    ERROR              // Error state
+    UNINITIALIZED,      //!< ServerInfo not fully constructed
+    INITIALIZED,        //!< Basic initialization complete
+    WIFI_CONNECTED,     //!< WiFi connected
+    SERVER_CONNECTED,   //!< Connected to server (HEAD request succeeds)
+    JWT_VALID,         //!< Has valid JWT token
+    ROOM_CONFIGURED,    //!< Has valid room ID
+    ERROR              //!< Error state
 };
 
 // Current system state
@@ -105,13 +116,12 @@ void update_state(SystemState new_state, const char* reason = nullptr) {
  * @return true if successful, false otherwise
  */
 bool try_get_room_id() {
-    if (has_room_id) {
+    if (backend.has_room_id()) {
         return true;
     }
 
     if (backend.get_room_config()) {
         if (server_info.room_id != 0) {
-            has_room_id = true;
             Serial.print("Got room ID: ");
             Serial.println(server_info.room_id);
             return true;
@@ -132,9 +142,7 @@ void setup() {
 
     //! Setting room ID to a specific number for testing
     #ifdef ROOM_OVERRIDE
-    room_id = ROOM_OVERRIDE;
-    has_room_id = true;
-    backend.update_room_id(room_id);
+    backend.update_room_id(ROOM_OVERRIDE);
     update_state(SystemState::ROOM_CONFIGURED, "Room ID override set");
     #endif
 
@@ -224,7 +232,7 @@ void loop() {
     }
 
     // Try to get room ID if we don't have one
-    if (!has_room_id && (millis() - last_room_id_attempt > ROOM_ID_RETRY_TIME)) {
+    if (!backend.has_room_id() && (millis() - last_room_id_attempt > ROOM_ID_RETRY_TIME)) {
         Serial.println("Attempting to get room ID...");
         if (try_get_room_id()) {
             update_state(SystemState::ROOM_CONFIGURED, "Room ID obtained");
@@ -235,7 +243,7 @@ void loop() {
     }
 
     // send data to server if we have a room ID
-    if (has_room_id && (millis() - last_update > UPDATE_WAIT_TIME)) {
+    if (backend.has_room_id() && (millis() - last_update > UPDATE_WAIT_TIME)) {
         Serial.println("Sending data...");
         if (backend.ensure_connection()) {
             last_update = millis();

@@ -158,11 +158,11 @@ bool NetworkingBase::connect_wifi_to_server()
 {
     Serial.println(F("Network: Connecting WiFi client to server..."));
     Serial.print(F("Network: Server: "));
-    Serial.print(SERVER);
+    Serial.print(SERVER_URL);
     Serial.print(F(":"));
     Serial.println(SERVER_PORT);
     
-    if (wifi_ptr->connect(SERVER, SERVER_PORT)) 
+    if (wifi_ptr->connect(SERVER_URL, SERVER_PORT)) 
     {
         Serial.println(F("Network: WiFi client connected to server."));
         Serial.print(F("Network: Local IP: "));

@@ -1,8 +1,8 @@
 //! @file Backend.h
 //! Functions for communicating with the backend server
 
-#ifndef PAX_BACKEND_H
-#define PAX_BACKEND_H
+#ifndef BACKEND_H
+#define BACKEND_H
 
 #include <string_view>
 #include <array>
@@ -31,13 +31,38 @@ struct ServerInfo {
     std::array<char, 256> jwt_token_buffer;      //!< Buffer for JWT token
     std::string_view jwt_token = jwt_token_buffer.data();                 //!< View of current JWT token
 
-    #ifdef SERVER //! If we have defines for the values, use them
-    ServerInfo() : server_base_url(SERVER), server_port(SERVER_PORT), server_api_path(API_PATH), rooms_base(ROOMS_BASE), config_endpoint(CONFIG_ENDPOINT), jwt_endpoint(JWT_ENDPOINT), jwt_user(JWT_USER), jwt_pass(JWT_PASS), uuid(UUID), room_id(ROOM_ID) {}
-    #else
-    ServerInfo() : room_endpoint_buffer(), jwt_token_buffer() {}
-    #endif // 
+    ServerInfo() : 
+        server_base_url(""),
+        server_port(443),  // Default HTTPS port
+        server_api_path(""),
+        rooms_base("/rooms"),
+        config_endpoint("/config"),
+        jwt_endpoint("/auth/login"),
+        jwt_user(""),
+        jwt_pass(""),
+        uuid("00000000-0000-0000-0000-000000000000"),  // Default zero UUID
+        room_id(0),  // Default to no room ID
+        room_endpoint_buffer(),
+        jwt_token_buffer() 
+    {}
 
-    ServerInfo(std::string_view url, uint16_t port) : server_base_url(url), server_port(port) {}
+    // Constructor that takes all configuration values
+    ServerInfo(std::string_view url, uint16_t port, std::string_view api_path,
+              std::string_view rooms, std::string_view config, std::string_view jwt,
+              std::string_view user, std::string_view pass, std::string_view id) :
+        server_base_url(url),
+        server_port(port),
+        server_api_path(api_path),
+        rooms_base(rooms),
+        config_endpoint(config),
+        jwt_endpoint(jwt),
+        jwt_user(user),
+        jwt_pass(pass),
+        uuid(id),
+        room_id(0),
+        room_endpoint_buffer(),
+        jwt_token_buffer()
+    {}
 
     void set_jwt_token(std::string_view token);
     void set_room_endpoint(std::string_view endpoint);
@@ -127,4 +152,4 @@ private:
     bool m_has_room_id = false; //!< Whether we have a valid room ID
 };
 
-#endif // PAX_BACKEND_H
+#endif // BACKEND_H
