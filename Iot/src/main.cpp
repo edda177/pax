@@ -40,12 +40,9 @@ ServerInfo server_info(
     SERVER_URL,          //!< Server base URL
     SERVER_PORT,         //!< Server port
     API_PATH,            //!< API base path
-    ROOMS_BASE,          //!< Base path for room updates
-    CONFIG_ENDPOINT,     //!< Endpoint for room configuration
-    JWT_ENDPOINT,        //!< Endpoint for JWT authentication
-    JWT_SECRET_USER,     //!< JWT username
-    JWT_SECRET_PASS,     //!< JWT password
-    UUID                 //!< Device UUID
+    JWT_USER,            //!< JWT username
+    JWT_PASS,            //!< JWT password
+    DEVICE_UUID          //!< Device UUID
 );
 
 Backend backend(server_info);  //!< Backend communication manager
@@ -63,7 +60,8 @@ constexpr uint32_t serial_baud_rate = 115200;  //!< Serial communication baud ra
 enum class SystemState {
     UNINITIALIZED,      //!< ServerInfo not fully constructed
     INITIALIZED,        //!< Basic initialization complete
-    WIFI_CONNECTED,     //!< WiFi connected
+    WIFI_CONNECT_ATTEMPTED, //!< WiFi connection attempt started
+    WIFI_CONNECTED,     //!< WiFi connected and verified
     SERVER_CONNECTED,   //!< Connected to server (HEAD request succeeds)
     JWT_VALID,         //!< Has valid JWT token
     ROOM_CONFIGURED,    //!< Has valid room ID
@@ -79,6 +77,7 @@ void log_state_transition(SystemState from, SystemState to, const char* reason =
     switch (from) {
         case SystemState::UNINITIALIZED: Serial.print("UNINITIALIZED"); break;
         case SystemState::INITIALIZED: Serial.print("INITIALIZED"); break;
+        case SystemState::WIFI_CONNECT_ATTEMPTED: Serial.print("WIFI_CONNECT_ATTEMPTED"); break;
         case SystemState::WIFI_CONNECTED: Serial.print("WIFI_CONNECTED"); break;
         case SystemState::SERVER_CONNECTED: Serial.print("SERVER_CONNECTED"); break;
         case SystemState::JWT_VALID: Serial.print("JWT_VALID"); break;
@@ -89,6 +88,7 @@ void log_state_transition(SystemState from, SystemState to, const char* reason =
     switch (to) {
         case SystemState::UNINITIALIZED: Serial.print("UNINITIALIZED"); break;
         case SystemState::INITIALIZED: Serial.print("INITIALIZED"); break;
+        case SystemState::WIFI_CONNECT_ATTEMPTED: Serial.print("WIFI_CONNECT_ATTEMPTED"); break;
         case SystemState::WIFI_CONNECTED: Serial.print("WIFI_CONNECTED"); break;
         case SystemState::SERVER_CONNECTED: Serial.print("SERVER_CONNECTED"); break;
         case SystemState::JWT_VALID: Serial.print("JWT_VALID"); break;
@@ -154,12 +154,33 @@ void setup() {
     
     Serial.println(F("System: Initializing WiFi"));
     WiFi.begin(SECRET_SSID, SECRET_PASS);
+    update_state(SystemState::WIFI_CONNECT_ATTEMPTED, "WiFi connection started");
+    
+    // Wait for WiFi connection with timeout
+    const unsigned long wifi_timeout = 20000; // 20 second timeout
+    const unsigned long start_time = millis();
     while (WiFi.status() != WL_CONNECTED) {
+        if (millis() - start_time > wifi_timeout) {
+            Serial.println("\nWiFi connection timeout");
+            update_state(SystemState::ERROR, "WiFi connection timeout");
+            return;
+        }
         delay(500);
         Serial.print(".");
     }
-    update_state(SystemState::WIFI_CONNECTED, "WiFi connected");
-    Serial.println("\nConnected to WiFi");
+    
+    // Verify connection is stable
+    delay(1000); // Give connection time to stabilize
+    if (WiFi.status() == WL_CONNECTED) {
+        Serial.println("\nConnected to WiFi");
+        Serial.print("IP address: ");
+        Serial.println(WiFi.localIP());
+        update_state(SystemState::WIFI_CONNECTED, "WiFi connected and verified");
+    } else {
+        Serial.println("\nWiFi connection failed");
+        update_state(SystemState::ERROR, "WiFi connection failed");
+        return;
+    }
     
     Serial.println(F("System: Configuring I/O pins"));
     pinMode(led_pin, OUTPUT);
@@ -211,12 +232,21 @@ void setup() {
     last_room_id_attempt = millis();
 }
 
+//! Arduino main loop function
 void loop() {
     // read sensor data
     room_state.update_all();
 
-    // Try to get JWT token if we don't have one
-    if (!backend.has_token() && (millis() - last_jwt_attempt > JWT_RETRY_TIME)) {
+    // Only proceed with network operations if we have a valid WiFi connection
+    if (current_state < SystemState::WIFI_CONNECTED) {
+        return;
+    }
+
+    // Try to get JWT token if we don't have one and we're in a state that allows it
+    if (!backend.has_token() && 
+        (current_state >= SystemState::WIFI_CONNECTED) && 
+        (current_state < SystemState::JWT_VALID) && 
+        (millis() - last_jwt_attempt > JWT_RETRY_TIME)) {
         Serial.println("Attempting to get JWT token...");
         if (backend.login_jwt()) {
             Serial.println("Successfully obtained JWT token");
@@ -231,8 +261,11 @@ void loop() {
         last_jwt_attempt = millis();
     }
 
-    // Try to get room ID if we don't have one
-    if (!backend.has_room_id() && (millis() - last_room_id_attempt > ROOM_ID_RETRY_TIME)) {
+    // Try to get room ID if we don't have one and we have a valid JWT token
+    if (!backend.has_room_id() && 
+        (current_state >= SystemState::JWT_VALID) && 
+        (current_state < SystemState::ROOM_CONFIGURED) && 
+        (millis() - last_room_id_attempt > ROOM_ID_RETRY_TIME)) {
         Serial.println("Attempting to get room ID...");
         if (try_get_room_id()) {
             update_state(SystemState::ROOM_CONFIGURED, "Room ID obtained");
@@ -242,8 +275,10 @@ void loop() {
         last_room_id_attempt = millis();
     }
 
-    // send data to server if we have a room ID
-    if (backend.has_room_id() && (millis() - last_update > UPDATE_WAIT_TIME)) {
+    // send data to server if we have a room ID and are in the correct state
+    if (backend.has_room_id() && 
+        (current_state == SystemState::ROOM_CONFIGURED) && 
+        (millis() - last_update > UPDATE_WAIT_TIME)) {
         Serial.println("Sending data...");
         if (backend.ensure_connection()) {
             last_update = millis();

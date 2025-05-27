@@ -10,16 +10,41 @@
 #include <WiFiS3.h>
 #include "certificates.h"
 
+//! HTTP methods supported by the backend
+enum class HttpMethod {
+    GET,
+    POST,
+    PATCH,
+    HEAD
+};
+
+//! Helper struct for HTTP response
+struct HttpResponse {
+    int status_code;
+    String body;
+    bool success;
+};
+
 struct ServerInfo {
+    //! Base server configuration
     std::string_view server_base_url;    //!< base url of the server
     uint16_t server_port;                //!< port of the server
-
     std::string_view server_cert = root_cert;  //!< server certificate from PROGMEM
-
     std::string_view server_api_path;    //!< path to the api
-    std::string_view rooms_base;         //!< base path for rooms (e.g. "/rooms")
-    std::string_view config_endpoint;    //!< path snippet for getting room id
-    std::string_view jwt_endpoint;       //!< path for JWT authentication
+
+    //! API endpoints - all should start with / and not end with /
+    struct {
+        std::string_view auth = "/auth";      //!< Base auth endpoint
+        std::string_view rooms = "/rooms";    //!< Base rooms endpoint
+        std::string_view config = "/config";  //!< Base config endpoint
+    } endpoints;
+
+    //! Auth endpoints
+    struct {
+        std::string_view login = "/login";    //!< Login endpoint (appended to auth)
+    } auth;
+
+    //! JWT configuration
     std::string_view jwt_user;           //!< JWT authentication username/email
     std::string_view jwt_pass;           //!< JWT authentication password
     std::string_view uuid;               //!< uuid for the room (128 bit with dashes)
@@ -28,16 +53,13 @@ struct ServerInfo {
     //! Buffer and view for constructed room endpoint
     std::array<char, 64> room_endpoint_buffer;  //!< Buffer for room endpoint construction
     std::string_view room_endpoint = room_endpoint_buffer.data();             //!< View of current room endpoint
-    std::array<char, 256> jwt_token_buffer;      //!< Buffer for JWT token
+    std::array<char, 512> jwt_token_buffer;      //!< Buffer for JWT token
     std::string_view jwt_token = jwt_token_buffer.data();                 //!< View of current JWT token
 
     ServerInfo() : 
         server_base_url(""),
         server_port(443),  // Default HTTPS port
         server_api_path(""),
-        rooms_base("/rooms"),
-        config_endpoint("/config"),
-        jwt_endpoint("/auth/login"),
         jwt_user(""),
         jwt_pass(""),
         uuid("00000000-0000-0000-0000-000000000000"),  // Default zero UUID
@@ -46,16 +68,12 @@ struct ServerInfo {
         jwt_token_buffer() 
     {}
 
-    // Constructor that takes all configuration values
+    //! Constructor that takes all configuration values
     ServerInfo(std::string_view url, uint16_t port, std::string_view api_path,
-              std::string_view rooms, std::string_view config, std::string_view jwt,
               std::string_view user, std::string_view pass, std::string_view id) :
         server_base_url(url),
         server_port(port),
         server_api_path(api_path),
-        rooms_base(rooms),
-        config_endpoint(config),
-        jwt_endpoint(jwt),
         jwt_user(user),
         jwt_pass(pass),
         uuid(id),
@@ -73,7 +91,6 @@ struct ServerInfo {
                server_port != 0 && 
                !server_cert.empty() && 
                !server_api_path.empty() && 
-               !jwt_endpoint.empty() && 
                !jwt_user.empty() && 
                !jwt_pass.empty() && 
                !uuid.empty();
@@ -83,7 +100,7 @@ struct ServerInfo {
 class Backend {
 public:
     //! Construct a new Backend object
-    //! @param server_info Server configuration information
+    //! @param server_info Server configuration information data structure
     Backend(ServerInfo& server_info);
 
     //! Initialize the backend connection
@@ -146,6 +163,27 @@ public:
     std::string_view room_endpoint() const { return m_server_info.room_endpoint; }
 
 private:
+    //! Helper function to construct API paths
+    //! @param dest Destination String to write the path to
+    //! @param endpoint Main endpoint (e.g. "auth", "rooms")
+    //! @param subpath Optional subpath (e.g. "login", room ID)
+    //! @param query Optional query string (e.g. "?param=value")
+    //! @return true if path was constructed successfully, false if dest is null or path would be too long
+    bool construct_path(String* dest, std::string_view endpoint, std::string_view subpath = "", std::string_view query = "");
+
+    //! Helper function to make HTTP requests
+    //! @param method HTTP method to use
+    //! @param path Request path
+    //! @param headers Additional headers to include (empty string if none)
+    //! @param body Request body (empty string if none)
+    //! @return HttpResponse containing status code, body, and success flag
+    HttpResponse make_http_request(HttpMethod method, std::string_view path, 
+                                 std::string_view headers = "", std::string_view body = "");
+
+    //! Helper function to make authenticated HTTP requests
+    HttpResponse make_authenticated_request(HttpMethod method, std::string_view path, 
+                                          std::string_view headers, std::string_view body);
+
     ServerInfo& m_server_info;  //!< Server configuration information
     WiFiSSLClient m_client;     //!< SSL client for server communication
     bool m_has_token = false;   //!< Whether we have a valid JWT token
