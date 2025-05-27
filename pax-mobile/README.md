@@ -1,34 +1,44 @@
-## Installera paket
+# 📱 Pax Mobile
+
+Pax Mobile är en mobil- och webbaserad app som används för att hantera rum och enheter i realtid. Appen är byggd med React Native och använder Expo för smidig utveckling och testning på flera plattformar.
+
+---
+
+## 🛠 Teknologier Frontend
+
+- React Native
+- Expo
+- JavaScript
+
+---
+
+## 🚀 Kom igång
+
+### Klona projektet
 
 ```bash
-npm install @react-navigation/native
-npm install @react-navigation/bottom-tabs
-npx expo install react-native-safe-area-context
-```
+git clone https://github.com/dittkonto/pax-mobile.git
+cd pax-mobile
 
-```bash
-rnfes for open a react native funcion export with styles
-```
 
-## För webb
-
-```bash
-npm install react@18.3.1 react-dom@18.3.1 react-native-web@~0.19.13 @expo/metro-runtime@~4.0.1 --legacy-peer-deps
-```
-
-## Preview
+## Preview the frontend
 cd pax-mobile
 npm install
 npm start
+```
 
-## Colors
-pax-white			#FCFFF5
-bright-creme		#FFFEE9
-light-yellow		#FFFDCB
-bright-green		#E3FAC8
-the-greener		#B5DA87
-the-green	    	#7DBA6A
-middle-green		#097564
-dark-green	        #24524B
-darker-green		#10302B
+### Välj hur du vill titta på projektet
 
+```bash
+› Press a │ open Android
+› Press w │ open web
+› Or scan the QR-ode to open it with Expo GO app
+```
+
+## 👥 Medverkande
+
+```bash
+1. Frontend - Hanna Kindholm
+2. Frontend - Hannah Bärlin
+3. Frontend - Tova Hansen
+```
