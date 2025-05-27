@@ -22,6 +22,9 @@ Med PAX kan du på ett effektivt och automatiserat sätt, övervaka statusen på
 [Projektplan](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/main/PROJEKTPLAN.md)  
 [SRS](https://github.com/Kusten-ar-klar-Chas-Challenge-2025/pax/blob/docs/documentation_updates/Iot/docs/SRS.md)  
 
+### Möjlig industrialiserad design
+![alt text](pax-dosa.png)
+
 #### Platform IO
 
 Installera PlatformIO och öppna undermappen pax/Iot med PlatformIO.  
