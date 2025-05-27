@@ -12,12 +12,12 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { AntDesign } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 
-// const {token} = useAuth();
-const fakeToken = false;
+// const fakeToken = false;
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const { customTheme } = useTheme();
+  const { token, logout } = useAuth();
 
   return (
     <Tab.Navigator
@@ -30,8 +30,9 @@ export default function BottomTabNavigator() {
           let iconName;
 
           if (route.name === "Home") iconName = "home";
-          else if (route.name === "Contact") iconName = "envelope";
+          // else if (route.name === "Contact") iconName = "envelope";
           else if (route.name === "Login") iconName = "sign-out-alt";
+          else if (route.name === "Logout") iconName = "sign-out-alt";
           else if (route.name === "Booking") return null;
 
           return (
@@ -69,14 +70,28 @@ export default function BottomTabNavigator() {
         }}
       />
 
-      <Tab.Screen name="Login" component={LoginScreen} />
-      {fakeToken && (
+      {!token && <Tab.Screen name="Login" component={LoginScreen} />}
+
+      {token && (
         <>
-          <Tab.Screen name="Contact" component={Contact} />
+          {/* <Tab.Screen name="Contact" component={Contact} /> */}
+          <Tab.Screen
+            name="Logout"
+            component={() => null}
+            iconName = "sign-out-alt"
+            listeners={({ navigation }) => ({
+              tabPress: (e) => {
+                e.preventDefault();
+                logout();
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'Login' }],
+                });
+              },
+            })}
+          />
         </>
       )}
-      {/* <Tab.Screen name="Contact" component={Contact} /> */}
     </Tab.Navigator>
   );
 }
-
