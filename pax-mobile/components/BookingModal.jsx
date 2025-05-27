@@ -13,7 +13,7 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
   const styles = createStyles(theme);
 
   const [name, setName] = useState("");
-  const [date, setDate] = useState("2025-05-26"); // YYYY-MM-DD som text
+  const [date, setDate] = useState("2025-05-26");
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("11:00");
   const [error, setError] = useState(null);

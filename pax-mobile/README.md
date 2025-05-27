@@ -21,7 +21,7 @@ git clone https://github.com/dittkonto/pax-mobile.git
 cd pax-mobile
 
 
-## Preview the frontend
+## Förhandsvisa projektet
 cd pax-mobile
 npm install
 npm start
@@ -31,7 +31,7 @@ npm start
 
 ```bash
 › Press a │ open Android
-› Press w │ open web
+› Press w │ open web (Enklaste alternativet)
 › Or scan the QR-ode to open it with Expo GO app
 ```
 
