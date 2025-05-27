@@ -8,16 +8,14 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
   const styles = createStyles(theme);
 
   const [name, setName] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [startTime, setStartTime] = useState("12:00");
-  const [endTime, setEndTime] = useState("13:00");
+  const [date, setDate] = useState("2025-05-26"); // YYYY-MM-DD som text
+  const [startTime, setStartTime] = useState("10:00");
+  const [endTime, setEndTime] = useState("11:00");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [bookings, setBookings] = useState([]);
@@ -30,16 +28,14 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch(
-        "https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/bookings"
-      );
+      const res = await fetch("https://paxdb.vercel.app/bookings");
       const data = await res.json();
-      const filtered = data.filter(
-        (b) =>
-          b.room_id === room.id &&
-          new Date(b.start_time).toISOString().split("T")[0] ===
-            date.toISOString().split("T")[0]
-      );
+
+      const filtered = data.filter((b) => {
+        const bDate = new Date(b.start_time).toISOString().split("T")[0];
+        return b.room_id === room.id && bDate === date;
+      });
+
       setBookings(filtered);
     } catch (err) {
       console.error("Kunde inte hämta bokningar", err);
@@ -48,6 +44,7 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
 
   const handleBooking = async () => {
     setError(null);
+
     if (!name || !date || !startTime || !endTime) {
       setError("Alla fält måste fyllas i.");
       return;
@@ -55,12 +52,14 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
 
     const [startHour, startMinute] = startTime.split(":").map(Number);
     const [endHour, endMinute] = endTime.split(":").map(Number);
+    const [year, month, day] = date.split("-").map(Number);
 
-    const requestedStart = new Date(date);
-    requestedStart.setHours(startHour, startMinute, 0, 0);
-
-    const requestedEnd = new Date(date);
-    requestedEnd.setHours(endHour, endMinute, 0, 0);
+    const requestedStart = new Date(
+      Date.UTC(year, month - 1, day, startHour, startMinute)
+    );
+    const requestedEnd = new Date(
+      Date.UTC(year, month - 1, day, endHour, endMinute)
+    );
 
     if (requestedStart >= requestedEnd) {
       setError("Starttid måste vara före sluttid.");
@@ -77,19 +76,16 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
     }
 
     try {
-      const response = await fetch(
-        "https://virtserver.swaggerhub.com/alicegmn/pax-api/dev-oas3-new/bookings",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            room_id: room.id,
-            user_id: 1, // Dummy-användare, anpassa om du har auth
-            start_time: requestedStart.toISOString(),
-            end_time: requestedEnd.toISOString(),
-          }),
-        }
-      );
+      const response = await fetch("https://paxdb.vercel.app/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          room_id: room.id,
+          user_id: 1, // Just nu hårdkodat – byt vid behov
+          start_time: requestedStart.toISOString(),
+          end_time: requestedEnd.toISOString(),
+        }),
+      });
 
       if (!response.ok) throw new Error("Fel vid bokning");
 
@@ -122,31 +118,31 @@ const BookingModal = ({ visible, onClose, room, onBookingSuccess, theme }) => {
               placeholderTextColor={theme.textSecondary}
             />
 
-            <Text style={styles.label}>Välj datum:</Text>
-            <DatePicker
-              selected={date}
-              onChange={(val) => setDate(val)}
-              dateFormat="yyyy-MM-dd"
-              todayButton="Idag"
-              className="date-picker"
+            <Text style={styles.label}>Datum (YYYY-MM-DD):</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="2025-05-26"
+              value={date}
+              onChangeText={setDate}
+              placeholderTextColor={theme.textSecondary}
             />
 
-            <Text style={styles.label}>Starttid (hh:mm):</Text>
+            <Text style={styles.label}>Starttid (HH:mm):</Text>
             <TextInput
               style={styles.input}
               value={startTime}
               onChangeText={setStartTime}
-              placeholder="Starttid (hh:mm)"
+              placeholder="10:00"
               keyboardType="numeric"
               placeholderTextColor={theme.textSecondary}
             />
 
-            <Text style={styles.label}>Sluttid (hh:mm):</Text>
+            <Text style={styles.label}>Sluttid (HH:mm):</Text>
             <TextInput
               style={styles.input}
               value={endTime}
               onChangeText={setEndTime}
-              placeholder="Sluttid (hh:mm)"
+              placeholder="11:00"
               keyboardType="numeric"
               placeholderTextColor={theme.textSecondary}
             />
@@ -206,7 +202,7 @@ const createStyles = (theme) =>
       color: theme.textPrimary,
     },
     button: {
-      backgroundColor: theme.buttonColor,
+      backgroundColor: theme.card,
       padding: 12,
       borderRadius: 8,
       alignItems: "center",

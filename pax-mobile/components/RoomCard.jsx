@@ -45,6 +45,7 @@ const RoomCard = () => {
     card: {
       padding: 20,
       margin: 20,
+      marginBottom: 0,
       borderRadius: 12,
       backgroundColor: theme.card,
       elevation: 4,
