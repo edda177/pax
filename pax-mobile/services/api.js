@@ -2,7 +2,7 @@ const BASE_URL = "https://paxdb.vercel.app";
 
 export const fetchUserProfile = async (token) => {
     try {
-        const response = await fetch(`${BASE_URL}/dashboard`, {
+        const response = await fetch(`${BASE_URL}/auth/login`, {
             method: "GET",
             // headers: {
             //     Authorization: `Bearer ${token}`
@@ -20,7 +20,7 @@ export const fetchUserProfile = async (token) => {
 
 export const loginWithApi = async (email, password) => {
     try {
-        const response = await fetch(`${BASE_URL}/auth/login`, {
+        const response = await fetch(`${BASE_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
