@@ -17,7 +17,7 @@ import ThemeToggleTabButton from "../components/ThemeToggleTabButton";
 import MapModal from "../components/MapModal";
 import FetchRoom from "../components/FetchRoom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import BookingModal from "../components/BookingModal"; // om du har en separat modal komponent för bokning
+import BookingModal from "../components/BookingModal";
 
 const Booking = () => {
   const { theme, isDark } = useTheme();
@@ -49,13 +49,11 @@ const Booking = () => {
 
   const favoriteRoomList = allRooms.filter((room) => favorites[room.id]);
 
-  // Funktion för att öppna modal när rum klickas (både i FetchRoom och Favoriter)
   const openRoomModal = (room) => {
     setSelectedRoom(room);
     setBookingModalVisible(true);
   };
 
-  // När bokningen lyckas kan du hantera rummet borttaget etc.
   const handleBookingSuccess = (roomId) => {
     setAllRooms((prev) => prev.filter((room) => room.id !== roomId));
     setBookingModalVisible(false);
@@ -81,7 +79,7 @@ const Booking = () => {
               favorites={favorites}
               setFavorites={setFavorites}
               setAllRooms={setAllRooms}
-              onRoomPress={openRoomModal} // Skicka klick-handler som prop
+              onRoomPress={openRoomModal}
             />
           </View>
 
@@ -123,7 +121,7 @@ const Booking = () => {
         onClose={toggleModal}
         mapImage={require("../assets/maps/karta-pax_med-nr.png")}
         imageDescription={
-          "1: Rumsnamn  2: Rumsnamn  3: Rumsnamn 4: Rumsnamn\n5: Rumsnamn  6: Rumsnamn  7: Rumsnamn"
+          "1: Norra Berget  2: Avenyn  3: Slottsskogen 4: Liseberg\n5: Stenstaden  6: Möllevångstorget  7: Turning Torso"
         }
       />
 

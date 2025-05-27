@@ -1,5 +1,3 @@
-// src/components/MapModal.js
-
 import React from "react";
 import {
     Modal,
