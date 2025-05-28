@@ -9,13 +9,26 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const { saveUserData, clearUser } = useUser();
 
+    useEffect(() => {
+        const loadToken = async () => {
+            const storedToken = await getFromStorage('userToken');
+
+            if (storedToken) {
+                setToken(storedToken);
+            }
+
+            setIsLoading(false);
+        };
+        loadToken();
+    }, []);
+
     const login = async (newToken) => {
         console.log("Token", newToken);
         await saveToStorage("userToken", newToken);
         setToken(newToken);
     };
 
-    const logout = async (navigation) => {
+    const logout = async () => {
         await deleteFromStorage("userToken");
         setToken(null);
         clearUser();

@@ -29,9 +29,9 @@ export default function BottomTabNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Home") iconName = "home";
+          if (route.name === "Login") iconName = "sign-out-alt";
           // else if (route.name === "Contact") iconName = "envelope";
-          else if (route.name === "Login") iconName = "sign-out-alt";
+          else if (route.name === "Home") iconName = "home";
           else if (route.name === "Logout") iconName = "sign-out-alt";
           else if (route.name === "Booking") return null;
 
@@ -56,7 +56,7 @@ export default function BottomTabNavigator() {
           height: 60,
           borderTopWidth: 0,
           elevation: 0,
-          shadowOpacity: 0,
+          // shadowOpacity: 0,
         },
       })}
     >
