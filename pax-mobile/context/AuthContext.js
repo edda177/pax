@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { saveToStorage, getFromStorage, deleteFromStorage } from "../services/webCompatibleSecureStore"
 import { useUser } from './UserContext';
-import { fetchUserProfile } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -12,14 +11,12 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const loadToken = async () => {
-            const storedToken = await getFromStorage("userToken");
+            const storedToken = await getFromStorage('userToken');
+
             if (storedToken) {
-                setToken(storedToken)
-                const profile = await fetchUserProfile(storedToken);
-                if (profile) {
-                    saveUserData(profile)
-                }
+                setToken(storedToken);
             }
+
             setIsLoading(false);
         };
         loadToken();

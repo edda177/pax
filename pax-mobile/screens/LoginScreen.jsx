@@ -34,7 +34,6 @@ const LoginScreen = ({ }) => {
         return;
       }
       await login(result.token);
-      navigation.navigate('Home');
 
     } catch (error) {
       console.error ('Login error', error);

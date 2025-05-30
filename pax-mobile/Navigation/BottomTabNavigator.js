@@ -12,12 +12,12 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import { AntDesign } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 
-// const {token} = useAuth();
-const fakeToken = false;
+// const fakeToken = false;
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const { customTheme } = useTheme();
+  const { token, logout } = useAuth();
 
   return (
     <Tab.Navigator
@@ -29,9 +29,10 @@ export default function BottomTabNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Home") iconName = "home";
-          else if (route.name === "Contact") iconName = "envelope";
-          else if (route.name === "Login") iconName = "sign-out-alt";
+          if (route.name === "Login") iconName = "sign-out-alt";
+          // else if (route.name === "Contact") iconName = "envelope";
+          else if (route.name === "Home") iconName = "home";
+          else if (route.name === "Logout") iconName = "sign-out-alt";
           else if (route.name === "Booking") return null;
 
           return (
@@ -55,7 +56,7 @@ export default function BottomTabNavigator() {
           height: 60,
           borderTopWidth: 0,
           elevation: 0,
-          shadowOpacity: 0,
+          // shadowOpacity: 0,
         },
       })}
     >
@@ -69,14 +70,42 @@ export default function BottomTabNavigator() {
         }}
       />
 
-      <Tab.Screen name="Login" component={LoginScreen} />
-      {fakeToken && (
+      {!token && <Tab.Screen name="Login" component={LoginScreen} />}
+
+      {token && (
         <>
-          <Tab.Screen name="Contact" component={Contact} />
+          {/* <Tab.Screen name="Contact" component={Contact} /> */}
+          <Tab.Screen
+            name="Logout"
+            // component={() => null}
+            // iconName = "sign-out-alt"
+            listeners={({ navigation }) => ({
+              tabPress: (e) => {
+                e.preventDefault();
+                logout(null);
+              },
+            })}
+            options={{
+              tabBarLabel: "Logga ut",
+              tabBarIcon: ({ color, size }) => (
+                <View
+                  style={{
+                    backgroundColor: "#84ca6f",
+                    borderRadius: 25,
+                    padding: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                <Icon name='sign-out-alt' size={size} color={color} />
+                </View>
+              ),
+            }}
+          >
+          {() => null}
+          </Tab.Screen>
         </>
       )}
-      {/* <Tab.Screen name="Contact" component={Contact} /> */}
     </Tab.Navigator>
   );
 }
-
