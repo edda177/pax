@@ -41,7 +41,8 @@ const createStyles = (theme) =>
         fontSize: 16,
         lineHeight: 16,
         marginTop: 3,
-        letterSpacing: "0.06rem",
+        // letterSpacing: "0.06rem",
+        letterSpacing: 1,
         textAlign: "center",
     },
 });

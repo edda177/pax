@@ -13,18 +13,14 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.hannakindholm.paxmobile",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hannakindholm.paxmobile"
+      "package": "com.eddahall.paxmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,8 +30,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "635b49bc-f6d8-4543-b8b3-11f00416c4c4"
+        "projectId": "c27ef404-adf0-448d-811d-3c1f50709b5a"
       }
-    }
+    },
+    "owner": "eddahall"
   }
 }
